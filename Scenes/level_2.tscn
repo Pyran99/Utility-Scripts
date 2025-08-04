@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5ynperxmjyv4"]
+
+[ext_resource type="PackedScene" uid="uid://b0vcswgvsbo4s" path="res://Scenes/level_1.tscn" id="1_v3rpw"]
+
+[node name="Level2" instance=ExtResource("1_v3rpw")]
+
+[node name="HouseRed" parent="." index="5"]
+level_path = "uid://b0vcswgvsbo4s"
+
+[node name="HouseGrey" parent="." index="6"]
+level_path = "uid://b0vcswgvsbo4s"
+
+[node name="Label" parent="CanvasLayer" index="0"]
+text = "Level 2"

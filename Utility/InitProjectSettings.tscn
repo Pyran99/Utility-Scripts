@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxqp82ow3hjgp"]
+
+[ext_resource type="Script" path="res://Utility/init_project_settings.gd" id="1_qam57"]
+
+[node name="InitProjectSettings" type="Node"]
+script = ExtResource("1_qam57")

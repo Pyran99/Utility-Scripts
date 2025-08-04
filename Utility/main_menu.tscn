@@ -1,0 +1,138 @@
+[gd_scene load_steps=5 format=3 uid="uid://f2ncpeqnf4c8"]
+
+[ext_resource type="Script" uid="uid://bmtkmexyp8nyl" path="res://Utility/main_menu.gd" id="1_cmdud"]
+[ext_resource type="PackedScene" uid="uid://bhc01pr3kyhym" path="res://Utility/options_menu.tscn" id="3_fc16b"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_osna4"]
+bg_color = Color(0, 0, 0, 0)
+
+[sub_resource type="LabelSettings" id="LabelSettings_cq542"]
+font_size = 100
+shadow_size = 20
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(-4, 5)
+
+[node name="MainMenu" type="Control" node_paths=PackedStringArray("background", "menu_window", "options_window")]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cmdud")
+background = NodePath("Background")
+menu_window = NodePath("Menu")
+options_window = NodePath("OptionsMenu")
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.145833, 0.145833, 0.145833, 1)
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="Menu" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -106.0
+offset_top = -48.0
+offset_right = 106.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="StartBtn" type="Button" parent="Menu/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"ButtonGreen"
+theme_override_font_sizes/font_size = 32
+text = "Start"
+
+[node name="OptionsBtn" type="Button" parent="Menu/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"ButtonGreen"
+theme_override_font_sizes/font_size = 32
+text = "Options"
+
+[node name="CreditsBtn" type="Button" parent="Menu/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"ButtonGreen"
+theme_override_font_sizes/font_size = 32
+text = "Credits"
+
+[node name="QuitBtn" type="Button" parent="Menu/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"ButtonGreen"
+theme_override_font_sizes/font_size = 32
+text = "Quit"
+
+[node name="TitleArea" type="Panel" parent="Menu"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -242.0
+offset_top = -250.0
+offset_right = 242.0
+offset_bottom = -157.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_osna4")
+
+[node name="Title" type="Label" parent="Menu/TitleArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Title"
+label_settings = SubResource("LabelSettings_cq542")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TitleImg" type="TextureRect" parent="Menu/TitleArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="OptionsMenu" parent="." instance=ExtResource("3_fc16b")]
+visible = false
+layout_mode = 1
+
+[connection signal="visibility_changed" from="Menu" to="." method="_on_menu_visibility_changed"]

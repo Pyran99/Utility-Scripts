@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://c6i83ws5h6g4v"]
+
+[ext_resource type="Script" path="res://Utility/DoorData/door_trigger.gd" id="1_sjeev"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1v5nk"]
+size = Vector2(16, 6)
+
+[node name="DoorTrigger" type="Area2D" groups=["door_trigger"]]
+position = Vector2(104, -22)
+collision_layer = 16
+collision_mask = 4
+input_pickable = false
+monitorable = false
+script = ExtResource("1_sjeev")
+level_path = "res://scenes/level.tscn"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_1v5nk")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

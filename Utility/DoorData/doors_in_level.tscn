@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://dtrdrs1a5b7p"]
+
+[ext_resource type="Script" path="res://Utility/DoorData/doors_in_level.gd" id="1_fk3ha"]
+[ext_resource type="Resource" uid="uid://bsovr2ig1trwv" path="res://Utility/DoorData/door_name.tres" id="2_46crp"]
+
+[node name="DoorsInLevel" type="Node" groups=["doors_in_level"]]
+script = ExtResource("1_fk3ha")
+door_transition = ExtResource("2_46crp")

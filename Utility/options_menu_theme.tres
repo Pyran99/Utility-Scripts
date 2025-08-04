@@ -1,0 +1,178 @@
+[gd_resource type="Theme" load_steps=24 format=3 uid="uid://cfp22mav71a3h"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qndvg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vbirn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_05n1o"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_on615"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_svdoe"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_trbiq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hdvqv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8suaj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wxha8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lqiqh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_08ew4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ucplh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5xqxh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uqqkj"]
+bg_color = Color(0.220866, 0.71875, 0.267543, 1)
+border_color = Color(0.0588235, 0.0588235, 0.0588235, 1)
+corner_radius_top_left = 4
+corner_radius_bottom_left = 4
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vbirn"]
+bg_color = Color(0, 1, 0.0937507, 1)
+border_color = Color(0.0588235, 0.0588235, 0.0588235, 1)
+corner_radius_top_left = 4
+corner_radius_bottom_left = 4
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0ami3"]
+bg_color = Color(0, 0, 0, 1)
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.145098, 0.145098, 0.145098, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 4
+anti_aliasing = false
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ygxcf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3pu3w"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_at7yj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_x4nq0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ku6de"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_svdoe"]
+modulate_color = Color(0.351563, 0.351563, 0.351563, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4dbwg"]
+modulate_color = Color(0.684896, 0.684896, 0.684896, 1)
+
+[resource]
+default_font_size = 16
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_disabled_color = Color(0.346354, 0.346354, 0.346354, 1)
+Button/colors/font_focus_color = Color(1, 1, 1, 1)
+Button/colors/font_hover_color = Color(1, 1, 1, 1)
+Button/colors/font_hover_pressed_color = Color(0.235294, 0.964706, 0.403922, 1)
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/colors/font_pressed_color = Color(0.233988, 0.966146, 0.405588, 1)
+Button/colors/icon_disabled_color = Color(0, 0, 0, 1)
+Button/colors/icon_focus_color = Color(0, 0, 0, 1)
+Button/colors/icon_hover_color = Color(0, 0, 0, 1)
+Button/colors/icon_hover_pressed_color = Color(0, 0, 0, 1)
+Button/colors/icon_normal_color = Color(0, 0, 0, 1)
+Button/colors/icon_pressed_color = Color(0, 0, 0, 1)
+Button/constants/align_to_largest_stylebox = 0
+Button/constants/h_separation = 0
+Button/constants/icon_max_width = 0
+Button/constants/outline_size = 4
+Button/styles/disabled = null
+Button/styles/focus = SubResource("StyleBoxEmpty_qndvg")
+Button/styles/hover = null
+Button/styles/hover_pressed = null
+Button/styles/normal = null
+Button/styles/pressed = null
+ButtonNoBg/base_type = &"Button"
+ButtonNoBg/colors/font_color = Color(0.87451, 0.87451, 0.87451, 1)
+ButtonNoBg/colors/font_disabled_color = Color(0.87451, 0.87451, 0.87451, 0.501961)
+ButtonNoBg/colors/font_focus_color = Color(0.372549, 0.745098, 0.772549, 1)
+ButtonNoBg/colors/font_hover_color = Color(0.372549, 0.745098, 0.772549, 1)
+ButtonNoBg/colors/font_hover_pressed_color = Color(0.490196, 0.964706, 1, 1)
+ButtonNoBg/colors/font_outline_color = Color(0, 0, 0, 1)
+ButtonNoBg/colors/font_pressed_color = Color(0.490196, 0.964706, 1, 1)
+ButtonNoBg/constants/outline_size = 4
+ButtonNoBg/font_sizes/font_size = 10
+ButtonNoBg/styles/disabled = SubResource("StyleBoxEmpty_vbirn")
+ButtonNoBg/styles/focus = SubResource("StyleBoxEmpty_05n1o")
+ButtonNoBg/styles/hover = SubResource("StyleBoxEmpty_on615")
+ButtonNoBg/styles/hover_pressed = SubResource("StyleBoxEmpty_svdoe")
+ButtonNoBg/styles/normal = SubResource("StyleBoxEmpty_trbiq")
+ButtonNoBg/styles/pressed = SubResource("StyleBoxEmpty_hdvqv")
+CheckBox/constants/check_v_offset = 3
+CheckBox/icons/checked = null
+CheckBox/icons/checked_disabled = null
+CheckBox/icons/radio_checked = null
+CheckBox/icons/radio_checked_disabled = null
+CheckBox/icons/unchecked = null
+CheckBox/icons/unchecked_disabled = null
+CheckBox/styles/disabled = SubResource("StyleBoxEmpty_8suaj")
+CheckBox/styles/focus = SubResource("StyleBoxEmpty_wxha8")
+CheckBox/styles/hover = SubResource("StyleBoxEmpty_lqiqh")
+CheckBox/styles/hover_pressed = SubResource("StyleBoxEmpty_08ew4")
+CheckBox/styles/normal = SubResource("StyleBoxEmpty_ucplh")
+CheckBox/styles/pressed = SubResource("StyleBoxEmpty_5xqxh")
+HSlider/constants/center_grabber = 1
+HSlider/icons/grabber = null
+HSlider/icons/grabber_disabled = null
+HSlider/icons/grabber_highlight = null
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_uqqkj")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_vbirn")
+HSlider/styles/slider = SubResource("StyleBoxFlat_0ami3")
+LabelTitle/base_type = &"Label"
+LabelTitle/colors/font_color = Color(0, 0.859375, 1, 1)
+LabelTitle/colors/font_outline_color = Color(0, 0.237868, 0.278646, 1)
+LabelTitle/colors/font_shadow_color = Color(0, 0, 0, 1)
+LabelTitle/constants/outline_size = 12
+LabelTitle/constants/shadow_offset_x = 0
+LabelTitle/constants/shadow_offset_y = 0
+LabelTitle/constants/shadow_outline_size = 0
+LabelTitle/font_sizes/font_size = 36
+OptionButton/colors/font_color = Color(0.875, 0.875, 0.875, 1)
+OptionButton/colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)
+OptionButton/colors/font_focus_color = Color(0.278431, 0.945098, 0.341176, 1)
+OptionButton/colors/font_hover_color = Color(0.278431, 0.945098, 0.341176, 1)
+OptionButton/colors/font_hover_pressed_color = Color(0.219608, 0.717647, 0.266667, 1)
+OptionButton/colors/font_outline_color = Color(0, 0, 0, 1)
+OptionButton/colors/font_pressed_color = Color(0.219608, 0.717647, 0.266667, 1)
+OptionButton/constants/arrow_margin = 4
+OptionButton/constants/h_separation = 0
+OptionButton/font_sizes/font_size = 14
+OptionButton/styles/disabled = null
+OptionButton/styles/focus = SubResource("StyleBoxEmpty_ygxcf")
+OptionButton/styles/hover = SubResource("StyleBoxEmpty_3pu3w")
+OptionButton/styles/hover_pressed = SubResource("StyleBoxEmpty_at7yj")
+OptionButton/styles/normal = SubResource("StyleBoxEmpty_x4nq0")
+OptionButton/styles/pressed = SubResource("StyleBoxEmpty_ku6de")
+RichLabelTitle/base_type = &"RichTextLabel"
+RichLabelTitle/colors/default_color = Color(0.87625, 0.742188, 1, 1)
+RichLabelTitle/colors/font_outline_color = Color(0.374239, 0.208354, 0.601563, 1)
+RichLabelTitle/colors/font_shadow_color = Color(0, 0, 0, 1)
+RichLabelTitle/constants/outline_size = 7
+RichLabelTitle/constants/shadow_offset_x = -2
+RichLabelTitle/constants/shadow_offset_y = 3
+RichLabelTitle/constants/shadow_outline_size = 4
+RichLabelTitle/font_sizes/normal_font_size = 30
+RichLabelTitle/styles/normal = null
+VScrollBar/icons/decrement = null
+VScrollBar/icons/decrement_highlight = null
+VScrollBar/icons/decrement_pressed = null
+VScrollBar/icons/increment = null
+VScrollBar/icons/increment_highlight = null
+VScrollBar/icons/increment_pressed = null
+VScrollBar/styles/grabber = SubResource("StyleBoxTexture_svdoe")
+VScrollBar/styles/grabber_highlight = SubResource("StyleBoxTexture_4dbwg")
+VScrollBar/styles/grabber_pressed = SubResource("StyleBoxTexture_4dbwg")

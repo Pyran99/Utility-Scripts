@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://dvgvqs2ugps1o"]
+
+[ext_resource type="Script" uid="uid://c8wxd08ftfgyf" path="res://Scenes/player.gd" id="1_cvnsp"]
+[ext_resource type="Texture2D" uid="uid://quqajur06jnv" path="res://Assets/TileSet/Hero_09.png" id="1_v0iea"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cvnsp"]
+radius = 6.0
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+collision_layer = 4
+platform_on_leave = 2
+platform_floor_layers = 4294967040
+script = ExtResource("1_cvnsp")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_v0iea")
+region_enabled = true
+region_rect = Rect2(6, 12, 18, 24)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("CircleShape2D_cvnsp")
+debug_color = Color(0, 0.854749, 1, 0)

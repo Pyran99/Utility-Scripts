@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://cxhm5766irdnr"]
+
+[ext_resource type="Script" uid="uid://byxjyf0s31kgq" path="res://Resources/bbc_ghost.gd" id="1_k5f4k"]
+[ext_resource type="Script" uid="uid://djn7lf562tka1" path="res://Resources/bbc_matrix.gd" id="2_6phgx"]
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_81xng"]
+script = ExtResource("1_k5f4k")
+metadata/_custom_type_script = "uid://byxjyf0s31kgq"
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_wqkje"]
+script = ExtResource("2_6phgx")
+metadata/_custom_type_script = "uid://djn7lf562tka1"
+
+[node name="Level" type="Node2D"]
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 462.0
+offset_top = 209.0
+offset_right = 764.0
+offset_bottom = 566.0
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "[wave]wave effect[/wave]
+[tornado]tornado effect[/tornado]
+[shake]shake effect[/shake]
+[fade]fade effect[/fade]
+[rainbow]rainbow effect[/rainbow]
+[ghost]ghost effect[/ghost]
+[matrix span=5]matrix effect[/matrix]
+"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+custom_effects = [SubResource("RichTextEffect_81xng"), SubResource("RichTextEffect_wqkje")]

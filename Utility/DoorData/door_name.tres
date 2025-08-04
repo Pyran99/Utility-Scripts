@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="DoorTransitionData" load_steps=2 format=3 uid="uid://bsovr2ig1trwv"]
+
+[ext_resource type="Script" path="res://Utility/DoorData/DoorTransitionData.gd" id="1_85c6s"]
+
+[resource]
+script = ExtResource("1_85c6s")
+door_used = ""
