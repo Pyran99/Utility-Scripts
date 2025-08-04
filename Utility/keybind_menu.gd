@@ -20,6 +20,7 @@ var back_btn: Button
 
 
 func _ready():
+    hide()
     reset_confirm.hide()
     reset_btn.pressed.connect(_on_reset_btn_pressed)
     confirm_reset.pressed.connect(confirm_reset_pressed)

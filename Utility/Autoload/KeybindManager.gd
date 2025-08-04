@@ -21,19 +21,19 @@ static func init() -> void:
         if InputMap.action_get_events(action).size() != 0:
             keymaps[action] = InputMap.action_get_events(action)
             
-    load_keymap()
+    load_keymap_encoded()
 
 
 # func _ready():
 #     init()
 
 
-static func load_keymap():
+static func load_keymap_encoded():
     if !FileAccess.file_exists(keymap_path):
         reset_keymap()
-        # return
-    # var temp = SavingManager.load_from_config("Keybinds")
-    # print_debug(temp)
+        save_keymap_encoded()
+        return
+
     var file = FileAccess.open(keymap_path, FileAccess.READ)
     var temp_keymap = file.get_var(true) as Dictionary
     file.close()
@@ -45,11 +45,10 @@ static func load_keymap():
                 InputMap.action_add_event(action, event)
 
 
-static func save_keymap():
+static func save_keymap_encoded():
     var file = FileAccess.open(keymap_path, FileAccess.WRITE)
     file.store_var(keymaps, true)
     file.close()
-    # SavingManager.save_as_config("Keybinds", keymaps)
 
 
 static func reset_keymap():
@@ -69,4 +68,4 @@ static func reset_keymap():
                 InputMap.action_add_event(action, event)
         keymaps[action] = events
 
-    save_keymap()
+    save_keymap_encoded()

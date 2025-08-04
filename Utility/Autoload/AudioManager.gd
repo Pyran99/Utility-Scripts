@@ -16,7 +16,6 @@ func _ready():
     MASTER_BUS = AudioServer.get_bus_index("Master")
     MUSIC_BUS = AudioServer.get_bus_index("Music")
     SFX_BUS = AudioServer.get_bus_index("SFX")
-    # options = OptionsManager.read_options()
     if MASTER_BUS == -1 or MUSIC_BUS == -1 or SFX_BUS == -1:
         push_warning("Missing audio bus as -1: Master: %s Music: %s SFX: %s" % [MASTER_BUS, MUSIC_BUS, SFX_BUS])
 
@@ -24,7 +23,7 @@ func _ready():
 
  
 func _load_options() -> void:
-    options = SavingManager.load_from_config("Settings")
+    options = SavingManager.load_from_config("Settings", SavingManager.CONFIG_SAVE_FILE)
     if options.has("mute"):
         mute_volume(options["mute"])
     if options.has("master_volume") and MASTER_BUS != -1:

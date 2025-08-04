@@ -7,12 +7,14 @@
 radius = 6.0
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
+y_sort_enabled = true
 collision_layer = 4
 platform_on_leave = 2
 platform_floor_layers = 4294967040
 script = ExtResource("1_cvnsp")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
 texture = ExtResource("1_v0iea")
 region_enabled = true
 region_rect = Rect2(6, 12, 18, 24)

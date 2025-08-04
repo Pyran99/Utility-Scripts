@@ -13,6 +13,8 @@ func _ready():
 
 
 func display_current_key():
+    # InputMap.load_from_project_settings()
+    # accept_event()
     var action_events = InputMap.action_get_events(action)
     var current_key = ""
     if primary and action_events.size() > 0:
@@ -36,7 +38,7 @@ func remap_action_to(event):
     for e in events:
         InputMap.action_add_event(action, e)
     KeybindManager.keymaps[action] = events
-    KeybindManager.save_keymap()
+    KeybindManager.save_keymap_encoded()
     text = event.as_text()
     grab_focus()
 

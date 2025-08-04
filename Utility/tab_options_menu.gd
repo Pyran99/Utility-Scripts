@@ -10,7 +10,7 @@ class_name TabOptionsMenu
 # Requires SettingsManager
 #-------------------------------------#
 
-signal settings_changed(section: String, data: Dictionary)
+signal settings_changed(section: String, data: Dictionary, save_file: String)
 
 var last_selected_resolution: Vector2i = Vector2i(1280, 720)
 
@@ -46,10 +46,10 @@ var options: Dictionary = {}
 
 func _ready():
     # options = SettingsManager.read_options() # encoded values
-    options = SavingManager.load_from_config("Settings") # file editable
+    options = SavingManager.load_from_config("Settings", SavingManager.CONFIG_SAVE_FILE) # file editable
     if options.is_empty():
         options = SettingsManager.DEFAULT_SETTINGS.duplicate()
-        SavingManager.save_as_config("Settings", options)
+        SavingManager.save_as_config("Settings", options, SavingManager.CONFIG_SAVE_FILE)
     _connect_signals()
     _add_resolutions_to_button()
     reload_language_options()
@@ -86,12 +86,12 @@ func _unhandled_key_input(event: InputEvent) -> void:
         _toggle_menu()
 
 func save_settings() -> void:
-    settings_changed.emit("Settings", options)
+    settings_changed.emit("Settings", options, SavingManager.CONFIG_SAVE_FILE)
     print_debug("Settings saved")
 
 func load_settings() -> void:
     # options = SettingsManager.read_options() # encoded values
-    options = SavingManager.load_from_config("Settings")
+    options = SavingManager.load_from_config("Settings", SavingManager.CONFIG_SAVE_FILE)
     _set_saved_values()
 
 func _set_saved_values() -> void:

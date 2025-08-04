@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://f2ncpeqnf4c8"]
+[gd_scene load_steps=4 format=3 uid="uid://f2ncpeqnf4c8"]
 
 [ext_resource type="Script" uid="uid://bmtkmexyp8nyl" path="res://Utility/main_menu.gd" id="1_cmdud"]
-[ext_resource type="PackedScene" uid="uid://bhc01pr3kyhym" path="res://Utility/options_menu.tscn" id="3_fc16b"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_osna4"]
 bg_color = Color(0, 0, 0, 0)
@@ -23,7 +22,7 @@ grow_vertical = 2
 script = ExtResource("1_cmdud")
 background = NodePath("Background")
 menu_window = NodePath("Menu")
-options_window = NodePath("OptionsMenu")
+options_window = NodePath("")
 
 [node name="ColorRect2" type="ColorRect" parent="."]
 layout_mode = 1
@@ -131,8 +130,8 @@ grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 1
 
-[node name="OptionsMenu" parent="." instance=ExtResource("3_fc16b")]
-visible = false
-layout_mode = 1
-
 [connection signal="visibility_changed" from="Menu" to="." method="_on_menu_visibility_changed"]
+[connection signal="pressed" from="Menu/VBoxContainer/StartBtn" to="." method="_on_start_btn_pressed"]
+[connection signal="pressed" from="Menu/VBoxContainer/OptionsBtn" to="." method="_on_options_btn_pressed"]
+[connection signal="pressed" from="Menu/VBoxContainer/CreditsBtn" to="." method="_on_credits_btn_pressed"]
+[connection signal="pressed" from="Menu/VBoxContainer/QuitBtn" to="." method="_on_quit_btn_pressed"]

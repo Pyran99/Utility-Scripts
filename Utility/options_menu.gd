@@ -8,7 +8,7 @@ class_name OptionsMenu
 # GameManager with environment resource for bightness
 #-------------------------------------#
 
-signal settings_changed(section: String, data: Dictionary)
+signal settings_changed(section: String, data: Dictionary, save_file: String)
 
 @export var do_center_window: bool = false
 ## the menu to show when this is hidden
@@ -52,12 +52,13 @@ var original_options: Dictionary = {}
 
 
 func _ready():
+    hide()
     scroll_container.clip_contents = true
     # options = SettingsManager.read_options() # encoded values
     options = load_settings()
     if options.is_empty():
         options = SettingsManager.DEFAULT_SETTINGS.duplicate()
-        SavingManager.save_as_config("Settings", options)
+        SavingManager.save_as_config("Settings", options, SavingManager.CONFIG_SAVE_FILE)
     else:
         options = SettingsManager.check_option_settings(options)
         
@@ -108,13 +109,13 @@ func save_settings() -> void:
     if options.hash() == original_options.hash():
         print("no option changed")
         return
-    settings_changed.emit("Settings", options)
+    settings_changed.emit("Settings", options, SavingManager.CONFIG_SAVE_FILE)
     print("Settings saved")
 
 ## Returns SavingManager config Settings
 func load_settings() -> Dictionary:
     # options = SettingsManager.read_options() # encoded values
-    return SavingManager.load_from_config("Settings")
+    return SavingManager.load_from_config("Settings", SavingManager.CONFIG_SAVE_FILE)
 
 ## Set values from saved settings. Calls signals from value changes
 func _set_saved_values() -> void:

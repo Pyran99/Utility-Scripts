@@ -26,7 +26,7 @@ text = "[wave]wave effect[/wave]
 [fade]fade effect[/fade]
 [rainbow]rainbow effect[/rainbow]
 [ghost]ghost effect[/ghost]
-[matrix span=5]matrix effect[/matrix]
+[matrix span=10]matrix effect[/matrix]
 "
 fit_content = true
 scroll_active = false

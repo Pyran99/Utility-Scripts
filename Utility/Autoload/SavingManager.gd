@@ -196,20 +196,21 @@ func load_game_unencrypted(slot: int) -> void:
 
 #region settings as config-----------------------------------------
 ## file editable
-func save_as_config(section: String, data: Dictionary) -> void:
+func save_as_config(section: String, data: Dictionary, save_file: String) -> void:
     var config = ConfigFile.new()
     for key in data:
         config.set_value(section, key, data[key])
-    config.save(CONFIG_SAVE_FILE)
+    config.save(save_file)
 
 ## file editable
-func load_from_config(section: String) -> Dictionary:
+func load_from_config(section: String, save_file: String) -> Dictionary:
     var config = ConfigFile.new()
-    var err = config.load(CONFIG_SAVE_FILE)
+    var err = config.load(save_file)
     if err == OK:
         var result := {}
-        for i in config.get_section_keys(section):
-            result[i] = config.get_value(section, i)
+        if config.has_section(section):
+            for i in config.get_section_keys(section):
+                result[i] = config.get_value(section, i)
         return result
     else:
         return {}
