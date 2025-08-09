@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=3 uid="uid://dymui0edah8jp"]
+
+[ext_resource type="Script" uid="uid://rpqn1n382co5" path="res://Utility/keybind_button.gd" id="1_5ux0t"]
+[ext_resource type="Script" uid="uid://dexuecptgb08j" path="res://Scenes/UI/keybind_action_container.gd" id="1_ndcb2"]
+
+[node name="KeybindActionContainer" type="HBoxContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 58.0
+grow_horizontal = 2
+script = ExtResource("1_ndcb2")
+label_name = "Move Forward"
+action_name = "move_forward"
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "Move Forward"
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="PrimaryBtn" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+text = "W"
+script = ExtResource("1_5ux0t")
+action = "move_forward"
+
+[node name="SecondaryBtn" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+text = "None"
+script = ExtResource("1_5ux0t")
+action = "move_forward"
+primary = false
+
+[connection signal="toggled" from="PrimaryBtn" to="PrimaryBtn" method="_on_toggled"]
+[connection signal="toggled" from="SecondaryBtn" to="SecondaryBtn" method="_on_toggled"]

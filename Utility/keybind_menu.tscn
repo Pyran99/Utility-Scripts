@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://cfp22mav71a3h" path="res://Utility/options_menu_theme.tres" id="1_4oefi"]
 [ext_resource type="Script" uid="uid://oa1ijnvjpl84" path="res://Utility/keybind_menu.gd" id="1_scwt4"]
-[ext_resource type="Script" uid="uid://rpqn1n382co5" path="res://Utility/keybind_button.gd" id="3_0rs0o"]
+[ext_resource type="PackedScene" uid="uid://dymui0edah8jp" path="res://Scenes/UI/keybind_action_container.tscn" id="4_gy0kj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xeqot"]
 bg_color = Color(0, 0, 0, 1)
@@ -166,131 +166,32 @@ vertical_alignment = 1
 [node name="HSeparator" type="HSeparator" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls"]
 layout_mode = 2
 
-[node name="MoveUp" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls"]
+[node name="MoveForward" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls" instance=ExtResource("4_gy0kj")]
 layout_mode = 2
-
-[node name="Up" type="Label" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveUp"]
-custom_minimum_size = Vector2(75, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 20
-text = "Move Forward"
-vertical_alignment = 1
-autowrap_mode = 2
-
-[node name="PrimaryBtn" type="Button" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveUp"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-toggle_mode = true
-text = "w"
-script = ExtResource("3_0rs0o")
-action = "move_forward"
-
-[node name="SecondaryBtn" type="Button" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveUp"]
-layout_mode = 2
-size_flags_horizontal = 3
-toggle_mode = true
-text = "Arrow up"
-script = ExtResource("3_0rs0o")
-action = "move_forward"
-primary = false
 
 [node name="HSeparator2" type="HSeparator" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls"]
 layout_mode = 2
 
-[node name="MoveDown" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls"]
+[node name="MoveBackward" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls" instance=ExtResource("4_gy0kj")]
 layout_mode = 2
-
-[node name="Down" type="Label" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveDown"]
-custom_minimum_size = Vector2(75, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 20
-text = "Move Backward"
-vertical_alignment = 1
-autowrap_mode = 2
-
-[node name="PrimaryBtn" type="Button" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveDown"]
-layout_mode = 2
-size_flags_horizontal = 3
-toggle_mode = true
-text = "w"
-script = ExtResource("3_0rs0o")
-action = "move_backward"
-
-[node name="SecondaryBtn" type="Button" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveDown"]
-layout_mode = 2
-size_flags_horizontal = 3
-toggle_mode = true
-text = "Arrow up"
-script = ExtResource("3_0rs0o")
-action = "move_backward"
-primary = false
+label_name = "Move Backward"
+action_name = "move_backward"
 
 [node name="HSeparator3" type="HSeparator" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls"]
 layout_mode = 2
 
-[node name="MoveLeft" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls"]
+[node name="MoveLeft2" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls" instance=ExtResource("4_gy0kj")]
 layout_mode = 2
-
-[node name="Left" type="Label" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveLeft"]
-custom_minimum_size = Vector2(75, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 20
-text = "Move Left"
-vertical_alignment = 1
-autowrap_mode = 2
-
-[node name="PrimaryBtn" type="Button" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveLeft"]
-layout_mode = 2
-size_flags_horizontal = 3
-toggle_mode = true
-text = "w"
-script = ExtResource("3_0rs0o")
-action = "move_left"
-
-[node name="SecondaryBtn" type="Button" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveLeft"]
-layout_mode = 2
-size_flags_horizontal = 3
-toggle_mode = true
-text = "Arrow up"
-script = ExtResource("3_0rs0o")
-action = "move_left"
-primary = false
+label_name = "Move Left"
+action_name = "move_left"
 
 [node name="HSeparator4" type="HSeparator" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls"]
 layout_mode = 2
 
-[node name="MoveRight" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls"]
+[node name="MoveRight2" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls" instance=ExtResource("4_gy0kj")]
 layout_mode = 2
-
-[node name="Right" type="Label" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveRight"]
-custom_minimum_size = Vector2(75, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 20
-text = "Move Right"
-vertical_alignment = 1
-autowrap_mode = 2
-
-[node name="PrimaryBtn" type="Button" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveRight"]
-layout_mode = 2
-size_flags_horizontal = 3
-toggle_mode = true
-text = "w"
-script = ExtResource("3_0rs0o")
-action = "move_right"
-
-[node name="SecondaryBtn" type="Button" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveRight"]
-layout_mode = 2
-size_flags_horizontal = 3
-toggle_mode = true
-text = "Arrow up"
-script = ExtResource("3_0rs0o")
-action = "move_right"
-primary = false
+label_name = "Move Right"
+action_name = "move_right"
 
 [node name="HSeparator5" type="HSeparator" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls"]
 layout_mode = 2
@@ -313,6 +214,7 @@ text = "Back"
 
 [node name="ResetConfirm" type="PanelContainer" parent="Control"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -376,11 +278,7 @@ theme_override_font_sizes/font_size = 30
 text = "no"
 
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
-[connection signal="toggled" from="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveUp/PrimaryBtn" to="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveUp/PrimaryBtn" method="_on_toggled"]
-[connection signal="toggled" from="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveUp/SecondaryBtn" to="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveUp/SecondaryBtn" method="_on_toggled"]
-[connection signal="toggled" from="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveDown/PrimaryBtn" to="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveDown/PrimaryBtn" method="_on_toggled"]
-[connection signal="toggled" from="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveDown/SecondaryBtn" to="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveDown/SecondaryBtn" method="_on_toggled"]
-[connection signal="toggled" from="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveLeft/PrimaryBtn" to="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveLeft/PrimaryBtn" method="_on_toggled"]
-[connection signal="toggled" from="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveLeft/SecondaryBtn" to="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveLeft/SecondaryBtn" method="_on_toggled"]
-[connection signal="toggled" from="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveRight/PrimaryBtn" to="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveRight/PrimaryBtn" method="_on_toggled"]
-[connection signal="toggled" from="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveRight/SecondaryBtn" to="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/MoveRight/SecondaryBtn" method="_on_toggled"]
+[connection signal="pressed" from="Control/PanelContainer/MarginContainer/VBoxContainer/ResetBtn" to="." method="_on_reset_btn_pressed"]
+[connection signal="pressed" from="Control/PanelContainer/MarginContainer/VBoxContainer/BackBtn" to="." method="_on_back_btn_pressed"]
+[connection signal="pressed" from="Control/ResetConfirm/VBoxContainer/HBoxContainer/ConfirmReset" to="." method="_on_confirm_reset_pressed"]
+[connection signal="pressed" from="Control/ResetConfirm/VBoxContainer/HBoxContainer/CancelReset" to="." method="_on_cancel_reset_pressed"]

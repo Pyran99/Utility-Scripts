@@ -9,7 +9,6 @@ func _ready():
     # this is for these managers not being set to autoload
     SettingsManager.init()
     KeybindManager.init()
-    pass
 
 
 func _unhandled_key_input(event: InputEvent) -> void:

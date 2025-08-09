@@ -15,12 +15,12 @@ const keymap_path = "user://keybinds.cfg"
 static var keymaps: Dictionary
 
 # use ready if setting this to autoload
-# called from GameManager
+# called from GameManager ready
 static func init() -> void:
     for action in InputMap.get_actions():
         if InputMap.action_get_events(action).size() != 0:
             keymaps[action] = InputMap.action_get_events(action)
-            
+    
     load_keymap_encoded()
 
 
@@ -28,7 +28,7 @@ static func init() -> void:
 #     init()
 
 
-static func load_keymap_encoded():
+static func load_keymap_encoded() -> void:
     if !FileAccess.file_exists(keymap_path):
         reset_keymap()
         save_keymap_encoded()
@@ -45,15 +45,15 @@ static func load_keymap_encoded():
                 InputMap.action_add_event(action, event)
 
 
-static func save_keymap_encoded():
+static func save_keymap_encoded() -> void:
     var file = FileAccess.open(keymap_path, FileAccess.WRITE)
     file.store_var(keymaps, true)
     file.close()
 
 
-static func reset_keymap():
+static func reset_keymap() -> void:
+    InputMap.load_from_project_settings()
     for action in DEFAULT_KEY_MAP:
-        InputMap.action_erase_events(action)
         var events = []
         for key in DEFAULT_KEY_MAP[action]:
             var event

@@ -9,42 +9,41 @@ extends Control
 
 
 var previous_menu
-var back_btn: Button
+var keybind_containers: Array[KeybindActionContainer]
 
 @onready var controls: VBoxContainer = %Controls
+@onready var reset_confirm_container: PanelContainer = %ResetConfirm
+# @onready var first_btn: Button = %PrimaryBtn
 @onready var reset_btn: Button = %ResetBtn
-@onready var reset_confirm: PanelContainer = %ResetConfirm
-@onready var confirm_reset: Button = %ConfirmReset
 @onready var cancel_reset: Button = %CancelReset
-@onready var first_btn: Button = %PrimaryBtn
 
 
 func _ready():
+    store_all_action_containers()
+    reset_confirm_container.hide()
     hide()
-    reset_confirm.hide()
-    reset_btn.pressed.connect(_on_reset_btn_pressed)
-    confirm_reset.pressed.connect(confirm_reset_pressed)
-    cancel_reset.pressed.connect(cancel_reset_pressed)
-    # back_btn.pressed.connect(_on_back_btn_pressed)
-    if %BackBtn:
-        back_btn = %BackBtn
-        back_btn.pressed.connect(_on_back_btn_pressed)
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
     if event.is_action_pressed("ui_cancel"):
-        if visible:
-            _close_menu()
+        _close_menu()
+
+
+func store_all_action_containers() -> void:
+    var all_containers = controls.find_children("*", "KeybindActionContainer")
+    for i in all_containers:
+        keybind_containers.append(i)
 
 
 func _close_menu() -> void:
+    KeybindManager.save_keymap_encoded()
     hide()
     if previous_menu:
         previous_menu.show()
 
 
 func _on_reset_btn_pressed() -> void:
-    reset_confirm.show()
+    reset_confirm_container.show()
     cancel_reset.call_deferred("grab_focus")
 
 
@@ -52,24 +51,24 @@ func _on_back_btn_pressed() -> void:
     _close_menu()
 
 
-func confirm_reset_pressed() -> void:
+func _on_confirm_reset_pressed() -> void:
     KeybindManager.reset_keymap()
-    var all_children = controls.find_children("*")
-    # for item in Utils.get_all_children(controls):
-    for item in all_children:
-        if item is KeybindButton:
-            item.display_current_key()
-    reset_confirm.hide()
+    for container in keybind_containers:
+        for btn in container.get_buttons():
+            btn._display_current_key()
+    reset_confirm_container.hide()
     reset_btn.call_deferred("grab_focus")
-    pass
 
 
-func cancel_reset_pressed() -> void:
-    reset_confirm.hide()
+func _on_cancel_reset_pressed() -> void:
+    reset_confirm_container.hide()
     reset_btn.call_deferred("grab_focus")
 
 
 func _on_visibility_changed() -> void:
     if visible:
         await get_tree().process_frame
-        first_btn.call_deferred("grab_focus")
+        keybind_containers[0].get_buttons()[0].call_deferred("grab_focus")
+        set_process_unhandled_key_input(true)
+    else:
+        set_process_unhandled_key_input(false)
