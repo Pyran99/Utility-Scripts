@@ -1,11 +1,10 @@
 extends Control
 
-#-------------------------
-# Requires KeybindManager 
-# Requires Utils          
-# Requires KeybindButton  
-# For new actions, dupe an hboxcontainer, set action, set default values to KeybindManager
-#-------------------------
+#-------------------------#
+# Requires KeybindManager
+# Requires KeybindActionContainer
+# For new actions, dupe KeybindActionContainer (under Controls), set action & label name, set default values to KeybindManager
+#-------------------------#
 
 
 var previous_menu

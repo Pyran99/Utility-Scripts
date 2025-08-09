@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dymui0edah8jp"]
 
-[ext_resource type="Script" uid="uid://rpqn1n382co5" path="res://Utility/keybind_button.gd" id="1_5ux0t"]
-[ext_resource type="Script" uid="uid://dexuecptgb08j" path="res://Scenes/UI/keybind_action_container.gd" id="1_ndcb2"]
+[ext_resource type="Script" uid="uid://rpqn1n382co5" path="res://Utility/Keybinds/keybind_button.gd" id="1_5ux0t"]
+[ext_resource type="Script" uid="uid://dexuecptgb08j" path="res://Utility/Keybinds/keybind_action_container.gd" id="1_ndcb2"]
 
 [node name="KeybindActionContainer" type="HBoxContainer"]
 anchors_preset = 10
@@ -35,7 +35,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 toggle_mode = true
-text = "None"
+text = "Up"
 script = ExtResource("1_5ux0t")
 action = "move_forward"
 primary = false

@@ -3,7 +3,7 @@
 [ext_resource type="Theme" uid="uid://cfp22mav71a3h" path="res://Utility/options_menu_theme.tres" id="1_wwb16"]
 [ext_resource type="Script" uid="uid://c2kfomcyao3nb" path="res://Utility/options_menu.gd" id="1_y8udk"]
 [ext_resource type="Texture2D" uid="uid://bvwmek25680dv" path="res://Assets/panel-border-008.png" id="3_0ami3"]
-[ext_resource type="PackedScene" uid="uid://dk3j16ukdj05c" path="res://Utility/keybind_menu.tscn" id="3_u51tj"]
+[ext_resource type="PackedScene" uid="uid://dk3j16ukdj05c" path="res://Utility/Keybinds/keybind_menu.tscn" id="3_u51tj"]
 [ext_resource type="Script" uid="uid://dm1tfjpwgnum" path="res://Utility/option_container.gd" id="4_4eplt"]
 [ext_resource type="Script" uid="uid://tutvndbjn44a" path="res://Utility/settings_container.gd" id="4_8nr3t"]
 [ext_resource type="Texture2D" uid="uid://cl3anb1cwywds" path="res://Assets/selection_arrow_9x9.png" id="5_i6viq"]

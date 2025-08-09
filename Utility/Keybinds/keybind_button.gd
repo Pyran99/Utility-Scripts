@@ -48,9 +48,13 @@ func _display_current_key() -> void:
     var current_key = ""
     if !action_events.is_empty():
         if primary:
-            current_key = action_events[0].as_text()
+            var keycode = OS.get_keycode_string(action_events[0].physical_keycode)
+            current_key = keycode
+            # current_key = action_events[0].as_text()
         elif !primary and action_events.size() > 1:
-            current_key = action_events[1].as_text()
+            var keycode = OS.get_keycode_string(action_events[1].physical_keycode)
+            current_key = keycode
+            # current_key = action_events[1].as_text()
     text = current_key
     if current_key.is_empty():
         text = "None"
@@ -58,16 +62,18 @@ func _display_current_key() -> void:
 
 func _remap_action_to(event: InputEvent) -> void:
     button_pressed = false
-    InputMap.action_erase_events(action)
-    InputMap.action_add_event(action, event)
+    if primary:
+        InputMap.action_erase_event(action, KeybindManager.keymaps[action][0])
+        InputMap.action_add_event(action, event)
+        KeybindManager.keymaps[action][0] = event
+    else:
+        InputMap.action_erase_event(action, KeybindManager.keymaps[action][1])
+        InputMap.action_add_event(action, event)
+        KeybindManager.keymaps[action][1] = event
+
     text = event.as_text()
     grab_focus()
-    if primary:
-        KeybindManager.keymaps[action][0] = event
-        print_debug(KeybindManager.keymaps[action])
-    else:
-        KeybindManager.keymaps[action][1] = event
-        print_debug(KeybindManager.keymaps[action])
+
 
     # var action_events = InputMap.action_get_events(action)
     # var events = []

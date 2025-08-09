@@ -26,12 +26,22 @@ func _set_action(value):
         await ready
     primary_btn.action = value
     secondary_btn.action = value
+    if Engine.is_editor_hint():
+        update_configuration_warnings()
 
 
 func _ready():
     var input_map = ProjectSettings.get_setting("input/%s" % action_name)
     assert(input_map != null, "%s: No input map for %s" % [name, action_name])
 
-
+## Returns primary & secondary button
 func get_buttons() -> Array[KeybindButton]:
     return [primary_btn, secondary_btn]
+
+
+func _get_configuration_warnings() -> PackedStringArray:
+    var warnings: PackedStringArray = []
+    var actions = ProjectSettings.get_setting("input/%s" % action_name)
+    if actions == null:
+        warnings.append("No input map for %s" % action_name)
+    return warnings

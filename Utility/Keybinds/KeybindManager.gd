@@ -1,12 +1,13 @@
 extends Node
 class_name KeybindManager
 
+
 const DEFAULT_KEY_MAP = {
     "move_forward": [KEY_W, KEY_UP],
     "move_backward": [KEY_S, KEY_DOWN],
     "move_left": [KEY_A, KEY_LEFT],
     "move_right": [KEY_D, KEY_RIGHT],
-    # "space": [KEY_SPACE],
+    "space": [KEY_SPACE],
     # "left_click": [MOUSE_BUTTON_LEFT],
     # "move_right": "", # for setting key to no value
 }

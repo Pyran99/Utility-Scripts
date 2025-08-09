@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://dk3j16ukdj05c"]
 
 [ext_resource type="Theme" uid="uid://cfp22mav71a3h" path="res://Utility/options_menu_theme.tres" id="1_4oefi"]
-[ext_resource type="Script" uid="uid://oa1ijnvjpl84" path="res://Utility/keybind_menu.gd" id="1_scwt4"]
-[ext_resource type="PackedScene" uid="uid://dymui0edah8jp" path="res://Scenes/UI/keybind_action_container.tscn" id="4_gy0kj"]
+[ext_resource type="Script" uid="uid://oa1ijnvjpl84" path="res://Utility/Keybinds/keybind_menu.gd" id="1_scwt4"]
+[ext_resource type="PackedScene" uid="uid://dymui0edah8jp" path="res://Utility/Keybinds/keybind_action_container.tscn" id="4_gy0kj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xeqot"]
 bg_color = Color(0, 0, 0, 1)
@@ -180,7 +180,7 @@ action_name = "move_backward"
 [node name="HSeparator3" type="HSeparator" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls"]
 layout_mode = 2
 
-[node name="MoveLeft2" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls" instance=ExtResource("4_gy0kj")]
+[node name="MoveLeft" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls" instance=ExtResource("4_gy0kj")]
 layout_mode = 2
 label_name = "Move Left"
 action_name = "move_left"
@@ -188,12 +188,20 @@ action_name = "move_left"
 [node name="HSeparator4" type="HSeparator" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls"]
 layout_mode = 2
 
-[node name="MoveRight2" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls" instance=ExtResource("4_gy0kj")]
+[node name="MoveRight" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls" instance=ExtResource("4_gy0kj")]
 layout_mode = 2
 label_name = "Move Right"
 action_name = "move_right"
 
 [node name="HSeparator5" type="HSeparator" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls"]
+layout_mode = 2
+
+[node name="Jump" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls" instance=ExtResource("4_gy0kj")]
+layout_mode = 2
+label_name = "Jump"
+action_name = "jump"
+
+[node name="HSeparator6" type="HSeparator" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls"]
 layout_mode = 2
 
 [node name="ResetBtn" type="Button" parent="Control/PanelContainer/MarginContainer/VBoxContainer"]
