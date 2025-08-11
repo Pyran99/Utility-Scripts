@@ -35,12 +35,27 @@ func _set_action(value):
 
 
 func _ready():
+    await get_tree().process_frame
     var input_map = ProjectSettings.get_setting("input/%s" % action_name)
     assert(input_map != null, "%s: No input map for %s" % [name, action_name])
+    if KeybindManager.DEFAULT_KEY_MAP.get(action_name) != null:
+        var value = KeybindManager.DEFAULT_KEY_MAP[action_name]
+        if value == false:
+            secondary_btn.queue_free()
+            primary_btn.disabled = true
+            var control = Control.new()
+            control.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+            add_child(control)
+
 
 ## Returns primary & secondary button
 func get_buttons() -> Array[KeybindButton]:
-    return [primary_btn, secondary_btn]
+    var btns: Array[KeybindButton] = []
+    if primary_btn:
+        btns.append(primary_btn)
+    if secondary_btn:
+        btns.append(secondary_btn)
+    return btns
 
 
 func _get_configuration_warnings() -> PackedStringArray:

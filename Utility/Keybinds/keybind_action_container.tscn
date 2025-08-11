@@ -14,9 +14,8 @@ label_name = "Move Forward"
 action_name = "move_forward"
 
 [node name="Label" type="Label" parent="."]
-custom_minimum_size = Vector2(75, 0)
+custom_minimum_size = Vector2(146, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 20
 text = "Move Forward"
 vertical_alignment = 1

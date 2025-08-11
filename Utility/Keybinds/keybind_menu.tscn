@@ -169,6 +169,12 @@ layout_mode = 2
 [node name="KeybindActionContainer" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls" instance=ExtResource("3_85ed0")]
 layout_mode = 2
 
+[node name="PrimaryBtn" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/KeybindActionContainer" index="1"]
+text = "W"
+
+[node name="SecondaryBtn" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/KeybindActionContainer" index="2"]
+text = "W"
+
 [node name="KeybindActionContainer2" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls" instance=ExtResource("3_85ed0")]
 layout_mode = 2
 label_name = "Move Backward"
@@ -179,10 +185,29 @@ layout_mode = 2
 label_name = "Move Left"
 action_name = "move_left"
 
+[node name="Label" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/KeybindActionContainer3" index="0"]
+text = "Move Left"
+
+[node name="PrimaryBtn" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/KeybindActionContainer3" index="1"]
+text = "W"
+
+[node name="SecondaryBtn" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/KeybindActionContainer3" index="2"]
+text = "W"
+
 [node name="KeybindActionContainer4" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls" instance=ExtResource("3_85ed0")]
 layout_mode = 2
 label_name = "Move Right"
 action_name = "move_right"
+
+[node name="Label" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/KeybindActionContainer4" index="0"]
+text = "Move Right"
+
+[node name="PrimaryBtn" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/KeybindActionContainer4" index="1"]
+disabled = true
+text = "W"
+
+[node name="SecondaryBtn" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/KeybindActionContainer4" index="2"]
+text = "W"
 
 [node name="ResetBtn" type="Button" parent="Control/PanelContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
@@ -270,3 +295,7 @@ text = "no"
 [connection signal="pressed" from="Control/PanelContainer/MarginContainer/VBoxContainer/BackBtn" to="." method="_on_back_btn_pressed"]
 [connection signal="pressed" from="Control/ResetConfirm/VBoxContainer/HBoxContainer/ConfirmReset" to="." method="_on_confirm_reset_pressed"]
 [connection signal="pressed" from="Control/ResetConfirm/VBoxContainer/HBoxContainer/CancelReset" to="." method="_on_cancel_reset_pressed"]
+
+[editable path="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/KeybindActionContainer"]
+[editable path="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/KeybindActionContainer3"]
+[editable path="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/KeybindActionContainer4"]
