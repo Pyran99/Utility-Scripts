@@ -9,8 +9,8 @@ class_name KeybindActionContainer
 
 
 @onready var label: Label = $Label
-@onready var primary_btn: Button = %PrimaryBtn
-@onready var secondary_btn: Button = %SecondaryBtn
+@onready var primary_btn: KeybindButton = %PrimaryBtn
+@onready var secondary_btn: KeybindButton = %SecondaryBtn
 
 
 func _set_label(value):
@@ -22,10 +22,14 @@ func _set_label(value):
 
 func _set_action(value):
     action_name = value
+    if !is_inside_tree():
+        return
     if !is_node_ready():
         await ready
     primary_btn.action = value
+    primary_btn._display_current_key()
     secondary_btn.action = value
+    secondary_btn._display_current_key()
     if Engine.is_editor_hint():
         update_configuration_warnings()
 

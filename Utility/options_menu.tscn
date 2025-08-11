@@ -167,6 +167,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_3egnv")
 follow_focus = true
+scroll_vertical = 100
 scroll_vertical_custom_step = 22.0
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 4
@@ -565,6 +566,7 @@ stretch_mode = 5
 [node name="Label" type="Label" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/ScaleSlider"]
 layout_mode = 2
 size_flags_horizontal = 2
+text = "Scale"
 
 [node name="Scale" type="Label" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/ScaleSlider"]
 unique_name_in_owner = true
@@ -635,6 +637,7 @@ custom_minimum_size = Vector2(150, 30)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
+focus_neighbor_top = NodePath("../Options/ScrollContainer/MarginContainer/SettingsContainer/KeybindsBtn")
 focus_neighbor_bottom = NodePath("../Options/ScrollContainer/MarginContainer/SettingsContainer/MasterVol/MasterSlider")
 theme_type_variation = &"ButtonGreen"
 theme_override_font_sizes/font_size = 20

@@ -39,6 +39,7 @@ func _on_mouse_entered():
     if label:
         label.modulate = Color.MEDIUM_PURPLE
     select_arrow.show()
+    option_button.grab_focus()
 
 
 func _on_mouse_exited():
@@ -47,3 +48,4 @@ func _on_mouse_exited():
     if label:
         label.modulate = default_color
     select_arrow.hide()
+    option_button.release_focus()

@@ -1,6 +1,4 @@
-[gd_resource type="Theme" load_steps=24 format=3 uid="uid://cfp22mav71a3h"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qndvg"]
+[gd_resource type="Theme" load_steps=23 format=3 uid="uid://cfp22mav71a3h"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vbirn"]
 
@@ -91,7 +89,7 @@ Button/constants/h_separation = 0
 Button/constants/icon_max_width = 0
 Button/constants/outline_size = 4
 Button/styles/disabled = null
-Button/styles/focus = SubResource("StyleBoxEmpty_qndvg")
+Button/styles/focus = null
 Button/styles/hover = null
 Button/styles/hover_pressed = null
 Button/styles/normal = null

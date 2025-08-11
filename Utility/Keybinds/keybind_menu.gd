@@ -3,21 +3,28 @@ extends Control
 #-------------------------#
 # Requires KeybindManager
 # Requires KeybindActionContainer
-# For new actions, dupe KeybindActionContainer (under Controls), set action & label name, set default values to KeybindManager
+# Containers are created from KeybindManager keymaps
 #-------------------------#
 
+
+const KEYBIND_CONTAINER: PackedScene = preload("res://Utility/Keybinds/keybind_action_container.tscn")
 
 var previous_menu
 var keybind_containers: Array[KeybindActionContainer]
 
 @onready var controls: VBoxContainer = %Controls
 @onready var reset_confirm_container: PanelContainer = %ResetConfirm
-# @onready var first_btn: Button = %PrimaryBtn
 @onready var reset_btn: Button = %ResetBtn
 @onready var cancel_reset: Button = %CancelReset
 
 
 func _ready():
+    for i in controls.get_children():
+        if i is KeybindActionContainer:
+            controls.remove_child(i)
+            i.queue_free()
+
+    _create_actions_list()
     store_all_action_containers()
     reset_confirm_container.hide()
     hide()
@@ -29,9 +36,15 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 
 func store_all_action_containers() -> void:
-    var all_containers = controls.find_children("*", "KeybindActionContainer")
-    for i in all_containers:
-        keybind_containers.append(i)
+    var test = controls.get_children()
+    for i in test:
+        if i is KeybindActionContainer:
+            keybind_containers.append(i)
+
+    # var all_containers = controls.find_children("*", "KeybindActionContainer", false)
+    # print(all_containers) # BUG not getting children
+    # for i in all_containers:
+    #     keybind_containers.append(i)
 
 
 func _close_menu() -> void:
@@ -39,6 +52,27 @@ func _close_menu() -> void:
     hide()
     if previous_menu:
         previous_menu.show()
+
+
+func _create_actions_list() -> void:
+    for input_action: String in KeybindManager.keymaps.keys():
+        var new_text: String = input_action.capitalize()
+        var container: KeybindActionContainer = KEYBIND_CONTAINER.instantiate()
+        controls.add_child(container)
+        container.label_name = new_text
+        container.action_name = input_action
+        var separator = HSeparator.new()
+        controls.add_child(separator)
+
+    # print_debug(KeybindManager.DEFAULT_KEY_MAP.keys())
+    # for input_action: String in KeybindManager.DEFAULT_KEY_MAP.keys():
+    #     var new_text: String = input_action.capitalize()
+    #     var container: KeybindActionContainer = KEYBIND_CONTAINER.instantiate()
+    #     controls.add_child(container)
+    #     container.label_name = new_text
+    #     container.action_name = input_action
+    #     var separator = HSeparator.new()
+    #     controls.add_child(separator)
 
 
 func _on_reset_btn_pressed() -> void:
@@ -66,7 +100,6 @@ func _on_cancel_reset_pressed() -> void:
 
 func _on_visibility_changed() -> void:
     if visible:
-        await get_tree().process_frame
         keybind_containers[0].get_buttons()[0].call_deferred("grab_focus")
         set_process_unhandled_key_input(true)
     else:

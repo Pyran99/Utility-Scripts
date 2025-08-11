@@ -1,15 +1,19 @@
-extends Node
+extends RefCounted
 class_name KeybindManager
 
 
+# const DEFAULT_KEY_MAP = {
+#     "move_forward": [KEY_W, KEY_UP],
+# }
+
+# Add any input action that can be rebound
 const DEFAULT_KEY_MAP = {
-    "move_forward": [KEY_W, KEY_UP],
-    "move_backward": [KEY_S, KEY_DOWN],
-    "move_left": [KEY_A, KEY_LEFT],
-    "move_right": [KEY_D, KEY_RIGHT],
-    "space": [KEY_SPACE],
-    # "left_click": [MOUSE_BUTTON_LEFT],
-    # "move_right": "", # for setting key to no value
+    "move_forward": true,
+    "move_backward": true,
+    "move_left": true,
+    "move_right": true,
+    "jump": true,
+    "pause": false,
 }
 const keymap_path = "user://keybinds.cfg"
 
@@ -18,10 +22,7 @@ static var keymaps: Dictionary
 # use ready if setting this to autoload
 # called from GameManager ready
 static func init() -> void:
-    for action in InputMap.get_actions():
-        if InputMap.action_get_events(action).size() != 0:
-            keymaps[action] = InputMap.action_get_events(action)
-    
+    _load_default_keymap()
     load_keymap_encoded()
 
 
@@ -32,7 +33,6 @@ static func init() -> void:
 static func load_keymap_encoded() -> void:
     if !FileAccess.file_exists(keymap_path):
         reset_keymap()
-        save_keymap_encoded()
         return
 
     var file = FileAccess.open(keymap_path, FileAccess.READ)
@@ -43,6 +43,8 @@ static func load_keymap_encoded() -> void:
             keymaps[action] = temp_keymap[action]
             InputMap.action_erase_events(action)
             for event in keymaps[action]:
+                if event == null:
+                    continue
                 InputMap.action_add_event(action, event)
 
 
@@ -54,19 +56,19 @@ static func save_keymap_encoded() -> void:
 
 static func reset_keymap() -> void:
     InputMap.load_from_project_settings()
-    for action in DEFAULT_KEY_MAP:
-        var events = []
-        for key in DEFAULT_KEY_MAP[action]:
-            var event
-            if key == MOUSE_BUTTON_MASK_LEFT or key == MOUSE_BUTTON_MIDDLE or key == MOUSE_BUTTON_RIGHT:
-                event = InputEventMouseButton.new()
-                event.button_index = key
-            else:
-                event = InputEventKey.new()
-                event.keycode = key
-            if event:
-                events.append(event)
-                InputMap.action_add_event(action, event)
-        keymaps[action] = events
-
+    _load_default_keymap()
     save_keymap_encoded()
+
+## Resets keymaps to default InputMap values
+static func _load_default_keymap() -> void:
+    keymaps.clear()
+    for action in InputMap.get_actions():
+        if action.begins_with("ui_"):
+            continue
+        if !DEFAULT_KEY_MAP.has(action):
+            continue
+        if InputMap.action_get_events(action).size() != 0:
+            keymaps[action] = InputMap.action_get_events(action)
+            # add empty option if not defined in input map
+            if keymaps[action].size() == 1:
+                keymaps[action].append(null)
