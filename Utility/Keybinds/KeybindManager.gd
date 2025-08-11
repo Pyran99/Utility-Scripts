@@ -6,7 +6,7 @@ class_name KeybindManager
 #     "move_forward": [KEY_W, KEY_UP],
 # }
 
-# Add any input action that can be rebound
+# Add any input action that will show in keybind menu. bool value indicates if can be rebound
 const DEFAULT_KEY_MAP = {
     "move_forward": true,
     "move_backward": true,
@@ -58,6 +58,18 @@ static func reset_keymap() -> void:
     InputMap.load_from_project_settings()
     _load_default_keymap()
     save_keymap_encoded()
+
+    
+static func can_use_key(action: String) -> bool:
+    var _action: String = action.to_lower()
+    match _action:
+        "escape":
+            return false
+        "backspace":
+            return false
+        _:
+            return true
+
 
 ## Resets keymaps to default InputMap values
 static func _load_default_keymap() -> void:

@@ -24,13 +24,14 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
     if event is InputEventKey:
         get_viewport().set_input_as_handled()
-        if event.keycode == KEY_ESCAPE:
+        var keycode := DisplayServer.keyboard_get_keycode_from_physical(event.physical_keycode)
+        if keycode == KEY_ESCAPE:
             button_pressed = false
             return
+        if keycode == KEY_BACKSPACE:
+            event = _reset_key_to_default()
         _remap_action_to(event)
-        return
-
-    if event is InputEventMouseButton:
+    elif event is InputEventMouseButton:
         if !event.button_index == MOUSE_BUTTON_LEFT:
             # left click would toggle back to button press without this
             button_pressed = false
@@ -47,11 +48,9 @@ func _display_current_key() -> void:
     
     var current_key = ""
     if !action_events.is_empty():
-        print_debug(action_events)
         var action_number: int = 0
         if !primary and action_events.size() > 1:
             action_number = 1
-
         if action_events[action_number] is InputEventJoypadButton:
             current_key = action_events[action_number].as_text()
         else:
@@ -59,7 +58,6 @@ func _display_current_key() -> void:
             var keycode = OS.get_keycode_string(ds_keycode)
             current_key = keycode
     
-    print("current key: ", current_key)
     if current_key.is_empty() or (!primary and action_events.size() == 1):
         current_key = "None"
     
@@ -67,20 +65,32 @@ func _display_current_key() -> void:
 
 
 func _remap_action_to(event: InputEvent) -> void:
+    if KeybindManager.can_use_key(action):
+        if primary:
+            KeybindManager.keymaps[action][0] = event
+        else:
+            KeybindManager.keymaps[action][1] = event
+
+        InputMap.action_erase_events(action)
+        for i in KeybindManager.keymaps[action]:
+            if i == null:
+                continue
+            InputMap.action_add_event(action, i)
+
+        if event != null:
+            text = event.as_text()
+    
     button_pressed = false
+
+
+func _reset_key_to_default() -> InputEvent:
+    var key = ProjectSettings.get_setting("input/%s" % action)
     if primary:
-        KeybindManager.keymaps[action][0] = event
+        return key["events"][0]
     else:
-        KeybindManager.keymaps[action][1] = event
-
-    InputMap.action_erase_events(action)
-    for i in KeybindManager.keymaps[action]:
-        if i == null:
-            continue
-        InputMap.action_add_event(action, i)
-
-    _display_current_key()
-    grab_focus()
+        if key["events"].size() > 1:
+            return key["events"][1]
+        return null
 
 
 func _on_toggled(toggled_on: bool) -> void:

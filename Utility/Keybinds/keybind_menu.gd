@@ -42,7 +42,7 @@ func store_all_action_containers() -> void:
             keybind_containers.append(i)
 
     # var all_containers = controls.find_children("*", "KeybindActionContainer", false)
-    # print(all_containers) # BUG not getting children
+    # print(all_containers) # not getting children
     # for i in all_containers:
     #     keybind_containers.append(i)
 
@@ -63,16 +63,6 @@ func _create_actions_list() -> void:
         container.action_name = input_action
         var separator = HSeparator.new()
         controls.add_child(separator)
-
-    # print_debug(KeybindManager.DEFAULT_KEY_MAP.keys())
-    # for input_action: String in KeybindManager.DEFAULT_KEY_MAP.keys():
-    #     var new_text: String = input_action.capitalize()
-    #     var container: KeybindActionContainer = KEYBIND_CONTAINER.instantiate()
-    #     controls.add_child(container)
-    #     container.label_name = new_text
-    #     container.action_name = input_action
-    #     var separator = HSeparator.new()
-    #     controls.add_child(separator)
 
 
 func _on_reset_btn_pressed() -> void:
