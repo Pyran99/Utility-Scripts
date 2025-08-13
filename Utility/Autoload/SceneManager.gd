@@ -167,8 +167,9 @@ func _free_load_scene() -> void:
 
 ## Sets active level var and emits level changed
 func _set_active_level(level: Node) -> void:
-    if is_instance_valid(_active_level):
-        push_warning("Overwriting active level: %s" % _active_level.name)
+    if OS.is_debug_build():
+        if is_instance_valid(_active_level):
+            push_warning("Overwriting active level: %s" % _active_level.name)
 
     _active_level = level
     level_changed.emit(level)

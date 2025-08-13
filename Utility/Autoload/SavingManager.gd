@@ -26,12 +26,12 @@ const MAX_SLOTS = 3
 # const RESOURCE_SAVE_FILE: String = "user://saveDataResource.res"
 
 const KEY_PATH = "user://unlock.bin"
-const KEY_RESOURCE_PATH = "res://Utility/unlock_key.tres"
 const SAVE_GROUP = "savable"
 
 var settings_dict: Dictionary = {}
 
-var encryption_key: PackedByteArray
+# const KEY_RESOURCE_PATH = "res://Utility/unlock_key.tres"
+# var encryption_key: PackedByteArray
 
 
 func _ready() -> void:
@@ -46,12 +46,20 @@ func _ready() -> void:
 
 
 func _load_or_generate_key() -> void:
-    var key: UnlockKey = load(KEY_RESOURCE_PATH)
-    if key.encryption_key.is_empty():
+    if !ProjectSettings.has_setting("game/unlock_key"):
         var crypto := Crypto.new()
         var new_key := crypto.generate_random_bytes(32)
-        key.encryption_key = new_key
-        ResourceSaver.save(key)
+        ProjectSettings.set_setting("game/unlock_key", new_key)
+
+    # var key: UnlockKey = load(KEY_RESOURCE_PATH)
+    # if key.encryption_key.is_empty():
+    #     print("Generating new key")
+    #     var crypto := Crypto.new()
+    #     var new_key := crypto.generate_random_bytes(32)
+    #     key.encryption_key = new_key
+    #     ResourceSaver.save(key, KEY_RESOURCE_PATH)
+    #     ProjectSettings.set_setting("game/unlock_key", new_key)
+    #     print_debug(key.resource_path)
 
     ######
     # if FileAccess.file_exists(KEY_PATH):
@@ -120,7 +128,7 @@ func save_game_encrypted_json(slot: int) -> bool:
     var file = FileAccess.open_encrypted(
         get_save_path(slot),
         FileAccess.WRITE,
-        encryption_key
+        ProjectSettings.get_setting("game/unlock_key")
     )
 
     if file:
@@ -144,7 +152,7 @@ func load_game_encrypted_json(slot: int) -> bool:
     var file = FileAccess.open_encrypted(
         save_path,
         FileAccess.READ,
-        encryption_key
+        ProjectSettings.get_setting("game/unlock_key")
     )
 
     if not file:
@@ -336,8 +344,7 @@ func load_file_from_json_unencrypted(save_file: String) -> Dictionary:
 
 ## Save 'data' to 'save file' as encrypted JSON
 func save_file_as_json_encrypted(data: Dictionary, save_file: String) -> void:
-    var key = load(KEY_RESOURCE_PATH).encryption_key
-    var file = FileAccess.open_encrypted(save_file, FileAccess.WRITE, key)
+    var file = FileAccess.open_encrypted(save_file, FileAccess.WRITE, ProjectSettings.get_setting("game/unlock_key"))
     if !_verify_file(file):
         return
     var json_string = JSON.stringify(data)
@@ -347,15 +354,14 @@ func save_file_as_json_encrypted(data: Dictionary, save_file: String) -> void:
 ## Load 'save file' from encrypted JSON
 func load_file_from_json_encrypted(save_file: String) -> Dictionary:
     var result := {}
-    var key = load(KEY_RESOURCE_PATH).encryption_key
     if !FileAccess.file_exists(save_file):
         print_debug("File did not exist: %s" % save_file)
-        var _file = FileAccess.open_encrypted(save_file, FileAccess.WRITE, key)
+        var _file = FileAccess.open_encrypted(save_file, FileAccess.WRITE, ProjectSettings.get_setting("game/unlock_key"))
         if !_verify_file(_file):
             return {}
         _file.close()
 
-    var file = FileAccess.open_encrypted(save_file, FileAccess.READ, key)
+    var file = FileAccess.open_encrypted(save_file, FileAccess.READ, ProjectSettings.get_setting("game/unlock_key"))
     if !_verify_file(file):
         return {}
     var json_string = file.get_as_text()

@@ -4,5 +4,5 @@
 
 [resource]
 script = ExtResource("1_6yfvs")
-encryption_key = PackedByteArray(74, 122, 218, 160, 87, 213, 182, 42, 182, 133, 3, 166, 42, 75, 117, 27, 241, 152, 214, 126, 9, 179, 120, 38, 81, 203, 118, 31, 91, 140, 38, 25)
+encryption_key = PackedByteArray(227, 208, 199, 201, 229, 191, 140, 214, 250, 151, 146, 77, 124, 24, 48, 208, 177, 180, 48, 111, 126, 6, 229, 179, 128, 19, 132, 118, 66, 96, 27, 80)
 metadata/_custom_type_script = "uid://dt887h5fq3pmy"

@@ -1,6 +1,7 @@
 # @tool
 extends Node
 ## uncomment tool then save scene to initialize project settings. comment tool when finished
+# new settings can be made just by calling set_setting with custom string
 
 
 func _init() -> void:
