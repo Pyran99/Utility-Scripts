@@ -22,8 +22,14 @@ config/icon="res://icon.svg"
 
 GameManager="*res://Utility/Autoload/GameManager.gd"
 SceneManager="*res://Utility/Autoload/SceneManager.gd"
-AudioManager="*res://Utility/Autoload/AudioManager.gd"
 SavingManager="*res://Utility/Autoload/SavingManager.gd"
+AudioManager="*res://Utility/Autoload/AudioManager.gd"
+
+[debug]
+
+gdscript/warnings/return_value_discarded=false
+gdscript/warnings/integer_division=false
+gdscript/warnings/narrowing_conversion=false
 
 [display]
 
@@ -87,6 +93,6 @@ jump={
 
 [rendering]
 
-textures/canvas_textures/default_texture_filter=0
+textures/canvas_textures/default_texture_filter="Nearest"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
