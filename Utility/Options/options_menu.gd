@@ -72,9 +72,8 @@ func _ready():
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
-    if visible:
-        if event.is_action_pressed("ui_cancel"):
-            _close_menu()
+    if event.is_action_pressed("ui_cancel"):
+        _close_menu()
 
 
 func _connect_signals() -> void:
@@ -106,7 +105,6 @@ func set_previous_menu(menu: Control) -> void:
 
 func save_settings() -> void:
     if options.hash() == original_options.hash():
-        print("no option changed")
         return
     settings_changed.emit("Settings", options, SavingManager.SETTINGS_FILE)
     print("Settings saved")
@@ -464,15 +462,17 @@ func _exit_tree() -> void:
 
 
 func _on_visibility_changed() -> void:
-    if !visible:
-        save_settings()
-        original_options.clear()
-    else:
+    if visible:
+        set_process_unhandled_key_input(true)
         original_options = options.duplicate()
         scroll_container.scroll_vertical = 0
         anim_player.play("slide_in")
         await anim_player.animation_finished
         master_slider.call_deferred("grab_focus")
+    else:
+        set_process_unhandled_key_input(false)
+        save_settings()
+        original_options.clear()
 
 
 # func _notification(what: int) -> void:
