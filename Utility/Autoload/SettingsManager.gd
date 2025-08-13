@@ -1,4 +1,4 @@
-extends Node
+extends RefCounted
 class_name SettingsManager
 
 
@@ -31,7 +31,9 @@ const RESOLUTIONS: Array = [
     # {"width": 2560, "height": 1440},
     # {"width": 3840, "height": 2160},
 ]
+
 var DEFAULT_RESOLUTION: Vector2i = Vector2i(ProjectSettings.get_setting("display/window/size/viewport_width"), ProjectSettings.get_setting("display/window/size/viewport_height"))
+
 static var player_fullscreen_size: Vector2i
 static var player_windowed_size: Vector2i
 
@@ -68,7 +70,7 @@ static func check_option_settings(options: Dictionary) -> Dictionary:
 
 
 static func set_locale():
-    var options = SavingManager.read_options()
+    var options = SavingManager.load_from_encoded_file(SavingManager.OPTIONS_FILE)
     if options.has("locale"):
         TranslationServer.set_locale(options["locale"])
     else:

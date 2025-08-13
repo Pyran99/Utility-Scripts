@@ -1,0 +1,99 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch Main",
+            "type": "godot",
+            "request": "launch",
+            "address": "127.0.0.1",
+            "port": 6007,
+            // "debugServer": 6006, // launches from editor
+            "scene": "main",
+            "project": "${workspaceFolder}",
+            "debug_collisions": false,
+            "debug_paths": false,
+            "debug_navigation": false,
+            "additional_options": "--position 350,30, -t"
+        },
+        {
+            "name": "Launch Main from editor", // will launch the main scene from the editor, debug messages goes to both editor & vscode
+            "type": "godot",
+            "request": "launch",
+            "address": "127.0.0.1",
+            "port": 6007,
+            "debugServer": 6006, // launches from editor
+            "scene": "main",
+            "project": "${workspaceFolder}",
+            "debug_collisions": false,
+            "debug_paths": false,
+            "debug_navigation": false,
+            "additional_options": "--position 350,30, -t"
+        },
+        {
+            "name": "Launch: Pinned Scene", // launch the scene file pinned in explorer
+            "type": "godot",
+            "request": "launch",
+            "address": "127.0.0.1",
+            "port": 6007,
+            // "debugServer": 6006,
+            "scene": "pinned",
+            "project": "${workspaceFolder}",
+            "debug_collisions": false,
+            "debug_paths": false,
+            "debug_navigation": false,
+            "additional_options": "--position 350,30 , -t"
+        },
+        {
+            "name": "Launch: Pinned w/ collisions", // launch with debug collisions the scene file pinned in explorer
+            "type": "godot",
+            "request": "launch",
+            "address": "127.0.0.1",
+            "port": 6007,
+            // "debugServer": 6006,
+            "scene": "pinned",
+            "project": "${workspaceFolder}",
+            // "profiling": true, //Can't change profiler state, no profiler: scripts
+            "debug_collisions": true,
+            "debug_paths": true,
+            "debug_navigation": false,
+            "additional_options": "--position 350,30, -t"
+        },
+        {
+            "name": "Launch: Current Scene", // launch the scene connected to the current active file (player.gd opens player.tscn)
+            "type": "godot",
+            "request": "launch",
+            "address": "127.0.0.1",
+            "port": 6007,
+            "scene": "current",
+            "project": "${workspaceFolder}",
+            "debug_collisions": false,
+            "debug_paths": false,
+            "debug_navigation": false,
+            "additional_options": "--position 350,30, -t",
+        },
+        {
+            "name": "Attach", // launch the main scene from editor, then attach to that process
+            "type": "godot",
+            "request": "attach",
+            "address": "127.0.0.1",
+            "port": 6007,
+            "debugServer": 6006,
+        },
+        // {
+        //     "name": "Launch: Select Scene NYI", // intended to be able to select a tscn to launch. not working
+        //     "type": "godot",
+        //     "request": "launch",
+        //     "address": "127.0.0.1",
+        //     "port": 6007,
+        //     "scene": "main",
+        //     "project": "${workspaceFolder}",
+        //     "debug_collisions": false,
+        //     "debug_paths": false,
+        //     "debug_navigation": false,
+        //     "additional_options": "--position 350,30, -t, ${command:godot.csharp.getLaunchScene}",
+        // },
+    ]
+}

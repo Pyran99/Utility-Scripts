@@ -3,7 +3,7 @@
 [ext_resource type="Theme" uid="uid://cfp22mav71a3h" path="res://Utility/options_menu_theme.tres" id="1_wwb16"]
 [ext_resource type="Script" uid="uid://c2kfomcyao3nb" path="res://Utility/options_menu.gd" id="1_y8udk"]
 [ext_resource type="Texture2D" uid="uid://bvwmek25680dv" path="res://Assets/panel-border-008.png" id="3_0ami3"]
-[ext_resource type="PackedScene" uid="uid://dk3j16ukdj05c" path="res://Utility/keybind_menu.tscn" id="3_u51tj"]
+[ext_resource type="PackedScene" uid="uid://dk3j16ukdj05c" path="res://Utility/Keybinds/keybind_menu.tscn" id="3_u51tj"]
 [ext_resource type="Script" uid="uid://dm1tfjpwgnum" path="res://Utility/option_container.gd" id="4_4eplt"]
 [ext_resource type="Script" uid="uid://tutvndbjn44a" path="res://Utility/settings_container.gd" id="4_8nr3t"]
 [ext_resource type="Texture2D" uid="uid://cl3anb1cwywds" path="res://Assets/selection_arrow_9x9.png" id="5_i6viq"]
@@ -167,6 +167,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_3egnv")
 follow_focus = true
+scroll_vertical = 100
 scroll_vertical_custom_step = 22.0
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 4
@@ -220,7 +221,6 @@ layout_direction = 2
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 1
-focus_neighbor_top = NodePath("../../../../../../BackBtn")
 max_value = 1.0
 step = 0.1
 value = 0.5
@@ -565,6 +565,7 @@ stretch_mode = 5
 [node name="Label" type="Label" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/ScaleSlider"]
 layout_mode = 2
 size_flags_horizontal = 2
+text = "Scale"
 
 [node name="Scale" type="Label" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/ScaleSlider"]
 unique_name_in_owner = true
@@ -635,7 +636,7 @@ custom_minimum_size = Vector2(150, 30)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
-focus_neighbor_bottom = NodePath("../Options/ScrollContainer/MarginContainer/SettingsContainer/MasterVol/MasterSlider")
+focus_neighbor_top = NodePath("../Options/ScrollContainer/MarginContainer/SettingsContainer/KeybindsBtn")
 theme_type_variation = &"ButtonGreen"
 theme_override_font_sizes/font_size = 20
 text = "Close"

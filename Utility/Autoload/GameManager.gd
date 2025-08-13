@@ -7,8 +7,8 @@ extends Node
 func _ready():
     # get_window().unresizable = true
     # this is for these managers not being set to autoload
-    SettingsManager.init()
-    KeybindManager.init()
+    # SettingsManager.init()
+    # KeybindManager.init()
     pass
 
 
