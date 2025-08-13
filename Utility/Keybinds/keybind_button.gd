@@ -74,10 +74,11 @@ func _remap_action_to(event: InputEvent) -> void:
 
     var count: int = 0 if primary else 1
     KeybindManager.input_map[action][count] = new_event
-    if KeybindManager.input_map_keycodes[action].size() == 1:
-        KeybindManager.input_map_keycodes[action].append(null)
+    var keycodes := KeybindManager._get_keycodes_from_input_map()
+    if keycodes[action].size() == 1:
+        keycodes[action].append(null)
     if new_event != null:
-        KeybindManager.input_map_keycodes[action][count] = new_event.physical_keycode
+        keycodes[action][count] = new_event.physical_keycode
 
     InputMap.action_erase_events(action)
     for i in KeybindManager.input_map[action]:

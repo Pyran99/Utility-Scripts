@@ -2,7 +2,6 @@ extends RefCounted
 class_name KeybindManager
 
 #TODO controller inputs
-#TODO 2. create a local keycodes dictionary from input map instead of class keycodes var
 
 #-------------------------#
 # Add any input to show in keybind menu to DEFAULT_KEY_MAP. bool indicates if key can be rebound, otherwise show key as disabled.
@@ -30,13 +29,7 @@ const INPUT_KEYCODES_JSON_FILE := SavingManager.CONFIG_DIR + "keybinds.json"
 const INPUT_MAP_JSON_FILE := SavingManager.CONFIG_DIR + "keybinds_full.json"
 
 static var input_map: Dictionary
-static var input_map_keycodes: Dictionary
 
-static var config_input_map: Dictionary
-static var config_input_map_keycodes: Dictionary
-
-static var json_input_map: Dictionary
-static var json_input_map_keycodes: Dictionary
 
 # use ready if setting this to autoload
 # called from GameManager ready
@@ -82,7 +75,8 @@ static func can_use_key(action: String) -> bool:
 #region Config
 ## Save config file with only the keycodes for each action
 static func _save_input_keycodes_as_config() -> void:
-    SavingManager.save_as_config_in_file("Keybinds", input_map_keycodes, INPUT_KEYCODES_CONFIG_FILE)
+    var keycodes: Dictionary = _get_keycodes_from_input_map()
+    SavingManager.save_as_config_in_file("Keybinds", keycodes, INPUT_KEYCODES_CONFIG_FILE)
 
 
 static func _load_input_keycodes_from_config() -> void:
@@ -105,15 +99,14 @@ static func _load_input_map_from_config() -> void:
         _load_input_map_from_config()
         return
     input_map = data
-    _set_input_keycodes()
-    _add_events_to_input_map(input_map_keycodes)
+    _add_events_to_input_map(data)
 #endregion
 
 #region JSON
 ## Save json file with only the keycodes for each action
 static func _save_input_keycodes_json() -> void:
-    #TODO. 2
-    SavingManager.save_file_as_json_unencrypted(input_map_keycodes, INPUT_KEYCODES_JSON_FILE)
+    var keycodes: Dictionary = _get_keycodes_from_input_map()
+    SavingManager.save_file_as_json_unencrypted(keycodes, INPUT_KEYCODES_JSON_FILE)
 
 
 static func _load_input_keycodes_json() -> void:
@@ -154,8 +147,6 @@ static func _load_default_input_map() -> void:
             if input_map[action].size() == 1:
                 input_map[action].append(null)
                 
-    _set_input_keycodes()
-
 ## Converts keycodes from a dictionary to InputMap events. Only works with InputEventKey. Handles both config & json if data is in 'key': [keycodes] format
 static func _add_events_to_input_map(data: Dictionary) -> void:
     for action in data.keys():
@@ -175,10 +166,9 @@ static func _add_events_to_input_map(data: Dictionary) -> void:
                     continue
                 InputMap.action_add_event(action, input_map[action][i])
 
-    _set_input_keycodes()
 
-
-static func _set_input_keycodes() -> void:
+static func _get_keycodes_from_input_map() -> Dictionary:
+    var keycodes: Dictionary = {}
     for action in input_map:
         var codes: Array = []
         for _event in input_map[action]:
@@ -186,7 +176,9 @@ static func _set_input_keycodes() -> void:
                 continue
             codes.append(_event.physical_keycode)
 
-        input_map_keycodes[action] = codes
+        keycodes[action] = codes
+
+    return keycodes
 
 ## Converts JSON InputEventKey strings to InputMap events for each DEFAULT_KEY_MAP action. Only works with InputEventKey
 static func _convert_json_string_to_events(json_data: Dictionary) -> Dictionary:
@@ -202,7 +194,6 @@ static func _convert_json_string_to_events(json_data: Dictionary) -> Dictionary:
         for i in json_data[action].size():
             var event = null
             if json_data[action][i] == null:
-                # input_map_keycodes[key][i] = null
                 continue
             if json_data[action][i].begins_with("InputEventKey"):
                 json_data[action][i].replace("InputEventKey: keycode=", "")
@@ -216,4 +207,5 @@ static func _convert_json_string_to_events(json_data: Dictionary) -> Dictionary:
         keycodes[action] = codes
 
     return keycodes
+
 #endregion

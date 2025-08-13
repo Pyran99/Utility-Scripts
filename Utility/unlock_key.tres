@@ -1,8 +1,8 @@
-[gd_resource type="Resource" script_class="UnlockKey" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="UnlockKey" load_steps=2 format=3 uid="uid://yh1dgy1fqlkh"]
 
-[ext_resource type="Script" path="res://Utility/unlock_key.gd" id="1_6yfvs"]
+[ext_resource type="Script" uid="uid://dt887h5fq3pmy" path="res://Utility/unlock_key.gd" id="1_6yfvs"]
 
 [resource]
 script = ExtResource("1_6yfvs")
-encryption_key = PackedByteArray(227, 208, 199, 201, 229, 191, 140, 214, 250, 151, 146, 77, 124, 24, 48, 208, 177, 180, 48, 111, 126, 6, 229, 179, 128, 19, 132, 118, 66, 96, 27, 80)
+encryption_key = []
 metadata/_custom_type_script = "uid://dt887h5fq3pmy"
