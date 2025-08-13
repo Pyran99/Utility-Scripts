@@ -45,7 +45,7 @@ func _display_current_key() -> void:
             action_events = actions["events"]
     else:
         action_events = InputMap.action_get_events(action)
-    
+
     var current_key = ""
     if !action_events.is_empty():
         var action_number: int = 0
@@ -65,22 +65,27 @@ func _display_current_key() -> void:
 
 
 func _remap_action_to(event: InputEvent) -> void:
-    if KeybindManager.can_use_key(action):
-        if primary:
-            KeybindManager.keymaps[action][0] = event
-        else:
-            KeybindManager.keymaps[action][1] = event
-
-        InputMap.action_erase_events(action)
-        for i in KeybindManager.keymaps[action]:
-            if i == null:
-                continue
-            InputMap.action_add_event(action, i)
-
-        if event != null:
-            text = event.as_text()
-    
     button_pressed = false
+    if !KeybindManager.can_use_key(action):
+        return
+    var new_event = InputEventKey.new()
+    if event != null:
+        new_event.physical_keycode = event.physical_keycode
+
+    var count: int = 0 if primary else 1
+    KeybindManager.input_map[action][count] = new_event
+    if KeybindManager.input_map_keycodes[action].size() == 1:
+        KeybindManager.input_map_keycodes[action].append(null)
+    if new_event != null:
+        KeybindManager.input_map_keycodes[action][count] = new_event.physical_keycode
+
+    InputMap.action_erase_events(action)
+    for i in KeybindManager.input_map[action]:
+        if i == null:
+            continue
+        InputMap.action_add_event(action, i)
+
+    _display_current_key()
 
 
 func _reset_key_to_default() -> InputEvent:

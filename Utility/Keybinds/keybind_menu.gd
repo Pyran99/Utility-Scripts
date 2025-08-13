@@ -3,7 +3,7 @@ extends Control
 #-------------------------#
 # Requires KeybindManager
 # Requires KeybindActionContainer
-# Containers are created from KeybindManager keymaps
+# Containers are created from KeybindManager DEFAULT_KEY_MAP
 #-------------------------#
 
 
@@ -48,14 +48,14 @@ func store_all_action_containers() -> void:
 
 
 func _close_menu() -> void:
-    KeybindManager.save_keymap_encoded()
+    KeybindManager.save_input_map()
     hide()
     if previous_menu:
         previous_menu.show()
 
 
 func _create_actions_list() -> void:
-    for input_action: String in KeybindManager.keymaps.keys():
+    for input_action: String in KeybindManager.input_map.keys():
         var new_text: String = input_action.capitalize()
         var container: KeybindActionContainer = KEYBIND_CONTAINER.instantiate()
         controls.add_child(container)
@@ -75,7 +75,7 @@ func _on_back_btn_pressed() -> void:
 
 
 func _on_confirm_reset_pressed() -> void:
-    KeybindManager.reset_keymap()
+    KeybindManager.reset_input_map()
     for container in keybind_containers:
         for btn in container.get_buttons():
             btn._display_current_key()
