@@ -8,6 +8,7 @@ class_name OptionsMenu
 # GameManager with environment resource for bightness
 #-------------------------------------#
 
+
 signal settings_changed(section: String, data: Dictionary, save_file: String)
 
 @export var do_center_window: bool = false
@@ -118,45 +119,45 @@ func _set_saved_values() -> void:
     _set_toggles()
     update_audio_properties()
     check_scaler_options()
-    # brightness_slider.value = options["brightness"] if options.has("brightness") else 1.0
-    brightness_slider.value = options["brightness"]
-
-    _on_scaler_item_selected(options["scaler_mode"])
-    scaler_options.select(options["scaler_mode"])
+    # brightness_slider.value = options[Strings.BRIGHTNESS] if options.has(Strings.BRIGHTNESS) else 1.0
+    brightness_slider.value = options[Strings.BRIGHTNESS]
+    
+    _on_scaler_item_selected(options[Strings.SCALER_MODE])
+    scaler_options.select(options[Strings.SCALER_MODE])
     if get_viewport().scaling_3d_mode == Viewport.SCALING_3D_MODE_BILINEAR:
-        _on_scale_slider_value_changed(options["scaler_value"])
+        _on_scale_slider_value_changed(options[Strings.SCALER_VALUE])
     elif get_viewport().scaling_3d_mode == Viewport.SCALING_3D_MODE_FSR2:
-        _on_fsr_options_item_selected(options["fsr_selected"])
+        _on_fsr_options_item_selected(options[Strings.FSR_SELECTED])
 
     match get_tree().root.mode:
         Window.MODE_WINDOWED:
-            _on_resolution_btn_item_selected(options["resolution_index"])
-            resolution_btn.selected = options["resolution_index"]
+            _on_resolution_btn_item_selected(options[Strings.RESOLUTION_INDEX])
+            resolution_btn.selected = options[Strings.RESOLUTION_INDEX]
     
 ## Set values from saved settings visually
 func _set_visual_values() -> void:
-    fullscreen_btn.set_pressed_no_signal(options["fullscreen"])
+    fullscreen_btn.set_pressed_no_signal(options[Strings.FULLSCREEN])
     if !fullscreen_btn.button_pressed:
-        maximize_btn.set_pressed_no_signal(options["maximized"])
+        maximize_btn.set_pressed_no_signal(options[Strings.MAXIMIZED])
     else:
         maximize_btn.set_pressed_no_signal(false)
         
-    resolution_btn.selected = options["resolution_index"]
-    vsync_btn.set_pressed_no_signal(options["vsync"])
-    brightness_slider.set_value_no_signal(options["brightness"])
-    scaler_options.selected = options["scaler_mode"]
-    scale_slider.set_value_no_signal(options["scaler_value"])
-    fsr_options.selected = options["fsr_selected"]
+    resolution_btn.selected = options[Strings.RESOLUTION_INDEX]
+    vsync_btn.set_pressed_no_signal(options[Strings.VSYNC])
+    brightness_slider.set_value_no_signal(options[Strings.BRIGHTNESS])
+    scaler_options.selected = options[Strings.SCALER_MODE]
+    scale_slider.set_value_no_signal(options[Strings.SCALER_VALUE])
+    fsr_options.selected = options[Strings.FSR_SELECTED]
     update_audio_properties()
     check_scaler_options()
     _set_window_mode_states(get_window().mode)
 
 
 func _set_toggles():
-    vsync_btn.button_pressed = options["vsync"]
-    fullscreen_btn.button_pressed = options["fullscreen"]
+    vsync_btn.button_pressed = options[Strings.VSYNC]
+    fullscreen_btn.button_pressed = options[Strings.FULLSCREEN]
     if !fullscreen_btn.button_pressed:
-        maximize_btn.button_pressed = options["maximized"]
+        maximize_btn.button_pressed = options[Strings.MAXIMIZED]
     else:
         maximize_btn.set_pressed_no_signal(false)
 
@@ -177,30 +178,30 @@ func _close_menu() -> void:
 
 #region Audio------------------------------------------
 func update_audio_properties() -> void:
-    master_slider.value = options["master_volume"] if options.has("master_volume") else 0.5
-    music_slider.value = options["music_volume"] if options.has("music_volume") else 0.5
-    sfx_slider.value = options["sfx_volume"] if options.has("sfx_volume") else 0.5
-    mute_btn.button_pressed = options["mute"] if options.has("mute") else false
+    master_slider.value = options[Strings.MASTER_VOLUME] if options.has(Strings.MASTER_VOLUME) else 0.5
+    music_slider.value = options[Strings.MUSIC_VOLUME] if options.has(Strings.MUSIC_VOLUME) else 0.5
+    sfx_slider.value = options[Strings.SFX_VOLUME] if options.has(Strings.SFX_VOLUME) else 0.5
+    mute_btn.button_pressed = options[Strings.MUTE] if options.has(Strings.MUTE) else false
 
 
 func _on_mute_btn_toggled(toggled_on: bool) -> void:
-    options["mute"] = toggled_on
+    options[Strings.MUTE] = toggled_on
     AudioManager.mute_volume(toggled_on)
 
 
 func _on_master_slider_value_changed(value: float) -> void:
     AudioManager.set_master_volume(value)
-    options["master_volume"] = AudioManager.master_volume
+    options[Strings.MASTER_VOLUME] = AudioManager.master_volume
 
 
 func _on_music_slider_value_changed(value: float) -> void:
     AudioManager.set_music_volume(value)
-    options["music_volume"] = AudioManager.music_volume
+    options[Strings.MUSIC_VOLUME] = AudioManager.music_volume
 
 
 func _on_sfx_slider_value_changed(value: float) -> void:
     AudioManager.set_sfx_volume(value)
-    options["sfx_volume"] = AudioManager.sfx_volume
+    options[Strings.SFX_VOLUME] = AudioManager.sfx_volume
 #endregion
 
 
@@ -216,17 +217,17 @@ func _set_resolution_text() -> void:
 
 func _set_window_mode() -> void:
     var window_mode = DisplayServer.WINDOW_MODE_WINDOWED
-    if options["fullscreen"]:
+    if options[Strings.FULLSCREEN]:
         window_mode = DisplayServer.WINDOW_MODE_FULLSCREEN
     DisplayServer.window_set_mode(window_mode)
 
 ## Resize window if not fullscreen
 func _resize_window() -> void:
-    if options["fullscreen"]:
+    if options[Strings.FULLSCREEN]:
         return
 
-    # if options.has("width") and options.has("height"):
-    var window_size = Vector2i(options["width"], options["height"])
+    # if options.has(Strings.WIDTH) and options.has(Strings.HEIGHT):
+    var window_size = Vector2i(options[Strings.WIDTH], options[Strings.HEIGHT])
     # scales the game window
     get_tree().root.size = window_size
     # scales the content within the window
@@ -238,7 +239,7 @@ func _center_window() -> void:
     if !do_center_window:
         return
 
-    var window_size = Vector2i(options["width"], options["height"])
+    var window_size = Vector2i(options[Strings.WIDTH], options[Strings.HEIGHT])
     var current_monitor = DisplayServer.get_keyboard_focus_screen()
     var screen_size := DisplayServer.screen_get_size(current_monitor)
     var screen_pos := DisplayServer.screen_get_position(current_monitor)
@@ -253,13 +254,13 @@ func _add_resolutions_to_button() -> void:
     var idx: int = 0
     for res in SettingsManager.RESOLUTIONS:
         # only add options that are smaller than the screen
-        if res["width"] > screen_size.x and res["height"] > screen_size.y:
+        if res[Strings.WIDTH] > screen_size.x and res[Strings.HEIGHT] > screen_size.y:
             continue
 
-        resolution_btn.add_item("%s x %s" % [res["width"], res["height"]])
-        if options.has("width") and options.has("height"):
+        resolution_btn.add_item("%s x %s" % [res[Strings.WIDTH], res[Strings.HEIGHT]])
+        if options.has(Strings.WIDTH) and options.has(Strings.HEIGHT):
             # select the saved resolution
-            if res["width"] == options["width"] and res["height"] == options["height"]:
+            if res[Strings.WIDTH] == options[Strings.WIDTH] and res[Strings.HEIGHT] == options[Strings.HEIGHT]:
                 resolution_btn.select(idx)
 
         idx += 1
@@ -268,17 +269,17 @@ func _add_resolutions_to_button() -> void:
 func _on_resolution_btn_item_selected(index: int) -> void:
     var value = clampi(index, 0, SettingsManager.RESOLUTIONS.size() - 1)
     var _size = SettingsManager.RESOLUTIONS[value]
-    options["resolution_index"] = value
-    options["width"] = _size["width"]
-    options["height"] = _size["height"]
-    last_selected_resolution = Vector2i(_size["width"], _size["height"])
+    options[Strings.RESOLUTION_INDEX] = value
+    options[Strings.WIDTH] = _size[Strings.WIDTH]
+    options[Strings.HEIGHT] = _size[Strings.HEIGHT]
+    last_selected_resolution = Vector2i(_size[Strings.WIDTH], _size[Strings.HEIGHT])
     window_position = get_window().position
     _resize_window()
     _set_resolution_text()
 
 
 func _on_fullscreen_btn_toggled(toggled_on: bool) -> void:
-    options["fullscreen"] = toggled_on
+    options[Strings.FULLSCREEN] = toggled_on
     resolution_btn.disabled = toggled_on
     maximize_btn.disabled = toggled_on
     maximize_btn.set_pressed_no_signal(false)
@@ -290,7 +291,7 @@ func _on_fullscreen_btn_toggled(toggled_on: bool) -> void:
 
 func _on_maximize_btn_toggled(toggled_on: bool) -> void:
     var window = get_window()
-    options["maximized"] = toggled_on
+    options[Strings.MAXIMIZED] = toggled_on
     resolution_btn.disabled = toggled_on
     if window.mode == Window.MODE_FULLSCREEN:
         # button shouldnt be active
@@ -319,21 +320,21 @@ func _on_window_size_changed() -> void:
 func _set_window_mode_states(mode: int) -> void:
     match mode:
         Window.MODE_FULLSCREEN:
-            options["fullscreen"] = true
-            options["maximized"] = false
+            options[Strings.FULLSCREEN] = true
+            options[Strings.MAXIMIZED] = false
             resolution_btn.disabled = true
             maximize_btn.disabled = true
             maximize_btn.set_pressed_no_signal(false)
             fullscreen_btn.set_pressed_no_signal(true)
         Window.MODE_MAXIMIZED:
-            options["maximized"] = true
-            options["fullscreen"] = false
+            options[Strings.MAXIMIZED] = true
+            options[Strings.FULLSCREEN] = false
             resolution_btn.disabled = true
             maximize_btn.set_pressed_no_signal(true)
             fullscreen_btn.set_pressed_no_signal(false)
         Window.MODE_WINDOWED:
-            options["maximized"] = false
-            options["fullscreen"] = false
+            options[Strings.MAXIMIZED] = false
+            options[Strings.FULLSCREEN] = false
             resolution_btn.disabled = false
             maximize_btn.set_pressed_no_signal(false)
             fullscreen_btn.set_pressed_no_signal(false)
@@ -358,7 +359,7 @@ func check_scaler_options() -> void:
 
 
 func _on_scale_slider_value_changed(value: float) -> void:
-    options["scaler_value"] = value
+    options[Strings.SCALER_VALUE] = value
     var resolution_scale = value / 100.00
     scale_text.text = str(value) + "%"
     #--------------for showing resolution in text with scale %--------------#
@@ -369,13 +370,13 @@ func _on_scale_slider_value_changed(value: float) -> void:
 
 func _on_scaler_item_selected(index: int) -> void:
     var viewport = get_viewport()
-    options["scaler_mode"] = index
+    options[Strings.SCALER_MODE] = index
     match index:
         1:
             viewport.scaling_3d_mode = Viewport.SCALING_3D_MODE_BILINEAR
             scale_slider.editable = true
             fsr_container.hide()
-            scale_slider.value = options["scaler_value"]
+            scale_slider.value = options[Strings.SCALER_VALUE]
         2:
             if ProjectSettings.get_setting("rendering/renderer/rendering_method") == "gl_compatibility":
                 _on_scaler_item_selected(1)
@@ -383,12 +384,12 @@ func _on_scaler_item_selected(index: int) -> void:
             viewport.scaling_3d_mode = Viewport.SCALING_3D_MODE_FSR2
             scale_slider.editable = false
             fsr_container.show()
-            _on_fsr_options_item_selected(options["fsr_selected"])
-            fsr_options.select(options["fsr_selected"])
+            _on_fsr_options_item_selected(options[Strings.FSR_SELECTED])
+            fsr_options.select(options[Strings.FSR_SELECTED])
 
 ## default values when using amd fsr scaling
 func _on_fsr_options_item_selected(index: int) -> void:
-    options["fsr_selected"] = index
+    options[Strings.FSR_SELECTED] = index
     match index:
         1:
             scale_slider.value = 50.00
@@ -410,9 +411,9 @@ func reload_language_options():
     var languages = SettingsManager.locale_list
     for language in languages:
         language_btn.add_icon_item(language["flag"], tr(language["code"]))
-        if !options.has("locale"):
-            options["locale"] = "en"
-        if language["locale"] == options["locale"]:
+        if !options.has(Strings.LOCALE):
+            options[Strings.LOCALE] = "en"
+        if language[Strings.LOCALE] == options[Strings.LOCALE]:
             language_btn.select(idx)
         # var test = TranslationServer.get_loaded_locales()
         # print_debug(test)
@@ -421,8 +422,8 @@ func reload_language_options():
 
 func _on_language_btn_item_selected(index: int) -> void:
     var language = SettingsManager.locale_list[index]
-    options["locale"] = language["locale"]
-    TranslationServer.set_locale(options["locale"])
+    options[Strings.LOCALE] = language[Strings.LOCALE]
+    TranslationServer.set_locale(options[Strings.LOCALE])
     reload_language_options()
 
 
@@ -442,14 +443,14 @@ func _on_keybind_btn_pressed() -> void:
 
 func _on_gamma_slider_value_changed(value: float) -> void:
     value = clampf(value, 0.5, 2.0)
-    options["brightness"] = value
+    options[Strings.BRIGHTNESS] = value
     brightness_value.text = str("%2.2f" % value)
     if GameManager.get("environment_res") != null:
         GameManager.environment_res.adjustment_brightness = value
 
 
 func _on_vsync_btn_toggled(toggled_on: bool) -> void:
-    options["vsync"] = toggled_on
+    options[Strings.VSYNC] = toggled_on
     if toggled_on:
         DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
     else:
