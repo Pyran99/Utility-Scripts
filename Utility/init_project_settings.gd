@@ -5,6 +5,7 @@ extends Node
 
 
 func _init() -> void:
+    # Create autoloads
     if !ProjectSettings.has_setting("autoload/GameManager"):
         ProjectSettings.set_setting("autoload/GameManager", "res://Utility/Autoload/GameManager.gd")
     if !ProjectSettings.has_setting("autoload/SceneManager"):

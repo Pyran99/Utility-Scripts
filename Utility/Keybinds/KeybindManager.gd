@@ -22,8 +22,8 @@ const DEFAULT_KEY_MAP = {
     "jump": true,
     "pause": false,
 }
-const INPUT_KEYCODES_CONFIG_FILE := SavingManager.CONFIG_DIR + "keybinds.cfg"
-const INPUT_MAP_CONFIG_FILE := SavingManager.CONFIG_DIR + "keybinds_full.cfg"
+const INPUT_KEYCODES_CONFIG_FILE := SavingManager.CONFIG_DIR + "keybinds_keycodes.cfg"
+const INPUT_MAP_CONFIG_FILE := SavingManager.CONFIG_DIR + "keybinds.cfg"
 
 const INPUT_KEYCODES_JSON_FILE := SavingManager.CONFIG_DIR + "keybinds.json"
 const INPUT_MAP_JSON_FILE := SavingManager.CONFIG_DIR + "keybinds_full.json"
@@ -43,17 +43,17 @@ static func init() -> void:
 
 
 static func save_input_map() -> void:
-    _save_input_keycodes_as_config()
-    # _save_input_map_as_config()
-    # _save_input_keycodes_json()
+    _save_input_map_as_config()
+    # _save_input_keycodes_as_config()
     # _save_input_map_json()
+    # _save_input_keycodes_json()
 
 
 static func load_input_map() -> void:
-    _load_input_keycodes_from_config()
-    # _load_input_map_from_config()
-    # _load_input_keycodes_json()
+    _load_input_map_from_config()
+    # _load_input_keycodes_from_config()
     # _load_input_map_json()
+    # _load_input_keycodes_json()
 
 
 static func reset_input_map() -> void:
@@ -89,11 +89,19 @@ static func _load_input_keycodes_from_config() -> void:
 
 ## Save config file with the InputEventKey as objects for each action
 static func _save_input_map_as_config() -> void:
-    SavingManager.save_as_config_in_file("Keybinds", input_map, INPUT_MAP_CONFIG_FILE)
+    # SavingManager.save_as_config_in_file("Keybinds", input_map, INPUT_MAP_CONFIG_FILE)
+    # SavingManager.save_as_config("Keybinds", input_map, INPUT_MAP_CONFIG_FILE)
+    SavingManager.save_as_config("Keybinds", input_map, SavingManager.SETTINGS_FILE)
 
 
 static func _load_input_map_from_config() -> void:
-    var data := SavingManager.load_from_config_in_file("Keybinds", INPUT_MAP_CONFIG_FILE)
+    # var data := SavingManager.load_from_config_in_file("Keybinds", INPUT_MAP_CONFIG_FILE)
+    # var data := SavingManager.load_from_config("Keybinds", INPUT_MAP_CONFIG_FILE)
+    # var data := SavingManager.load_from_config("Keybinds", SavingManager.SETTINGS_FILE)
+    var data := SavingManager.load_config_data(SavingManager.SETTINGS_FILE)
+    if data.has("Keybinds"):
+        data = data["Keybinds"]
+    print_debug("keybinds data:\n", data)
     if data == {}:
         reset_input_map()
         _load_input_map_from_config()
@@ -146,9 +154,11 @@ static func _load_default_input_map() -> void:
             # add empty option if not defined in input map. Some actions may have a secondary option without being predefined in InputMap.
             if input_map[action].size() == 1:
                 input_map[action].append(null)
-                
+
 ## Converts keycodes from a dictionary to InputMap events. Only works with InputEventKey. Handles both config & json if data is in 'key': [keycodes] format
 static func _add_events_to_input_map(data: Dictionary) -> void:
+    var keycodes: Dictionary = _get_keycodes_from_input_map()
+    data = keycodes
     for action in data.keys():
         if DEFAULT_KEY_MAP.has(action):
             var event
@@ -189,7 +199,7 @@ static func _convert_json_string_to_events(json_data: Dictionary) -> Dictionary:
         while json_data[action].size() < 2:
             # make sure there are 2 values
             json_data[action].append(null)
-        
+
         var codes: Array = []
         for i in json_data[action].size():
             var event = null

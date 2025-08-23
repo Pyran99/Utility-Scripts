@@ -23,15 +23,19 @@ func _ready():
 
 
 func _load_options() -> void:
+    # var data := SavingManager.load_config_data(SavingManager.SETTINGS_FILE)
+    # if data.has("Settings"):
+    #     options = data["Settings"]
+    # print_debug("audio settings data:\n", options)
     options = SavingManager.load_from_config("Settings", SavingManager.SETTINGS_FILE)
-    if options.has("mute"):
-        mute_volume(options["mute"])
-    if options.has("master_volume") and MASTER_BUS != -1:
-        set_master_volume(options["master_volume"])
-    if options.has("music_volume") and MUSIC_BUS != -1:
-        set_music_volume(options["music_volume"])
-    if options.has("sfx_volume") and SFX_BUS != -1:
-        set_sfx_volume(options["sfx_volume"])
+    if options.has(Strings.MUTE):
+        mute_volume(options[Strings.MUTE])
+    if options.has(Strings.MASTER_VOLUME) and MASTER_BUS != -1:
+        set_master_volume(options[Strings.MASTER_VOLUME])
+    if options.has(Strings.MUSIC_VOLUME) and MUSIC_BUS != -1:
+        set_music_volume(options[Strings.MUSIC_VOLUME])
+    if options.has(Strings.SFX_VOLUME) and SFX_BUS != -1:
+        set_sfx_volume(options[Strings.SFX_VOLUME])
 
 
 func mute_volume(enabled: bool):

@@ -112,7 +112,7 @@ func _set_saved_values() -> void:
             var resolution: int = 0
             # get the index of 1280x720 to use as default
             for i in range(SettingsManager.RESOLUTIONS.size()):
-                if SettingsManager.RESOLUTIONS[i]["width"] == 1280 and SettingsManager.RESOLUTIONS[i]["height"] == 720:
+                if SettingsManager.RESOLUTIONS[i]["resolution_width"] == 1280 and SettingsManager.RESOLUTIONS[i]["resolution_height"] == 720:
                     resolution = i
                     break
 
@@ -184,15 +184,15 @@ func set_window_mode() -> void:
 
 func resize_window() -> void:
     if !options.has("fullscreen") or !options["fullscreen"]:
-        if options.has("width") and options.has("height"):
-            var window_size = Vector2i(options["width"], options["height"])
+        if options.has("resolution_width") and options.has("resolution_height"):
+            var window_size = Vector2i(options["resolution_width"], options["resolution_height"])
             get_tree().root.size = window_size
             if do_center_window:
                 center_window()
 
 func center_window() -> void:
-    if options.has("width") and options.has("height"):
-        var window_size = Vector2i(options["width"], options["height"])
+    if options.has("resolution_width") and options.has("resolution_height"):
+        var window_size = Vector2i(options["resolution_width"], options["resolution_height"])
         var screen_size = DisplayServer.screen_get_size()
         get_tree().root.position = Vector2i((screen_size.x - window_size.x) / 2, (screen_size.y - window_size.y) / 2)
 
@@ -202,20 +202,20 @@ func _add_resolutions_to_button() -> void:
     var idx: int = 0
     for res in SettingsManager.RESOLUTIONS:
         # only add options that are smaller than the screen
-        if res["width"] <= screen_size.x and res["height"] <= screen_size.y:
-            resolution_btn.add_item("%s x %s" % [res["width"], res["height"]])
-            if options.has("width") and options.has("height"):
+        if res["resolution_width"] <= screen_size.x and res["resolution_height"] <= screen_size.y:
+            resolution_btn.add_item("%s x %s" % [res["resolution_width"], res["resolution_height"]])
+            if options.has("resolution_width") and options.has("resolution_height"):
                 # select the saved resolution
-                if res["width"] == options["width"] and res["height"] == options["height"]:
+                if res["resolution_width"] == options["resolution_width"] and res["resolution_height"] == options["resolution_height"]:
                     resolution_btn.select(idx)
         idx += 1
 
 func _on_resolution_btn_item_selected(index: int) -> void:
     var _size = SettingsManager.RESOLUTIONS[index]
     options["resolution_index"] = index
-    options["width"] = _size["width"]
-    options["height"] = _size["height"]
-    last_selected_resolution = Vector2i(_size["width"], _size["height"])
+    options["resolution_width"] = _size["resolution_width"]
+    options["resolution_height"] = _size["resolution_height"]
+    last_selected_resolution = Vector2i(_size["resolution_width"], _size["resolution_height"])
     window_position = get_window().position
     resize_window()
     set_resolution_text()

@@ -112,6 +112,11 @@ func save_settings() -> void:
 
 ## Returns SavingManager config Settings
 func load_settings() -> Dictionary:
+    # var data := SavingManager.load_config_data(SavingManager.SETTINGS_FILE)
+    # if data.has("Settings"):
+    #     data = data["Settings"]
+    # print_debug("settings data:\n", data)
+    # return data
     return SavingManager.load_from_config("Settings", SavingManager.SETTINGS_FILE)
 
 ## Set values from saved settings. Calls signals from value changes
@@ -220,6 +225,7 @@ func _set_window_mode() -> void:
     if options[Strings.FULLSCREEN]:
         window_mode = DisplayServer.WINDOW_MODE_FULLSCREEN
     DisplayServer.window_set_mode(window_mode)
+    # ProjectSettings.set_setting("display/window/size/window_mode", window_mode)
 
 ## Resize window if not fullscreen
 func _resize_window() -> void:
