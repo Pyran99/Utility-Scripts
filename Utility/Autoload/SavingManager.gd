@@ -28,6 +28,8 @@ const MAX_SLOTS = 3
 const KEY_PATH = "user://unlock.bin"
 const SAVE_GROUP = "savable"
 
+signal save_settings_data
+
 var settings_dict: Dictionary = {}
 
 # const KEY_RESOURCE_PATH = "res://Utility/unlock_key.tres"
@@ -41,7 +43,8 @@ func _ready() -> void:
         DirAccess.make_dir_recursive_absolute(CONFIG_DIR)
 
     _load_or_generate_key()
-    SettingsManager.init()
+    load_config_data() # TODO
+    # SettingsManager.init()
     KeybindManager.init()
 
 
@@ -252,12 +255,7 @@ func save_as_config_in_file(section: String, data: Dictionary, save_file: String
 
 ## Loads the config 'section' data from 'save file'
 func load_from_config_in_file(section: String, save_file: String) -> Dictionary:
-    if !FileAccess.file_exists(save_file):
-        print_debug("File did not exist: %s" % save_file)
-        var _file = FileAccess.open(save_file, FileAccess.WRITE)
-        if !_verify_file(_file):
-            return {}
-        _file.close()
+    _create_and_verify_file(save_file)
 
     var config := ConfigFile.new()
     var err := config.load(save_file)
@@ -281,12 +279,7 @@ func save_as_config(section: String, data: Dictionary, save_file: String) -> voi
 
 ## loads all sections to settings_dict & returns section data
 func load_from_config(section: String, save_file: String) -> Dictionary:
-    if !FileAccess.file_exists(save_file):
-        print_debug("File did not exist: %s" % save_file)
-        var _file = FileAccess.open(save_file, FileAccess.WRITE)
-        if !_verify_file(_file):
-            return {}
-        _file.close()
+    _create_and_verify_file(save_file)
 
     var config = ConfigFile.new()
     var err = config.load(save_file)
@@ -298,6 +291,36 @@ func load_from_config(section: String, save_file: String) -> Dictionary:
             result[i] = config.get_value(section, i)
         settings_dict[section] = result
     return result
+
+
+func save_config_data() -> void:
+    # sends signal that managers will put data into settings dict
+    save_settings_data.emit() # TODO-2 manager send data to settings dict
+    print_debug("Saved config data:\n%s\n" % settings_dict)
+    var config = ConfigFile.new()
+    for section in settings_dict:
+        for key in settings_dict[section]:
+            config.set_value(section, key, settings_dict[section][key])
+
+    config.save(CONFIG_DIR + "test.cfg")
+
+
+func load_config_data() -> void:
+    var path = CONFIG_DIR + "test.cfg"
+    _create_and_verify_file(path)
+    var config := ConfigFile.new()
+    var err := config.load(path)
+    if err != OK:
+        push_error("Failed to config load: %s" % path)
+        return
+    for section in config.get_sections():
+        if !settings_dict.has(section):
+            settings_dict[section] = {}
+        for key in config.get_section_keys(section):
+            settings_dict[section][key] = config.get_value(section, key)
+
+    print_debug(SettingsManager.settings)
+
 
 #endregion
 
@@ -405,6 +428,15 @@ func load_file_as_json_with_password(data: Dictionary, save_file: String, passwo
 
 #endregion
 
+## if save file does not exist, create it
+func _create_and_verify_file(save_file: String) -> bool:
+    if FileAccess.file_exists(save_file):
+        return true
+    var file = FileAccess.open(save_file, FileAccess.WRITE)
+    if !_verify_file(file):
+        return false
+    file.close()
+    return true
 
 #region encoded as binary ----------------------------------------
 ##TODO work is needed for decoding.

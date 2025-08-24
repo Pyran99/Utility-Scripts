@@ -23,10 +23,6 @@ func _ready():
 
 
 func _load_options() -> void:
-    # var data := SavingManager.load_config_data(SavingManager.SETTINGS_FILE)
-    # if data.has("Settings"):
-    #     options = data["Settings"]
-    # print_debug("audio settings data:\n", options)
     options = SavingManager.load_from_config("Settings", SavingManager.SETTINGS_FILE)
     if options.has(Strings.MUTE):
         mute_volume(options[Strings.MUTE])

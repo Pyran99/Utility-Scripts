@@ -13,7 +13,7 @@ class_name KeybindManager
 # SavingManager creates missing files
 #-------------------------#
 
-## 'action': can_rebind
+## 'action': can_rebind || for any keys that will show in keybind menu
 const DEFAULT_KEY_MAP = {
     "move_forward": true,
     "move_backward": true,
@@ -34,8 +34,13 @@ static var input_map: Dictionary
 # use ready if setting this to autoload
 # called from GameManager ready
 static func init() -> void:
+    SavingManager.save_settings_data.connect(save_keybinds) # TODO
     _load_default_input_map()
     load_input_map()
+
+
+static func save_keybinds() -> void:
+    SavingManager.settings_dict["Keybinds"] = input_map
 
 
 # func _ready():
@@ -89,19 +94,14 @@ static func _load_input_keycodes_from_config() -> void:
 
 ## Save config file with the InputEventKey as objects for each action
 static func _save_input_map_as_config() -> void:
-    # SavingManager.save_as_config_in_file("Keybinds", input_map, INPUT_MAP_CONFIG_FILE)
-    # SavingManager.save_as_config("Keybinds", input_map, INPUT_MAP_CONFIG_FILE)
-    SavingManager.save_as_config("Keybinds", input_map, SavingManager.SETTINGS_FILE)
+    SavingManager.save_as_config_in_file("Keybinds", input_map, INPUT_MAP_CONFIG_FILE)
 
 
 static func _load_input_map_from_config() -> void:
-    # var data := SavingManager.load_from_config_in_file("Keybinds", INPUT_MAP_CONFIG_FILE)
-    # var data := SavingManager.load_from_config("Keybinds", INPUT_MAP_CONFIG_FILE)
-    # var data := SavingManager.load_from_config("Keybinds", SavingManager.SETTINGS_FILE)
-    var data := SavingManager.load_config_data(SavingManager.SETTINGS_FILE)
+    var data := SavingManager.load_from_config_in_file("Keybinds", INPUT_MAP_CONFIG_FILE)
     if data.has("Keybinds"):
         data = data["Keybinds"]
-    print_debug("keybinds data:\n", data)
+    # print_debug("keybinds data:\n", data)
     if data == {}:
         reset_input_map()
         _load_input_map_from_config()

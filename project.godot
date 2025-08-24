@@ -20,10 +20,11 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-GameManager="*res://Utility/Autoload/GameManager.gd"
-SceneManager="*res://Utility/Autoload/SceneManager.gd"
 SavingManager="*res://Utility/Autoload/SavingManager.gd"
 AudioManager="*res://Utility/Autoload/AudioManager.gd"
+SettingsManager="*res://Utility/Autoload/SettingsManager.gd"
+GameManager="*res://Utility/Autoload/GameManager.gd"
+SceneManager="*res://Utility/Autoload/SceneManager.gd"
 
 [debug]
 
