@@ -23,7 +23,7 @@ func _ready():
 
 
 func _load_options() -> void:
-    options = SavingManager.load_from_config("Settings", SavingManager.SETTINGS_FILE)
+    options = SavingManager.load_from_config(Strings.SETTINGS, SavingManager.SETTINGS_FILE)
     if options.has(Strings.MUTE):
         mute_volume(options[Strings.MUTE])
     if options.has(Strings.MASTER_VOLUME) and MASTER_BUS != -1:

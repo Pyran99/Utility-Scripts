@@ -48,14 +48,13 @@ static var locale_list = [
 
 ## If the game has already loaded, options should only need to set values visually
 static var settings_loaded: bool = false
-
 static var settings: Dictionary
 
 ## from GameManager
 static func init():
     player_fullscreen_size = DisplayServer.screen_get_size()
     player_windowed_size = DisplayServer.screen_get_usable_rect().size
-    SavingManager.save_settings_data.connect(save_settings) # TODO-3
+    # SavingManager.save_settings_data.connect(save_settings) # TODO-3
 
 
 func _ready():
@@ -64,7 +63,7 @@ func _ready():
 
 
 static func save_settings() -> void:
-    SavingManager.settings_dict["Settings"] = settings
+    SavingManager.settings_dict[Strings.SETTINGS] = settings
 
 
 func check_option_settings(options: Dictionary) -> Dictionary:
@@ -98,17 +97,17 @@ static func set_locale():
 # func save_settings() -> void:
 #     if settings.hash() == original_options.hash():
 #         return
-#     settings_changed.emit("Settings", settings, SavingManager.SETTINGS_FILE)
+#     settings_changed.emit(Strings.SETTINGS, settings, SavingManager.SETTINGS_FILE)
 #     print("Settings saved")
 
 #     SavingManager.save_config_data() # TODO-1
 
 ## Returns SavingManager config Settings
 func load_settings() -> void:
-    settings = SavingManager.load_from_config("Settings", SavingManager.SETTINGS_FILE)
+    settings = SavingManager.load_from_config(Strings.SETTINGS, SavingManager.SETTINGS_FILE)
     if settings.is_empty():
         settings = DEFAULT_SETTINGS.duplicate()
-        SavingManager.save_as_config("Settings", settings, SavingManager.SETTINGS_FILE)
+        SavingManager.save_as_config(Strings.SETTINGS, settings, SavingManager.SETTINGS_FILE)
     else:
         settings = check_option_settings(settings)
     

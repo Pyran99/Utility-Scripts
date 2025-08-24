@@ -55,7 +55,8 @@ func _close_menu() -> void:
 
 
 func _create_actions_list() -> void:
-    for input_action: String in KeybindManager.input_map.keys():
+    # for input_action: String in KeybindManager.input_map.keys():
+    for input_action: String in SavingManager.settings_dict[Strings.KEYBINDS].keys():
         var new_text: String = input_action.capitalize()
         var container: KeybindActionContainer = KEYBIND_CONTAINER.instantiate()
         controls.add_child(container)

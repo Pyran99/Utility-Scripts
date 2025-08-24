@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://f2ncpeqnf4c8"]
+[gd_scene load_steps=5 format=3 uid="uid://f2ncpeqnf4c8"]
 
 [ext_resource type="Script" uid="uid://bmtkmexyp8nyl" path="res://Utility/main_menu.gd" id="1_cmdud"]
+[ext_resource type="PackedScene" uid="uid://bhc01pr3kyhym" path="res://Utility/Options/options_menu.tscn" id="2_a8idn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_osna4"]
 bg_color = Color(0, 0, 0, 0)
@@ -11,7 +12,7 @@ shadow_size = 20
 shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(-4, 5)
 
-[node name="MainMenu" type="Control" node_paths=PackedStringArray("background", "menu_window")]
+[node name="MainMenu" type="Control" node_paths=PackedStringArray("background", "menu_window", "options_window")]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -22,6 +23,7 @@ grow_vertical = 2
 script = ExtResource("1_cmdud")
 background = NodePath("Background")
 menu_window = NodePath("Menu")
+options_window = NodePath("OptionsMenu")
 
 [node name="ColorRect2" type="ColorRect" parent="."]
 layout_mode = 1
@@ -128,6 +130,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 1
+
+[node name="OptionsMenu" parent="." instance=ExtResource("2_a8idn")]
+layout_mode = 1
 
 [connection signal="visibility_changed" from="Menu" to="." method="_on_menu_visibility_changed"]
 [connection signal="pressed" from="Menu/VBoxContainer/StartBtn" to="." method="_on_start_btn_pressed"]

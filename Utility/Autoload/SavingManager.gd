@@ -83,6 +83,14 @@ func _load_or_generate_key() -> void:
 
     # return new_key
 
+func _verify_file(_file: FileAccess) -> bool:
+    if _file == null:
+        push_error("Failed to open file: %s" % FileAccess.get_open_error())
+        return false
+    return true
+
+
+#region game saves encrypted TODO----------------------------------------
 
 func get_save_path(slot: int) -> String:
     assert(slot >= 0 and slot < MAX_SLOTS, "invalid save slot")
@@ -105,14 +113,6 @@ func get_all_save_slots_info() -> Array:
     return slots
 
 
-func _verify_file(_file: FileAccess) -> bool:
-    if _file == null:
-        push_error("Failed to open file: %s" % FileAccess.get_open_error())
-        return false
-    return true
-
-
-#region game saves encrypted TODO----------------------------------------
 func save_game_encrypted_json(slot: int) -> bool:
     assert(slot >= 0 and slot < MAX_SLOTS, "invalid save slot")
     var save_data = {}
@@ -253,7 +253,7 @@ func save_as_config_in_file(section: String, data: Dictionary, save_file: String
         config.set_value(section, key, data[key])
     config.save(save_file)
 
-## Loads the config 'section' data from 'save file'
+## Loads the config 'section' data from 'save file'. This file will only have 1 section
 func load_from_config_in_file(section: String, save_file: String) -> Dictionary:
     _create_and_verify_file(save_file)
 
@@ -268,7 +268,7 @@ func load_from_config_in_file(section: String, save_file: String) -> Dictionary:
             result[i] = config.get_value(section, i)
     return result
 
-## This func adds data to section in settings_dict, intended if saving all data in 1 file. Requires all data to be in settings_dict otherwise it gets erased
+## Set 'data' to 'section' in settings_dict. Requires all data to be in settings_dict otherwise it gets erased
 func save_as_config(section: String, data: Dictionary, save_file: String) -> void:
     var config = ConfigFile.new()
     settings_dict[section] = data
@@ -302,7 +302,7 @@ func save_config_data() -> void:
         for key in settings_dict[section]:
             config.set_value(section, key, settings_dict[section][key])
 
-    config.save(CONFIG_DIR + "test.cfg")
+    config.save(CONFIG_DIR + "test.cfg") # TODO test file
 
 
 func load_config_data() -> void:

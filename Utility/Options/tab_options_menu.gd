@@ -46,10 +46,10 @@ var options: Dictionary = {}
 
 func _ready():
     # options = SettingsManager.read_options() # encoded values
-    options = SavingManager.load_from_config("Settings", SavingManager.CONFIG_SAVE_FILE) # file editable
+    options = SavingManager.load_from_config(Strings.SETTINGS, SavingManager.CONFIG_SAVE_FILE) # file editable
     if options.is_empty():
         options = SettingsManager.DEFAULT_SETTINGS.duplicate()
-        SavingManager.save_as_config("Settings", options, SavingManager.CONFIG_SAVE_FILE)
+        SavingManager.save_as_config(Strings.SETTINGS, options, SavingManager.CONFIG_SAVE_FILE)
     _connect_signals()
     _add_resolutions_to_button()
     reload_language_options()
@@ -86,12 +86,12 @@ func _unhandled_key_input(event: InputEvent) -> void:
         _toggle_menu()
 
 func save_settings() -> void:
-    settings_changed.emit("Settings", options, SavingManager.CONFIG_SAVE_FILE)
+    settings_changed.emit(Strings.SETTINGS, options, SavingManager.CONFIG_SAVE_FILE)
     print_debug("Settings saved")
 
 func load_settings() -> void:
     # options = SettingsManager.read_options() # encoded values
-    options = SavingManager.load_from_config("Settings", SavingManager.CONFIG_SAVE_FILE)
+    options = SavingManager.load_from_config(Strings.SETTINGS, SavingManager.CONFIG_SAVE_FILE)
     _set_saved_values()
 
 func _set_saved_values() -> void:
@@ -406,10 +406,10 @@ func _notification(what: int) -> void:
 #         "sfx_volume": AudioManager.sfx_volume,
 #         "mute_toggled": AudioManager.is_muted,
 #     }
-#     SavingManager.save_as_config("Settings", data)
+#     SavingManager.save_as_config(Strings.SETTINGS, data)
 
 # func load_data() -> bool:
-#     var data = SavingManager.load_from_config("Settings")
+#     var data = SavingManager.load_from_config(Strings.SETTINGS)
 #     if data == {}:
 #         print("no data found")
 #         return false

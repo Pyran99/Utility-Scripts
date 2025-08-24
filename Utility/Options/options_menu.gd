@@ -101,17 +101,17 @@ func set_previous_menu(menu: Control) -> void:
 func save_settings() -> void:
     if SettingsManager.settings.hash() == original_options.hash():
         return
-    settings_changed.emit("Settings", SettingsManager.settings, SavingManager.SETTINGS_FILE)
+    settings_changed.emit(Strings.SETTINGS, SettingsManager.settings, SavingManager.SETTINGS_FILE)
     print("Settings saved")
 
     SavingManager.save_config_data() # TODO-1
 
 ## Returns SavingManager config Settings
 func load_settings() -> void:
-    SettingsManager.settings = SavingManager.load_from_config("Settings", SavingManager.SETTINGS_FILE)
+    SettingsManager.settings = SavingManager.load_from_config(Strings.SETTINGS, SavingManager.SETTINGS_FILE)
     if SettingsManager.settings.is_empty():
         SettingsManager.settings = SettingsManager.DEFAULT_SETTINGS.duplicate()
-        SavingManager.save_as_config("Settings", SettingsManager.settings, SavingManager.SETTINGS_FILE)
+        SavingManager.save_as_config(Strings.SETTINGS, SettingsManager.settings, SavingManager.SETTINGS_FILE)
     else:
         SettingsManager.settings = SettingsManager.check_option_settings(SettingsManager.settings)
     
