@@ -18,16 +18,15 @@ signal level_changed(new_level: Node)
 ## Default scene to load as a loading screen
 const DEFAULT_LOAD_SCENE_PATH: String = "res://Utility/loading_screen.tscn"
 
+@export var artificial_delay: float = 0.0 # to test loading progress bar
+
 var _active_level: Node
 var _active_load_scene: Node
-
 var _load_scene: PackedScene
 var _is_loading: bool = false
-
 var new_scene_path: String = ""
 var progress: Array = []
 var loading_status: int = 0
-var artificial_delay: float = 1.0 # to test loading progress bar
 
 
 func _ready():
@@ -51,6 +50,12 @@ func _process(_delta: float) -> void:
 
 func get_active_level() -> Node:
     return _active_level
+
+
+func get_progress_value() -> float:
+    if _is_loading:
+        return progress[0]
+    return 0
 
 ## Loads a scene from the given path. If path resource does not exist, will end the loading before the current level is unloaded. use_load_screen will spawn the default loading screen
 func load_level(level_path: String, use_load_screen: bool = true) -> void:

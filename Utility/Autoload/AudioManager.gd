@@ -5,7 +5,6 @@ var MASTER_BUS: int = -1
 var MUSIC_BUS: int = -1
 var SFX_BUS: int = -1
 
-var options: Dictionary
 var is_muted: bool = false
 var master_volume: float = 0.5
 var music_volume: float = 0.5
@@ -23,35 +22,42 @@ func _ready():
 
 
 func _load_options() -> void:
-    options = SavingManager.load_from_config(Strings.SETTINGS, SavingManager.SETTINGS_FILE)
-    if options.has(Strings.MUTE):
-        mute_volume(options[Strings.MUTE])
-    if options.has(Strings.MASTER_VOLUME) and MASTER_BUS != -1:
-        set_master_volume(options[Strings.MASTER_VOLUME])
-    if options.has(Strings.MUSIC_VOLUME) and MUSIC_BUS != -1:
-        set_music_volume(options[Strings.MUSIC_VOLUME])
-    if options.has(Strings.SFX_VOLUME) and SFX_BUS != -1:
-        set_sfx_volume(options[Strings.SFX_VOLUME])
+    var muted = SettingsManager.settings.get(Strings.MUTE, false)
+    var master_vol = SettingsManager.settings.get(Strings.MASTER_VOLUME, 0.5)
+    var music_vol = SettingsManager.settings.get(Strings.MUSIC_VOLUME, 0.5)
+    var sfx_vol = SettingsManager.settings.get(Strings.SFX_VOLUME, 0.5)
+    mute_volume(muted)
+    set_master_volume(master_vol)
+    set_music_volume(music_vol)
+    set_sfx_volume(sfx_vol)
 
 
 func mute_volume(enabled: bool):
+    if MASTER_BUS == -1:
+        return
     AudioServer.set_bus_mute(MASTER_BUS, enabled)
     is_muted = enabled
 
 
 func set_master_volume(value: float):
+    if MASTER_BUS == -1:
+        return
     value = clampf(value, 0.0, 1.0)
     AudioServer.set_bus_volume_db(MASTER_BUS, linear_to_db(value))
     master_volume = value
 
 
 func set_music_volume(value: float):
+    if MUSIC_BUS == -1:
+        return
     value = clampf(value, 0.0, 1.0)
     AudioServer.set_bus_volume_db(MUSIC_BUS, linear_to_db(value))
     music_volume = value
 
 
 func set_sfx_volume(value: float):
+    if SFX_BUS == -1:
+        return
     value = clampf(value, 0.0, 1.0)
     AudioServer.set_bus_volume_db(SFX_BUS, linear_to_db(value))
     sfx_volume = value

@@ -52,7 +52,7 @@ var original_options: Dictionary = {}
 
 
 func _ready():
-    print_debug(AudioServer.get_bus_volume_linear(AudioManager.MUSIC_BUS))
+    print_debug("music vol: ", AudioServer.get_bus_volume_linear(AudioManager.MUSIC_BUS))
     hide()
     scroll_container.clip_contents = true
     load_settings()

@@ -24,7 +24,7 @@ SavingManager="*res://Utility/Autoload/SavingManager.gd"
 AudioManager="*res://Utility/Autoload/AudioManager.gd"
 SettingsManager="*res://Utility/Autoload/SettingsManager.gd"
 GameManager="*res://Utility/Autoload/GameManager.gd"
-SceneManager="*res://Utility/Autoload/SceneManager.gd"
+SceneManager="*res://Utility/Autoload/SceneManager.tscn"
 
 [debug]
 
