@@ -6,7 +6,6 @@ extends Node
 const DEFAULT_SETTINGS: Dictionary = {
     Strings.FULLSCREEN: false,
     Strings.MAXIMIZED: false,
-    Strings.RESOLUTION_INDEX: 5,
     Strings.WIDTH: 1280,
     Strings.HEIGHT: 720,
     Strings.LOCALE: "en",
@@ -67,15 +66,13 @@ func _ready():
 func check_option_settings(options: Dictionary) -> Dictionary:
     var _options = options
     for key in DEFAULT_SETTINGS.keys():
-        if _options.has(key):
-            if typeof(_options[key]) != typeof(DEFAULT_SETTINGS[key]):
-                push_warning("Setting %s has been reset to %s" % [key, DEFAULT_SETTINGS[key]])
-                _options[key] = DEFAULT_SETTINGS[key]
+        if !_options.has(key):
+            _options[key] = DEFAULT_SETTINGS[key]
             continue
-
-        _options[key] = DEFAULT_SETTINGS[key]
-        # push_warning("Setting %s was missing from file" % [key])
-
+        if typeof(_options[key]) != typeof(DEFAULT_SETTINGS[key]):
+            push_warning("Setting %s has been reset to %s" % [key, DEFAULT_SETTINGS[key]])
+            _options[key] = DEFAULT_SETTINGS[key]
+        continue
     return _options
 
 
@@ -94,11 +91,11 @@ func load_settings() -> void:
 ## apply saved settings to game on startup
 func apply_values() -> void:
     set_window_mode()
-    set_resolution(settings[Strings.SETTINGS][Strings.RESOLUTION_INDEX])
+    set_resolution(get_resolution_index())
     set_scaler_mode(settings[Strings.SETTINGS][Strings.SCALER_MODE])
     set_scaler_value(settings[Strings.SETTINGS][Strings.SCALER_VALUE])
     set_fsr_index(settings[Strings.SETTINGS][Strings.FSR_SELECTED])
-    set_language(locale_list.find(settings[Strings.SETTINGS].get(Strings.LOCALE, "en")))
+    set_language(get_language_index())
     set_brightness(settings[Strings.SETTINGS][Strings.BRIGHTNESS])
     set_vsync(settings[Strings.SETTINGS][Strings.VSYNC])
     set_mute(settings[Strings.SETTINGS][Strings.MUTE])
@@ -122,7 +119,6 @@ func set_window_mode() -> void:
 func set_resolution(index: int) -> void:
     var idx = clampi(index, 0, RESOLUTIONS.size() - 1)
     var size = RESOLUTIONS[idx]
-    settings[Strings.SETTINGS][Strings.RESOLUTION_INDEX] = idx
     settings[Strings.SETTINGS][Strings.WIDTH] = size[Strings.WIDTH]
     settings[Strings.SETTINGS][Strings.HEIGHT] = size[Strings.HEIGHT]
     resize_window()
@@ -151,6 +147,14 @@ func center_window(do_center: bool = true) -> void:
     var x = (screen_size.x - window_size.x) / 2
     var y = (screen_size.y - window_size.y) / 2
     get_tree().root.position = Vector2i(screen_pos.x + x, screen_pos.y + y)
+
+
+func get_resolution_index() -> int:
+    var idx := RESOLUTIONS.find({Strings.WIDTH: settings[Strings.SETTINGS][Strings.WIDTH], Strings.HEIGHT: settings[Strings.SETTINGS][Strings.HEIGHT]})
+    if idx == -1:
+        idx = 5 # default to 1280x720 if not found
+    return idx
+
 
 #endregion
 
@@ -220,8 +224,18 @@ func set_vsync(value: bool) -> void:
 
 func set_language(index: int) -> void:
     index = clampi(index, 0, locale_list.size() - 1)
-    var locale = locale_list[index]
+    var locale = locale_list[index][Strings.LOCALE]
+    print_debug("Setting language to: %s" % locale)
     settings[Strings.SETTINGS][Strings.LOCALE] = locale
-    TranslationServer.set_locale(locale[Strings.LOCALE])
+    TranslationServer.set_locale(locale)
+
+
+func get_language_index() -> int:
+    var idx: int = 0
+    for d: Dictionary in locale_list:
+        if d[Strings.LOCALE] == settings[Strings.SETTINGS][Strings.LOCALE]:
+            idx = locale_list.find(d)
+            break
+    return idx
 
 #endregion

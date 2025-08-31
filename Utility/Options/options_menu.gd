@@ -83,6 +83,8 @@ func _connect_signals() -> void:
     scaler_options.item_selected.connect(_on_scaler_item_selected)
     fsr_options.item_selected.connect(_on_fsr_options_item_selected)
 
+    language_btn.item_selected.connect(_on_language_btn_item_selected)
+
     back_btn.pressed.connect(_on_back_btn_pressed)
 
 
@@ -121,8 +123,8 @@ func _set_saved_values() -> void:
 
     match get_tree().root.mode:
         Window.MODE_WINDOWED:
-            _on_resolution_btn_item_selected(SettingsManager.settings[Strings.SETTINGS][Strings.RESOLUTION_INDEX])
-            resolution_btn.selected = SettingsManager.settings[Strings.SETTINGS][Strings.RESOLUTION_INDEX]
+            _on_resolution_btn_item_selected(SettingsManager.get_resolution_index())
+            resolution_btn.selected = SettingsManager.get_resolution_index()
 
 ## Set values from saved settings visually
 func _set_visual_values() -> void:
@@ -132,7 +134,7 @@ func _set_visual_values() -> void:
     else:
         maximize_btn.set_pressed_no_signal(false)
 
-    resolution_btn.selected = SettingsManager.settings[Strings.SETTINGS][Strings.RESOLUTION_INDEX]
+    resolution_btn.selected = SettingsManager.get_resolution_index()
     vsync_btn.set_pressed_no_signal(SettingsManager.settings[Strings.SETTINGS][Strings.VSYNC])
     brightness_slider.set_value_no_signal(SettingsManager.settings[Strings.SETTINGS][Strings.BRIGHTNESS])
     scaler_options.selected = SettingsManager.settings[Strings.SETTINGS][Strings.SCALER_MODE]
@@ -377,8 +379,10 @@ func reload_language_options():
     for language in languages:
         language_btn.add_icon_item(language["flag"], tr(language["language"]))
         if !SettingsManager.settings[Strings.SETTINGS].has(Strings.LOCALE):
-            SettingsManager.settings[Strings.SETTINGS][Strings.LOCALE][Strings.LOCALE] = "en"
-        if language[Strings.LOCALE] == SettingsManager.settings[Strings.SETTINGS][Strings.LOCALE][Strings.LOCALE]:
+            SettingsManager.settings[Strings.SETTINGS][Strings.LOCALE] = SettingsManager.DEFAULT_SETTINGS[Strings.LOCALE]
+        var lang: String = language[Strings.LOCALE]
+        var saved_lang: String = SettingsManager.settings[Strings.SETTINGS][Strings.LOCALE]
+        if lang == saved_lang:
             language_btn.select(idx)
         # var test = TranslationServer.get_loaded_locales()
         # print_debug(test)
