@@ -85,7 +85,6 @@ func load_settings() -> void:
     if data.is_empty() or !data.has(Strings.SETTINGS):
         data[Strings.SETTINGS] = DEFAULT_SETTINGS.duplicate()
     settings = data
-    print_debug("5: Settings loaded:\n%s" % settings)
     apply_values()
 
 ## apply saved settings to game on startup
@@ -225,7 +224,6 @@ func set_vsync(value: bool) -> void:
 func set_language(index: int) -> void:
     index = clampi(index, 0, locale_list.size() - 1)
     var locale = locale_list[index][Strings.LOCALE]
-    print_debug("Setting language to: %s" % locale)
     settings[Strings.SETTINGS][Strings.LOCALE] = locale
     TranslationServer.set_locale(locale)
 

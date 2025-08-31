@@ -255,45 +255,18 @@ func load_from_config_in_file(section: String, save_file: String) -> Dictionary:
             result[i] = config.get_value(section, i)
     return result
 
-## EMPTY Set 'data' to 'section' in settings_dict. Requires all data to be in settings_dict otherwise it gets erased
-func save_as_config(_section: String, _data: Dictionary, _save_file: String) -> void:
-    # var config = ConfigFile.new()
-    # settings_dict[section] = data
-    # for _section in settings_dict:
-    #     for key in settings_dict[_section]:
-    #         config.set_value(_section, key, settings_dict[_section][key])
-    # config.save(save_file)
-    pass
-
-## EMPTY loads all sections to settings_dict & returns section data
-func load_from_config(_section: String, _save_file: String) -> Dictionary:
-    # _create_and_verify_file(save_file)
-    # var config = ConfigFile.new()
-    # var err = config.load(save_file)
-    # if err != OK:
-    #     return {}
-    # var result := {}
-    # for _section in config.get_sections():
-    #     for i in config.get_section_keys(section):
-    #         result[i] = config.get_value(section, i)
-    #     settings_dict[section] = result
-    # return result
-    return {}
-
 
 func save_config_data(data: Dictionary, save_file: String) -> void:
-    print_debug("Saved config data:\n%s" % data)
     var config = ConfigFile.new()
     for section in data: # ["section1": {}, "section2": {},]
         for key in data[section]:
             config.set_value(section, key, data[section][key])
 
     config.save(save_file)
-    # config.save(CONFIG_DIR + "test.cfg") # TODO test file
 
 
 func load_config_data(save_file: String) -> Dictionary:
-    print("1 Loading config data from: %s" % save_file)
+    print("Loading config data from: %s" % save_file)
     var loaded_data := {}
     _create_and_verify_file(save_file)
     var config := ConfigFile.new()
@@ -301,13 +274,12 @@ func load_config_data(save_file: String) -> Dictionary:
     if err != OK:
         push_error("Failed to config load: %s" % save_file)
         return {}
-    print_debug("2: config sections:\n%s" % config.get_sections())
+    print_debug("Config sections:\n%s" % config.get_sections())
     for section in config.get_sections():
         loaded_data[section] = {}
         for key in config.get_section_keys(section):
             loaded_data[section][key] = config.get_value(section, key)
 
-    print_debug("3: loaded data\n", loaded_data)
     return loaded_data
 
 

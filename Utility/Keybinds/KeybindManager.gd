@@ -28,6 +28,8 @@ const INPUT_MAP_CONFIG_FILE := SavingManager.CONFIG_DIR + "keybinds.cfg"
 const INPUT_KEYCODES_JSON_FILE := SavingManager.CONFIG_DIR + "keybinds.json"
 const INPUT_MAP_JSON_FILE := SavingManager.CONFIG_DIR + "keybinds_full.json"
 
+# const KEYBINDS_CONFIG_FILE: String = SavingManager.CONFIG_DIR + "keybinds.cfg"
+
 static var input_map: Dictionary
 
 
@@ -101,16 +103,13 @@ static func _load_input_map_from_config() -> void:
 static func save_keybinds() -> void:
     #TODO: only save if anything changed
     SettingsManager.settings[Strings.KEYBINDS] = input_map
-    print_debug("7.3: saved keybinds:\n%s" % SettingsManager.settings[Strings.KEYBINDS])
     SettingsManager.save_settings()
     # SavingManager.save_config_data(SettingsManager.settings, SavingManager.SETTINGS_FILE)
 
 
 static func load_keybinds() -> void:
-    print_debug("6: load keybinds")
     if SettingsManager.settings.has(Strings.KEYBINDS):
         input_map = SettingsManager.settings[Strings.KEYBINDS]
-        print_debug("7.1: loaded keybinds:\n%s" % input_map)
     else:
         reset_input_map()
     _add_events_to_input_map(input_map)
@@ -169,7 +168,6 @@ static func _load_default_input_map() -> void:
                 SettingsManager.settings[Strings.KEYBINDS][action].append(null)
 
     input_map = SettingsManager.settings[Strings.KEYBINDS]
-    print_debug("7.2: Default input map:\n%s" % SettingsManager.settings[Strings.KEYBINDS])
 
 ## Converts keycodes from a dictionary to InputMap events. Only works with InputEventKey. Handles both config & json if data is in 'key': [keycodes] format
 static func _add_events_to_input_map(data: Dictionary) -> void:
