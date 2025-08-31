@@ -74,7 +74,7 @@ func _remap_action_to(event: InputEvent) -> void:
 
     var count: int = 0 if primary else 1
     # KeybindManager.input_map[action][count] = new_event #TODO testing
-    SavingManager.settings_dict[Strings.KEYBINDS][action][count] = new_event
+    SettingsManager.settings[Strings.KEYBINDS][action][count] = new_event
     var keycodes := KeybindManager._get_keycodes_from_input_map()
     if keycodes[action].size() == 1:
         keycodes[action].append(null)
@@ -83,7 +83,7 @@ func _remap_action_to(event: InputEvent) -> void:
 
     InputMap.action_erase_events(action)
     # for i in KeybindManager.input_map[action]: #TODO testing
-    for i in SavingManager.settings_dict[Strings.KEYBINDS][action]:
+    for i in SettingsManager.settings[Strings.KEYBINDS][action]:
         if i == null:
             continue
         InputMap.action_add_event(action, i)

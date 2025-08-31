@@ -42,8 +42,8 @@ static var en_flag # preload flag image
 static var cs_flag # preload
 
 static var locale_list = [
-    {Strings.LOCALE: "en", "code": "English", "flag": en_flag},
-    {Strings.LOCALE: "cs", "code": "Czech", "flag": cs_flag},
+    {Strings.LOCALE: "en", "language": "English", "flag": en_flag},
+    {Strings.LOCALE: "cs", "language": "Czech", "flag": cs_flag},
 ]
 
 ## If the game has already loaded, options should only need to set values visually
@@ -60,10 +60,8 @@ static func init():
 func _ready():
     init()
     load_settings()
-
-
-static func save_settings() -> void:
-    SavingManager.settings_dict[Strings.SETTINGS] = settings
+    KeybindManager.init()
+    save_settings()
 
 
 func check_option_settings(options: Dictionary) -> Dictionary:
@@ -81,62 +79,41 @@ func check_option_settings(options: Dictionary) -> Dictionary:
     return _options
 
 
-static func set_locale():
-    var options = SavingManager.load_from_encoded_file(SavingManager.OPTIONS_FILE)
-    if options.has(Strings.LOCALE):
-        TranslationServer.set_locale(options[Strings.LOCALE])
-    else:
-        options[Strings.LOCALE] = "en"
-    SavingManager.write_options(Strings.LOCALE, options)
-    pass
-
-###########################################################
-
-#region option menu
-
-# func save_settings() -> void:
-#     if settings.hash() == original_options.hash():
-#         return
-#     settings_changed.emit(Strings.SETTINGS, settings, SavingManager.SETTINGS_FILE)
-#     print("Settings saved")
-
-#     SavingManager.save_config_data() # TODO-1
+func save_settings() -> void:
+    SavingManager.save_config_data(settings, SavingManager.CONFIG_DIR + "test.ini")
 
 ## Returns SavingManager config Settings
 func load_settings() -> void:
-    settings = SavingManager.load_from_config(Strings.SETTINGS, SavingManager.SETTINGS_FILE)
-    if settings.is_empty():
-        settings = DEFAULT_SETTINGS.duplicate()
-        SavingManager.save_as_config(Strings.SETTINGS, settings, SavingManager.SETTINGS_FILE)
-    else:
-        settings = check_option_settings(settings)
-    
-    print_debug("Settings loaded:\n%s\n" % settings)
+    var data = SavingManager.load_config_data(SavingManager.CONFIG_DIR + "test.ini")
+    if data.is_empty() or !data.has(Strings.SETTINGS):
+        data[Strings.SETTINGS] = DEFAULT_SETTINGS.duplicate()
+    settings = data
+    print_debug("5: Settings loaded:\n%s" % settings)
     apply_values()
 
 ## apply saved settings to game on startup
 func apply_values() -> void:
     set_window_mode()
-    set_resolution(settings[Strings.RESOLUTION_INDEX])
-    set_scaler_mode(settings[Strings.SCALER_MODE])
-    set_scaler_value(settings[Strings.SCALER_VALUE])
-    set_fsr_index(settings[Strings.FSR_SELECTED])
-    set_language(locale_list.find(settings[Strings.LOCALE]))
-    set_brightness(settings[Strings.BRIGHTNESS])
-    set_vsync(settings[Strings.VSYNC])
-    set_mute(settings[Strings.MUTE])
-    set_master_volume(settings[Strings.MASTER_VOLUME])
-    set_music_volume(settings[Strings.MUSIC_VOLUME])
-    set_sfx_volume(settings[Strings.SFX_VOLUME])
+    set_resolution(settings[Strings.SETTINGS][Strings.RESOLUTION_INDEX])
+    set_scaler_mode(settings[Strings.SETTINGS][Strings.SCALER_MODE])
+    set_scaler_value(settings[Strings.SETTINGS][Strings.SCALER_VALUE])
+    set_fsr_index(settings[Strings.SETTINGS][Strings.FSR_SELECTED])
+    set_language(locale_list.find(settings[Strings.SETTINGS].get(Strings.LOCALE, "en")))
+    set_brightness(settings[Strings.SETTINGS][Strings.BRIGHTNESS])
+    set_vsync(settings[Strings.SETTINGS][Strings.VSYNC])
+    set_mute(settings[Strings.SETTINGS][Strings.MUTE])
+    set_master_volume(settings[Strings.SETTINGS][Strings.MASTER_VOLUME])
+    set_music_volume(settings[Strings.SETTINGS][Strings.MUSIC_VOLUME])
+    set_sfx_volume(settings[Strings.SETTINGS][Strings.SFX_VOLUME])
 
 
 #region Resolution
 
 func set_window_mode() -> void:
     var window_mode = DisplayServer.WINDOW_MODE_WINDOWED
-    if settings[Strings.FULLSCREEN] == true:
+    if settings[Strings.SETTINGS][Strings.FULLSCREEN] == true:
         window_mode = DisplayServer.WINDOW_MODE_FULLSCREEN
-    elif settings[Strings.MAXIMIZED] == true:
+    elif settings[Strings.SETTINGS][Strings.MAXIMIZED] == true:
         window_mode = DisplayServer.WINDOW_MODE_MAXIMIZED
     DisplayServer.window_set_mode(window_mode)
     resize_window()
@@ -145,18 +122,18 @@ func set_window_mode() -> void:
 func set_resolution(index: int) -> void:
     var idx = clampi(index, 0, RESOLUTIONS.size() - 1)
     var size = RESOLUTIONS[idx]
-    settings[Strings.RESOLUTION_INDEX] = idx
-    settings[Strings.WIDTH] = size[Strings.WIDTH]
-    settings[Strings.HEIGHT] = size[Strings.HEIGHT]
+    settings[Strings.SETTINGS][Strings.RESOLUTION_INDEX] = idx
+    settings[Strings.SETTINGS][Strings.WIDTH] = size[Strings.WIDTH]
+    settings[Strings.SETTINGS][Strings.HEIGHT] = size[Strings.HEIGHT]
     resize_window()
 
 
 func resize_window() -> void:
-    if settings[Strings.FULLSCREEN] == true or settings[Strings.MAXIMIZED] == true:
+    if settings[Strings.SETTINGS][Strings.FULLSCREEN] == true or settings[Strings.SETTINGS][Strings.MAXIMIZED] == true:
         return
 
     # if settings.has(Strings.WIDTH) and settings.has(Strings.HEIGHT):
-    var window_size = Vector2i(settings[Strings.WIDTH], settings[Strings.HEIGHT])
+    var window_size = Vector2i(settings[Strings.SETTINGS][Strings.WIDTH], settings[Strings.SETTINGS][Strings.HEIGHT])
     # scales the game window
     get_tree().root.size = window_size
     # scales the content within the window
@@ -165,9 +142,9 @@ func resize_window() -> void:
 
 
 func center_window(do_center: bool = true) -> void:
-    if settings[Strings.FULLSCREEN] == true or settings[Strings.MAXIMIZED] == true or !do_center:
+    if settings[Strings.SETTINGS][Strings.FULLSCREEN] == true or settings[Strings.SETTINGS][Strings.MAXIMIZED] == true or !do_center:
         return
-    var window_size = Vector2i(settings[Strings.WIDTH], settings[Strings.HEIGHT])
+    var window_size = Vector2i(settings[Strings.SETTINGS][Strings.WIDTH], settings[Strings.SETTINGS][Strings.HEIGHT])
     var current_monitor = DisplayServer.get_keyboard_focus_screen()
     var screen_size := DisplayServer.screen_get_size(current_monitor)
     var screen_pos := DisplayServer.screen_get_position(current_monitor)
@@ -180,61 +157,61 @@ func center_window(do_center: bool = true) -> void:
 #region Quality
 
 func set_scaler_mode(index: int) -> void:
-    settings[Strings.SCALER_MODE] = index
+    settings[Strings.SETTINGS][Strings.SCALER_MODE] = index
     var viewport = get_viewport()
     if ProjectSettings.get_setting("rendering/renderer/rendering_method") == "gl_compatibility":
         viewport.scaling_3d_mode = Viewport.SCALING_3D_MODE_BILINEAR
     else:
-        viewport.scaling_3d_mode = settings[Strings.SCALER_MODE]
+        viewport.scaling_3d_mode = settings[Strings.SETTINGS][Strings.SCALER_MODE]
 
-    print_debug("viewport.scaling_3d_mode: %s" % viewport.scaling_3d_mode)
+    # print_debug("viewport.scaling_3d_mode: %s" % viewport.scaling_3d_mode)
 
 
 func set_scaler_value(value: float) -> void:
-    settings[Strings.SCALER_VALUE] = value
+    settings[Strings.SETTINGS][Strings.SCALER_VALUE] = value
     var viewport = get_viewport()
-    var resolution_scale = settings[Strings.SCALER_VALUE] / 100.00
+    var resolution_scale = settings[Strings.SETTINGS][Strings.SCALER_VALUE] / 100.00
     viewport.scaling_3d_scale = resolution_scale
 
-    print_debug("viewport.scaling_3d_scale: %s" % viewport.scaling_3d_scale)
+    # print_debug("viewport.scaling_3d_scale: %s" % viewport.scaling_3d_scale)
 
 
 func set_fsr_index(index: int) -> void:
-    settings[Strings.FSR_SELECTED] = index
+    settings[Strings.SETTINGS][Strings.FSR_SELECTED] = index
 
 #endregion
 
 #region Audio
 
 func set_mute(value: bool) -> void:
-    settings[Strings.MUTE] = value
+    settings[Strings.SETTINGS][Strings.MUTE] = value
     AudioManager.mute_volume(value)
 
 func set_master_volume(value: float) -> void:
-    settings[Strings.MASTER_VOLUME] = value
+    settings[Strings.SETTINGS][Strings.MASTER_VOLUME] = value
     AudioManager.set_master_volume(value)
 
 func set_music_volume(value: float) -> void:
-    settings[Strings.MUSIC_VOLUME] = value
+    settings[Strings.SETTINGS][Strings.MUSIC_VOLUME] = value
     AudioManager.set_music_volume(value)
 
 func set_sfx_volume(value: float) -> void:
-    settings[Strings.SFX_VOLUME] = value
+    settings[Strings.SETTINGS][Strings.SFX_VOLUME] = value
     AudioManager.set_sfx_volume(value)
-    
+
 #endregion
 
 #region Other
 
 func set_brightness(value: float) -> void:
     value = clampf(value, 0.5, 2.0)
-    settings[Strings.BRIGHTNESS] = value
+    settings[Strings.SETTINGS][Strings.BRIGHTNESS] = value
     if GameManager.get("environment_res") != null:
         GameManager.environment_res.adjustment_brightness = value
 
 
 func set_vsync(value: bool) -> void:
-    settings[Strings.VSYNC] = value
+    settings[Strings.SETTINGS][Strings.VSYNC] = value
     if value:
         DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
     else:
@@ -242,8 +219,9 @@ func set_vsync(value: bool) -> void:
 
 
 func set_language(index: int) -> void:
+    index = clampi(index, 0, locale_list.size() - 1)
     var locale = locale_list[index]
-    settings[Strings.LOCALE] = locale
+    settings[Strings.SETTINGS][Strings.LOCALE] = locale
     TranslationServer.set_locale(locale[Strings.LOCALE])
 
 #endregion

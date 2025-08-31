@@ -11,6 +11,7 @@ const KEYBIND_CONTAINER: PackedScene = preload("res://Utility/Keybinds/keybind_a
 
 var previous_menu
 var keybind_containers: Array[KeybindActionContainer]
+var original_binds: Dictionary = {}
 
 @onready var controls: VBoxContainer = %Controls
 @onready var reset_confirm_container: PanelContainer = %ResetConfirm
@@ -48,7 +49,9 @@ func store_all_action_containers() -> void:
 
 
 func _close_menu() -> void:
-    KeybindManager.save_input_map()
+    if original_binds.hash() != KeybindManager.input_map.hash():
+        KeybindManager.save_input_map()
+    original_binds.clear()
     hide()
     if previous_menu:
         previous_menu.show()
@@ -56,7 +59,7 @@ func _close_menu() -> void:
 
 func _create_actions_list() -> void:
     # for input_action: String in KeybindManager.input_map.keys():
-    for input_action: String in SavingManager.settings_dict[Strings.KEYBINDS].keys():
+    for input_action: String in SettingsManager.settings[Strings.KEYBINDS].keys():
         var new_text: String = input_action.capitalize()
         var container: KeybindActionContainer = KEYBIND_CONTAINER.instantiate()
         controls.add_child(container)
@@ -91,7 +94,9 @@ func _on_cancel_reset_pressed() -> void:
 
 func _on_visibility_changed() -> void:
     if visible:
-        keybind_containers[0].get_buttons()[0].call_deferred("grab_focus")
+        original_binds = KeybindManager.input_map.duplicate(true)
+        if keybind_containers.size() > 0:
+            keybind_containers[0].get_buttons()[0].call_deferred("grab_focus")
         set_process_unhandled_key_input(true)
     else:
         set_process_unhandled_key_input(false)

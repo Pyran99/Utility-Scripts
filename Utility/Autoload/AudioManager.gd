@@ -22,10 +22,11 @@ func _ready():
 
 
 func _load_options() -> void:
-    var muted = SettingsManager.settings.get(Strings.MUTE, false)
-    var master_vol = SettingsManager.settings.get(Strings.MASTER_VOLUME, 0.5)
-    var music_vol = SettingsManager.settings.get(Strings.MUSIC_VOLUME, 0.5)
-    var sfx_vol = SettingsManager.settings.get(Strings.SFX_VOLUME, 0.5)
+    print_debug("\n7. audio load: \n%s" % SettingsManager.settings[Strings.SETTINGS])
+    var muted = SettingsManager.settings[Strings.SETTINGS].get(Strings.MUTE, false)
+    var master_vol = SettingsManager.settings[Strings.SETTINGS].get(Strings.MASTER_VOLUME, 0.5)
+    var music_vol = SettingsManager.settings[Strings.SETTINGS].get(Strings.MUSIC_VOLUME, 0.5)
+    var sfx_vol = SettingsManager.settings[Strings.SETTINGS].get(Strings.SFX_VOLUME, 0.5)
     mute_volume(muted)
     set_master_volume(master_vol)
     set_music_volume(music_vol)

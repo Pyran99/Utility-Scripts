@@ -34,13 +34,7 @@ static var input_map: Dictionary
 # use ready if setting this to autoload
 # called from GameManager ready
 static func init() -> void:
-    # SavingManager.save_settings_data.connect(save_keybinds) # TODO
-    _load_default_input_map()
     load_input_map()
-
-
-static func save_keybinds() -> void:
-    SavingManager.settings_dict[Strings.KEYBINDS] = input_map
 
 
 # func _ready():
@@ -48,14 +42,16 @@ static func save_keybinds() -> void:
 
 
 static func save_input_map() -> void:
-    _save_input_map_as_config()
+    save_keybinds()
+    # _save_input_map_as_config()
     # _save_input_keycodes_as_config()
     # _save_input_map_json()
     # _save_input_keycodes_json()
 
 
 static func load_input_map() -> void:
-    _load_input_map_from_config()
+    load_keybinds()
+    # _load_input_map_from_config()
     # _load_input_keycodes_from_config()
     # _load_input_map_json()
     # _load_input_keycodes_json()
@@ -98,11 +94,26 @@ static func _load_input_map_from_config() -> void:
         reset_input_map()
         _load_input_map_from_config()
         return
-    # input_map = data ## testing
-    SavingManager.settings_dict[Strings.KEYBINDS] = data ## testing
-    print_debug(SavingManager.settings_dict, "\n")
-    print_debug("\n", SavingManager.settings_dict[Strings.KEYBINDS], "\n")
+    input_map = data
     _add_events_to_input_map(data)
+
+
+static func save_keybinds() -> void:
+    #TODO: only save if anything changed
+    SettingsManager.settings[Strings.KEYBINDS] = input_map
+    print_debug("7.3: saved keybinds:\n%s" % SettingsManager.settings[Strings.KEYBINDS])
+    SettingsManager.save_settings()
+    # SavingManager.save_config_data(SettingsManager.settings, SavingManager.SETTINGS_FILE)
+
+
+static func load_keybinds() -> void:
+    print_debug("6: load keybinds")
+    if SettingsManager.settings.has(Strings.KEYBINDS):
+        input_map = SettingsManager.settings[Strings.KEYBINDS]
+        print_debug("7.1: loaded keybinds:\n%s" % input_map)
+    else:
+        reset_input_map()
+    _add_events_to_input_map(input_map)
 
 #endregion
 
@@ -142,8 +153,7 @@ static func _load_input_map_json() -> void:
 
 ## Resets input_map to default InputMap values. Sets input_map_keycodes to keycodes
 static func _load_default_input_map() -> void:
-    # input_map.clear() #TODO testing
-    SavingManager.settings_dict[Strings.KEYBINDS] = {}
+    SettingsManager.settings[Strings.KEYBINDS] = {}
     for action in InputMap.get_actions():
         if action.begins_with("ui_"): # ignore all engine defaults
             continue
@@ -151,12 +161,15 @@ static func _load_default_input_map() -> void:
             continue
         if InputMap.action_get_events(action).size() != 0:
             # input_map[action] = InputMap.action_get_events(action) #TODO testing
-            SavingManager.settings_dict[Strings.KEYBINDS][action] = InputMap.action_get_events(action)
+            SettingsManager.settings[Strings.KEYBINDS][action] = InputMap.action_get_events(action)
             # add empty option if not defined in input map. Some actions may have a secondary option without being predefined in InputMap.
             # if input_map[action].size() == 1: #TODO testing
             #     input_map[action].append(null)
-            if SavingManager.settings_dict[Strings.KEYBINDS][action].size() == 1:
-                SavingManager.settings_dict[Strings.KEYBINDS][action].append(null)
+            if SettingsManager.settings[Strings.KEYBINDS][action].size() == 1:
+                SettingsManager.settings[Strings.KEYBINDS][action].append(null)
+
+    input_map = SettingsManager.settings[Strings.KEYBINDS]
+    print_debug("7.2: Default input map:\n%s" % SettingsManager.settings[Strings.KEYBINDS])
 
 ## Converts keycodes from a dictionary to InputMap events. Only works with InputEventKey. Handles both config & json if data is in 'key': [keycodes] format
 static func _add_events_to_input_map(data: Dictionary) -> void:
@@ -170,17 +183,17 @@ static func _add_events_to_input_map(data: Dictionary) -> void:
                 var keycode: int = data[action][i]
                 event.physical_keycode = keycode
                 # input_map[action][i] = event #TODO testing
-                SavingManager.settings_dict[Strings.KEYBINDS][action][i] = event
+                SettingsManager.settings[Strings.KEYBINDS][action][i] = event
             # if input_map[action].size() == 1: #TODO testing
             #     input_map[action].append(null)
-            if SavingManager.settings_dict[Strings.KEYBINDS][action].size() == 1:
-                SavingManager.settings_dict[Strings.KEYBINDS][action].append(null)
+            if SettingsManager.settings[Strings.KEYBINDS][action].size() == 1:
+                SettingsManager.settings[Strings.KEYBINDS][action].append(null)
 
             InputMap.action_erase_events(action)
-            for i in SavingManager.settings_dict[Strings.KEYBINDS][action].size():
-                if SavingManager.settings_dict[Strings.KEYBINDS][action][i] == null:
+            for i in SettingsManager.settings[Strings.KEYBINDS][action].size():
+                if SettingsManager.settings[Strings.KEYBINDS][action][i] == null:
                     continue
-                InputMap.action_add_event(action, SavingManager.settings_dict[Strings.KEYBINDS][action][i])
+                InputMap.action_add_event(action, SettingsManager.settings[Strings.KEYBINDS][action][i])
             # for i in input_map[action].size(): #TODO testing
             #     if input_map[action][i] == null:
             #         continue
@@ -189,14 +202,14 @@ static func _add_events_to_input_map(data: Dictionary) -> void:
 ## Returns the physical keycodes for every input action in input_map
 static func _get_keycodes_from_input_map() -> Dictionary:
     var keycodes: Dictionary = {}
-    for action in SavingManager.settings_dict[Strings.KEYBINDS]:
+    for action in SettingsManager.settings[Strings.KEYBINDS]:
         var codes := []
-        for _event in SavingManager.settings_dict[Strings.KEYBINDS][action]:
+        for _event in SettingsManager.settings[Strings.KEYBINDS][action]:
             if _event == null:
                 continue
             codes.append(_event.physical_keycode)
         keycodes[action] = codes
-    
+
     return keycodes
 
     # for action in input_map: #TODO testing
