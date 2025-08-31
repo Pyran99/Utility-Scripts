@@ -22,6 +22,7 @@ const DEFAULT_KEY_MAP = {
     "jump": true,
     "pause": false,
 }
+# testing files
 const INPUT_KEYCODES_CONFIG_FILE := SavingManager.CONFIG_DIR + "keybinds_keycodes.cfg"
 const INPUT_MAP_CONFIG_FILE := SavingManager.CONFIG_DIR + "keybinds.cfg"
 
@@ -34,7 +35,7 @@ static var input_map: Dictionary
 
 
 # use ready if setting this to autoload
-# called from GameManager ready
+# called from SettingsManager ready
 static func init() -> void:
     load_input_map()
 
@@ -46,17 +47,11 @@ static func init() -> void:
 static func save_input_map() -> void:
     save_keybinds()
     # _save_input_map_as_config()
-    # _save_input_keycodes_as_config()
-    # _save_input_map_json()
-    # _save_input_keycodes_json()
 
 
 static func load_input_map() -> void:
     load_keybinds()
     # _load_input_map_from_config()
-    # _load_input_keycodes_from_config()
-    # _load_input_map_json()
-    # _load_input_keycodes_json()
 
 
 static func reset_input_map() -> void:
@@ -65,7 +60,7 @@ static func reset_input_map() -> void:
     save_input_map()
 
 
-#region Config
+#region Config-------------------------
 
 ## Save config file with only the keycodes for each action
 static func _save_input_keycodes_as_config() -> void:
@@ -101,7 +96,6 @@ static func _load_input_map_from_config() -> void:
 
 
 static func save_keybinds() -> void:
-    #TODO: only save if anything changed
     SettingsManager.settings[Strings.KEYBINDS] = input_map
     SettingsManager.save_settings()
     # SavingManager.save_config_data(SettingsManager.settings, SavingManager.SETTINGS_FILE)
@@ -116,7 +110,7 @@ static func load_keybinds() -> void:
 
 #endregion
 
-#region JSON
+#region JSON-------------------------
 
 ## Save json file with only the keycodes for each action
 static func _save_input_keycodes_json() -> void:
@@ -148,7 +142,7 @@ static func _load_input_map_json() -> void:
 
 #endregion
 
-#region Helpers
+#region Helpers-------------------------
 
 ## Resets input_map to default InputMap values. Sets input_map_keycodes to keycodes
 static func _load_default_input_map() -> void:

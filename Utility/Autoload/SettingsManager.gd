@@ -49,16 +49,16 @@ static var locale_list = [
 static var settings_loaded: bool = false
 static var settings: Dictionary
 
-## from GameManager
+
 static func init():
     player_fullscreen_size = DisplayServer.screen_get_size()
     player_windowed_size = DisplayServer.screen_get_usable_rect().size
-    # SavingManager.save_settings_data.connect(save_settings) # TODO-3
 
 
 func _ready():
     init()
     load_settings()
+    apply_values()
     KeybindManager.init()
     save_settings()
 
@@ -77,39 +77,42 @@ func check_option_settings(options: Dictionary) -> Dictionary:
 
 
 func save_settings() -> void:
-    SavingManager.save_config_data(settings, SavingManager.CONFIG_DIR + "test.ini")
+    SavingManager.save_config_data(settings, SavingManager.SETTINGS_FILE)
 
-## Returns SavingManager config Settings
+## Sets loaded config data to settings variable
 func load_settings() -> void:
-    var data = SavingManager.load_config_data(SavingManager.CONFIG_DIR + "test.ini")
+    var data = SavingManager.load_config_data(SavingManager.SETTINGS_FILE)
     if data.is_empty() or !data.has(Strings.SETTINGS):
         data[Strings.SETTINGS] = DEFAULT_SETTINGS.duplicate()
     settings = data
-    apply_values()
 
 ## apply saved settings to game on startup
 func apply_values() -> void:
+    var _settings = settings[Strings.SETTINGS]
     set_window_mode()
     set_resolution(get_resolution_index())
-    set_scaler_mode(settings[Strings.SETTINGS][Strings.SCALER_MODE])
-    set_scaler_value(settings[Strings.SETTINGS][Strings.SCALER_VALUE])
-    set_fsr_index(settings[Strings.SETTINGS][Strings.FSR_SELECTED])
+    # set_resolution_by_value(_settings[Strings.WIDTH], _settings[Strings.HEIGHT])
+    set_scaler_mode(_settings[Strings.SCALER_MODE])
+    set_scaler_value(_settings[Strings.SCALER_VALUE])
+    set_fsr_index(_settings[Strings.FSR_SELECTED])
     set_language(get_language_index())
-    set_brightness(settings[Strings.SETTINGS][Strings.BRIGHTNESS])
-    set_vsync(settings[Strings.SETTINGS][Strings.VSYNC])
-    set_mute(settings[Strings.SETTINGS][Strings.MUTE])
-    set_master_volume(settings[Strings.SETTINGS][Strings.MASTER_VOLUME])
-    set_music_volume(settings[Strings.SETTINGS][Strings.MUSIC_VOLUME])
-    set_sfx_volume(settings[Strings.SETTINGS][Strings.SFX_VOLUME])
+    set_brightness(_settings[Strings.BRIGHTNESS])
+    set_vsync(_settings[Strings.VSYNC])
+    set_mute(_settings[Strings.MUTE])
+    set_master_volume(_settings[Strings.MASTER_VOLUME])
+    set_music_volume(_settings[Strings.MUSIC_VOLUME])
+    set_sfx_volume(_settings[Strings.SFX_VOLUME])
+    settings_loaded = true
 
 
-#region Resolution
+#region Resolution---------------------------------
 
 func set_window_mode() -> void:
+    var _settings = settings[Strings.SETTINGS]
     var window_mode = DisplayServer.WINDOW_MODE_WINDOWED
-    if settings[Strings.SETTINGS][Strings.FULLSCREEN] == true:
+    if _settings[Strings.FULLSCREEN] == true:
         window_mode = DisplayServer.WINDOW_MODE_FULLSCREEN
-    elif settings[Strings.SETTINGS][Strings.MAXIMIZED] == true:
+    elif _settings[Strings.MAXIMIZED] == true:
         window_mode = DisplayServer.WINDOW_MODE_MAXIMIZED
     DisplayServer.window_set_mode(window_mode)
     resize_window()
@@ -118,28 +121,36 @@ func set_window_mode() -> void:
 func set_resolution(index: int) -> void:
     var idx = clampi(index, 0, RESOLUTIONS.size() - 1)
     var size = RESOLUTIONS[idx]
-    settings[Strings.SETTINGS][Strings.WIDTH] = size[Strings.WIDTH]
-    settings[Strings.SETTINGS][Strings.HEIGHT] = size[Strings.HEIGHT]
+    var _settings = settings[Strings.SETTINGS]
+    _settings[Strings.WIDTH] = size[Strings.WIDTH]
+    _settings[Strings.HEIGHT] = size[Strings.HEIGHT]
+    resize_window()
+
+## this can be used to set a custom resolution not in RESOLUTIONS array
+func set_resolution_by_value(width: int, height: int) -> void:
+    var _settings = settings[Strings.SETTINGS]
+    _settings[Strings.WIDTH] = width
+    _settings[Strings.HEIGHT] = height
     resize_window()
 
 
 func resize_window() -> void:
-    if settings[Strings.SETTINGS][Strings.FULLSCREEN] == true or settings[Strings.SETTINGS][Strings.MAXIMIZED] == true:
+    var _settings = settings[Strings.SETTINGS]
+    if _settings[Strings.FULLSCREEN] == true or _settings[Strings.MAXIMIZED] == true:
         return
-
-    # if settings.has(Strings.WIDTH) and settings.has(Strings.HEIGHT):
-    var window_size = Vector2i(settings[Strings.SETTINGS][Strings.WIDTH], settings[Strings.SETTINGS][Strings.HEIGHT])
+    var window_size = Vector2i(_settings[Strings.WIDTH], _settings[Strings.HEIGHT])
     # scales the game window
     get_tree().root.size = window_size
     # scales the content within the window
     # get_tree().root.content_scale_size = window_size
-    center_window()
+    center_window(false)
 
 
 func center_window(do_center: bool = true) -> void:
-    if settings[Strings.SETTINGS][Strings.FULLSCREEN] == true or settings[Strings.SETTINGS][Strings.MAXIMIZED] == true or !do_center:
+    var _settings = settings[Strings.SETTINGS]
+    if _settings[Strings.FULLSCREEN] == true or _settings[Strings.MAXIMIZED] == true or !do_center:
         return
-    var window_size = Vector2i(settings[Strings.SETTINGS][Strings.WIDTH], settings[Strings.SETTINGS][Strings.HEIGHT])
+    var window_size = Vector2i(_settings[Strings.WIDTH], _settings[Strings.HEIGHT])
     var current_monitor = DisplayServer.get_keyboard_focus_screen()
     var screen_size := DisplayServer.screen_get_size(current_monitor)
     var screen_pos := DisplayServer.screen_get_position(current_monitor)
@@ -147,36 +158,35 @@ func center_window(do_center: bool = true) -> void:
     var y = (screen_size.y - window_size.y) / 2
     get_tree().root.position = Vector2i(screen_pos.x + x, screen_pos.y + y)
 
-
+## get index of current resolution in RESOLUTIONS array. Defaults to 5(1280x720) if not found
 func get_resolution_index() -> int:
-    var idx := RESOLUTIONS.find({Strings.WIDTH: settings[Strings.SETTINGS][Strings.WIDTH], Strings.HEIGHT: settings[Strings.SETTINGS][Strings.HEIGHT]})
+    var _settings = settings[Strings.SETTINGS]
+    var idx := RESOLUTIONS.find({Strings.WIDTH: _settings[Strings.WIDTH], Strings.HEIGHT: _settings[Strings.HEIGHT]})
     if idx == -1:
-        idx = 5 # default to 1280x720 if not found
+        idx = 5
     return idx
 
 
 #endregion
 
-#region Quality
+#region Quality---------------------------------
 
 func set_scaler_mode(index: int) -> void:
-    settings[Strings.SETTINGS][Strings.SCALER_MODE] = index
+    var _settings = settings[Strings.SETTINGS]
+    _settings[Strings.SCALER_MODE] = index
     var viewport = get_viewport()
     if ProjectSettings.get_setting("rendering/renderer/rendering_method") == "gl_compatibility":
         viewport.scaling_3d_mode = Viewport.SCALING_3D_MODE_BILINEAR
     else:
-        viewport.scaling_3d_mode = settings[Strings.SETTINGS][Strings.SCALER_MODE]
-
-    # print_debug("viewport.scaling_3d_mode: %s" % viewport.scaling_3d_mode)
+        viewport.scaling_3d_mode = _settings[Strings.SCALER_MODE]
 
 
 func set_scaler_value(value: float) -> void:
-    settings[Strings.SETTINGS][Strings.SCALER_VALUE] = value
+    var _settings = settings[Strings.SETTINGS]
+    _settings[Strings.SCALER_VALUE] = value
     var viewport = get_viewport()
-    var resolution_scale = settings[Strings.SETTINGS][Strings.SCALER_VALUE] / 100.00
+    var resolution_scale = _settings[Strings.SCALER_VALUE] / 100.00
     viewport.scaling_3d_scale = resolution_scale
-
-    # print_debug("viewport.scaling_3d_scale: %s" % viewport.scaling_3d_scale)
 
 
 func set_fsr_index(index: int) -> void:
@@ -184,7 +194,7 @@ func set_fsr_index(index: int) -> void:
 
 #endregion
 
-#region Audio
+#region Audio---------------------------------
 
 func set_mute(value: bool) -> void:
     settings[Strings.SETTINGS][Strings.MUTE] = value
@@ -204,7 +214,7 @@ func set_sfx_volume(value: float) -> void:
 
 #endregion
 
-#region Other
+#region Other---------------------------------
 
 func set_brightness(value: float) -> void:
     value = clampf(value, 0.5, 2.0)

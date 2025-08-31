@@ -17,19 +17,15 @@ extends Node
 #--------------------------------------------#
 
 const SAVE_DIR = "user://saves/"
-const CONFIG_DIR = "user://config/"
-const OPTIONS_FILE: String = CONFIG_DIR + "options.cfg"
-const SETTINGS_FILE: String = CONFIG_DIR + "settings.cfg"
 const MAX_SLOTS = 3
+const CONFIG_DIR = "user://config/"
+const SETTINGS_FILE: String = CONFIG_DIR + "settings.cfg"
 # const JSON_SAVE_FILE: String = "user://saveDataJson.json"
 # const BINARY_SAVE_FILE: String = "user://saveDataBinary.dat"
 # const RESOURCE_SAVE_FILE: String = "user://saveDataResource.res"
+# const KEY_PATH = "user://unlock.bin"
 
-const KEY_PATH = "user://unlock.bin"
 const SAVE_GROUP = "savable"
-
-# const KEY_RESOURCE_PATH = "res://Utility/unlock_key.tres"
-# var encryption_key: PackedByteArray
 
 
 func _ready() -> void:

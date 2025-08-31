@@ -102,7 +102,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_wwb16")
 script = ExtResource("1_y8udk")
-do_center_window = true
 keybind_menu = NodePath("KeybindMenu")
 metadata/_edit_lock_ = true
 
@@ -173,8 +172,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_3egnv")
 follow_focus = true
-scroll_vertical = 100
-scroll_vertical_custom_step = 22.0
+scroll_vertical_custom_step = 25.0
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 4
 
