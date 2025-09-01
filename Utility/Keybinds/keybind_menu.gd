@@ -3,6 +3,7 @@ extends Control
 #-------------------------#
 # Requires KeybindManager
 # Requires KeybindActionContainer
+# Requires SettingsManager
 # Containers are created from KeybindManager DEFAULT_KEY_MAP
 #-------------------------#
 
@@ -12,9 +13,10 @@ const KEYBIND_CONTAINER: PackedScene = preload("res://Utility/Keybinds/keybind_a
 var previous_menu
 var keybind_containers: Array[KeybindActionContainer]
 var original_binds: Dictionary = {}
+var pressed_btn: KeybindButton
 
 @onready var controls: VBoxContainer = %Controls
-@onready var reset_confirm_container: PanelContainer = %ResetConfirm
+@onready var reset_confirm_container: ColorRect = %ResetConfirm
 @onready var reset_btn: Button = %ResetBtn
 @onready var cancel_reset: Button = %CancelReset
 
@@ -37,8 +39,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 
 func store_all_action_containers() -> void:
-    var test = controls.get_children()
-    for i in test:
+    var containers = controls.get_children()
+    for i in containers:
         if i is KeybindActionContainer:
             keybind_containers.append(i)
 
@@ -49,7 +51,7 @@ func store_all_action_containers() -> void:
 
 
 func _close_menu() -> void:
-    if original_binds.hash() != KeybindManager.input_map.hash():
+    if original_binds.hash() != SettingsManager.settings[Strings.KEYBINDS].hash():
         KeybindManager.save_input_map()
     original_binds.clear()
     hide()
@@ -58,10 +60,10 @@ func _close_menu() -> void:
 
 
 func _create_actions_list() -> void:
-    # for input_action: String in KeybindManager.input_map.keys():
-    for input_action: String in SettingsManager.settings[Strings.KEYBINDS].keys():
+    for input_action: String in KeybindManager.DEFAULT_KEY_MAP.keys():
         var new_text: String = input_action.capitalize()
         var container: KeybindActionContainer = KEYBIND_CONTAINER.instantiate()
+        container.menu = self
         controls.add_child(container)
         container.label_name = new_text
         container.action_name = input_action
@@ -69,7 +71,15 @@ func _create_actions_list() -> void:
         controls.add_child(separator)
 
 
+func _unpress_active_btn() -> void:
+    if pressed_btn != null:
+        pressed_btn.button_pressed = false
+        pressed_btn.emit_signal("toggled", false)
+        pressed_btn = null
+
+
 func _on_reset_btn_pressed() -> void:
+    _unpress_active_btn()
     reset_confirm_container.show()
     cancel_reset.call_deferred("grab_focus")
 
@@ -94,9 +104,11 @@ func _on_cancel_reset_pressed() -> void:
 
 func _on_visibility_changed() -> void:
     if visible:
-        original_binds = KeybindManager.input_map.duplicate(true)
+        # original_binds = KeybindManager.input_map.duplicate(true)
+        original_binds = SettingsManager.settings[Strings.KEYBINDS].duplicate(true)
         if keybind_containers.size() > 0:
             keybind_containers[0].get_buttons()[0].call_deferred("grab_focus")
         set_process_unhandled_key_input(true)
     else:
         set_process_unhandled_key_input(false)
+        _unpress_active_btn()

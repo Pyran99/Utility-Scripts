@@ -6,6 +6,8 @@ class_name KeybindButton
 @export var action: String = "": set = _set_action
 @export var primary: bool = true
 
+var menu: Control
+
 
 func _set_action(value) -> void:
     action = value
@@ -19,6 +21,7 @@ func _init() -> void:
 
 func _ready() -> void:
     set_process_input(false)
+    mouse_entered.connect(_on_mouse_entered)
 
 
 func _input(event: InputEvent) -> void:
@@ -73,17 +76,16 @@ func _remap_action_to(event: InputEvent) -> void:
         new_event.physical_keycode = event.physical_keycode
 
     var count: int = 0 if primary else 1
-    # KeybindManager.input_map[action][count] = new_event #TODO testing
-    SettingsManager.settings[Strings.KEYBINDS][action][count] = new_event
+    var settings = SettingsManager.settings[Strings.KEYBINDS]
     var keycodes := KeybindManager._get_keycodes_from_input_map()
+    settings[action][count] = new_event
     if keycodes[action].size() == 1:
         keycodes[action].append(null)
     if new_event != null:
         keycodes[action][count] = new_event.physical_keycode
 
     InputMap.action_erase_events(action)
-    # for i in KeybindManager.input_map[action]: #TODO testing
-    for i in SettingsManager.settings[Strings.KEYBINDS][action]:
+    for i in settings[action]:
         if i == null:
             continue
         InputMap.action_add_event(action, i)
@@ -104,8 +106,14 @@ func _reset_key_to_default() -> InputEvent:
 func _on_toggled(toggled_on: bool) -> void:
     set_process_input(toggled_on)
     if toggled_on:
+        menu.pressed_btn = self
         text = "..."
         release_focus()
     else:
         _display_current_key()
-        grab_focus()
+        call_deferred("grab_focus")
+
+
+func _on_mouse_entered() -> void:
+    if !button_pressed and focus_mode != Control.FOCUS_NONE:
+        call_deferred("grab_focus")
