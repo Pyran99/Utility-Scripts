@@ -51,7 +51,8 @@ func store_all_action_containers() -> void:
 
 
 func _close_menu() -> void:
-    if original_binds.hash() != SettingsManager.settings[Strings.KEYBINDS].hash():
+    # if original_binds.hash() != SettingsManager.settings[Strings.KEYBINDS].hash():
+    if original_binds.hash() != KeybindManager.input_map.hash():
         KeybindManager.save_input_map()
     original_binds.clear()
     hide()
@@ -104,8 +105,8 @@ func _on_cancel_reset_pressed() -> void:
 
 func _on_visibility_changed() -> void:
     if visible:
-        # original_binds = KeybindManager.input_map.duplicate(true)
-        original_binds = SettingsManager.settings[Strings.KEYBINDS].duplicate(true)
+        original_binds = KeybindManager.input_map.duplicate(true)
+        # original_binds = SettingsManager.settings[Strings.KEYBINDS].duplicate(true)
         if keybind_containers.size() > 0:
             keybind_containers[0].get_buttons()[0].call_deferred("grab_focus")
         set_process_unhandled_key_input(true)

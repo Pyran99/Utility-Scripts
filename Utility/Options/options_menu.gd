@@ -375,7 +375,6 @@ func _on_keybind_btn_pressed() -> void:
 
 
 func _on_gamma_slider_value_changed(value: float) -> void:
-    print_debug("2-- ", value)
     brightness_value.text = str("%2.2f" % value)
     SettingsManager.set_brightness(value)
 
@@ -424,6 +423,7 @@ func _on_visibility_changed() -> void:
     else:
         set_process_unhandled_key_input(false)
         save_settings()
+        print_debug("Saved settings:\n", SettingsManager.settings[Strings.SETTINGS])
         original_options.clear()
 
 
