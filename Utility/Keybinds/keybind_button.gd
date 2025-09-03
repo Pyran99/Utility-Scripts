@@ -55,7 +55,8 @@ func _display_current_key() -> void:
     var current_key := ""
     var action_number: int = 0 if primary else 1
     if action_events[action_number] is InputEventJoypadButton:
-        current_key = action_events[action_number].as_text()
+        # current_key = action_events[action_number].as_text()
+        pass
     else:
         if action_events[action_number] != null:
             var ds_keycode := DisplayServer.keyboard_get_keycode_from_physical(action_events[action_number].physical_keycode)
