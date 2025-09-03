@@ -94,18 +94,6 @@ func _reset_key_to_default() -> InputEvent:
             return key["events"][1]
         return null
 
-#NYI
-func _is_event_part_of_action(event: InputEvent) -> bool:
-    for _action in KeybindManager.input_map:
-        for _event in KeybindManager.input_map[_action]:
-            if InputMap.action_has_event(_action, event):
-                if _action == action:
-                    print("event is in action")
-                    return false
-                print("event is part of action")
-                return true
-    return false
-
 
 func _on_toggled(toggled_on: bool) -> void:
     set_process_input(toggled_on)

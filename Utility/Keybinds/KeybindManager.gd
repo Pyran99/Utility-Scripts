@@ -47,12 +47,20 @@ static func init() -> void:
 
 static func save_input_map() -> void:
     _save_keybinds()
+    # _save_input_keycodes_as_config() #WORKING
+    # _save_input_map_as_config() #WORKING
+    # _save_input_keycodes_json() #WORKING
+    # _save_input_map_json() #WORKING
 
 
 static func load_input_map() -> void:
     _load_keybinds()
+    # _load_input_keycodes_from_config() #WORKING
+    # _load_input_map_from_config() #WORKING
+    # _load_input_keycodes_json() #WORKING
+    # _load_input_map_json() #WORKING
 
-
+## Reset InputMap to project settings, load default actions to input_map, save
 static func reset_input_map() -> void:
     InputMap.load_from_project_settings()
     _load_default_input_map()
@@ -69,35 +77,38 @@ static func _save_input_keycodes_as_config() -> void:
 
 static func _load_input_keycodes_from_config() -> void:
     var data := SavingManager.load_from_config_in_file(Strings.KEYBINDS, INPUT_KEYCODES_CONFIG_FILE)
+    print_debug("1.keycodes CONFIG data:\n", data)
     if data == {}:
         reset_input_map()
         _load_input_keycodes_from_config()
         return
-    _add_events_to_input_map(data)
+    input_map = data
+    _add_event_keycodes_to_input_map(data)
 
 ## Save config file with the InputEventKey as objects for each action
 static func _save_input_map_as_config() -> void:
-    # SavingManager.save_as_config_in_file(Strings.KEYBINDS, input_map, INPUT_MAP_CONFIG_FILE)
-    SavingManager.save_as_config_in_file(Strings.KEYBINDS, SavingManager.settings_dict[Strings.KEYBINDS], INPUT_MAP_CONFIG_FILE)
+    SavingManager.save_as_config_in_file(Strings.KEYBINDS, input_map, INPUT_MAP_CONFIG_FILE)
 
 
 static func _load_input_map_from_config() -> void:
     var data := SavingManager.load_from_config_in_file(Strings.KEYBINDS, INPUT_MAP_CONFIG_FILE)
     if data.has(Strings.KEYBINDS):
         data = data[Strings.KEYBINDS]
-    # print_debug("keybinds data:\n", data)
+    print_debug("2.keybinds CONFIG data:\n", data)
     if data == {}:
         reset_input_map()
         _load_input_map_from_config()
         return
     input_map = data
-    _add_events_to_input_map(input_map)
+    _add_event_objects_to_input_map(data)
 
 
 static func _save_keybinds() -> void:
-    SettingsManager.settings[Strings.KEYBINDS] = input_map
+    # SettingsManager.settings[Strings.KEYBINDS] = input_map
+    SettingsManager.settings[Strings.KEYBINDS] = _get_keycodes_from_input_map(input_map)
     SettingsManager.save_settings()
-    print_debug("Saved keybinds to SettingsManager:\n", _get_keycodes_from_input_map(SettingsManager.settings[Strings.KEYBINDS]))
+    # print_debug("Saved keybinds to SettingsManager:\n", _get_keycodes_from_input_map(SettingsManager.settings[Strings.KEYBINDS]))
+    print_debug("Saved keybinds to SettingsManager:\n", SettingsManager.settings[Strings.KEYBINDS])
 
 
 static func _load_keybinds() -> void:
@@ -121,11 +132,13 @@ static func _save_input_keycodes_json() -> void:
 
 static func _load_input_keycodes_json() -> void:
     var data := SavingManager.load_file_from_json_unencrypted(INPUT_KEYCODES_JSON_FILE)
+    print_debug("3.keycodes JSON data:\n", data)
     if data == {}:
         reset_input_map()
         _load_input_keycodes_json()
         return
-    _add_events_to_input_map(data)
+    input_map = data
+    _add_event_keycodes_to_input_map(data)
 
 ## Save json file with the InputEventKey as strings for each action
 static func _save_input_map_json() -> void:
@@ -134,11 +147,13 @@ static func _save_input_map_json() -> void:
 
 static func _load_input_map_json() -> void:
     var full_data := SavingManager.load_file_from_json_unencrypted(INPUT_MAP_JSON_FILE)
+    print_debug("4.keybinds JSON data:\n", full_data)
     if full_data == {}:
         reset_input_map()
         _load_input_map_json()
         return
     var new_keycodes = _convert_json_string_to_events(full_data)
+    input_map = new_keycodes
     _add_events_to_input_map(new_keycodes)
 
 #endregion
@@ -158,15 +173,15 @@ static func _load_default_input_map() -> void:
             input_map[action].append(event)
         if input_map[action].size() == 1:
             input_map[action].append(null) # make sure there are 2 values for primary/secondary
-            
-    print_debug("Default input_map:\n", _get_keycodes_from_input_map(input_map))
 
-## Adds data from {'key': [InputEventKey],} format to input_map
+## Adds data to input_map. Works for either keycodes or InputEvent objects
 static func _add_events_to_input_map(map: Dictionary) -> void:
-    var keycodes: Dictionary = _get_keycodes_from_input_map(map)
-    _add_event_keycodes_to_input_map(keycodes)
+    if _parse_map_for_input_object(map): # if has InputEvent, map needs to be turned into keycodes
+        _add_event_objects_to_input_map(map)
+    else:
+        _add_event_keycodes_to_input_map(map)
 
-## Adds data from {'key': [keycode],} format to input_map
+## Adds data from {'key': [keycode,],} format to input_map
 static func _add_event_keycodes_to_input_map(map: Dictionary) -> void:
     for action in map.keys():
         if !DEFAULT_KEY_MAP.has(action):
@@ -185,7 +200,23 @@ static func _add_event_keycodes_to_input_map(map: Dictionary) -> void:
                 continue
             InputMap.action_add_event(action, input_map[action][i])
 
-## Returns the physical keycodes for every input action in input_map. {"action": [keycodes]}
+## Adds data from {'key': [InputEvent,],} format to input_map
+static func _add_event_objects_to_input_map(map: Dictionary) -> void:
+    for action in map.keys():
+        if !DEFAULT_KEY_MAP.has(action):
+            continue
+        for i in map[action].size():
+            input_map[action][i] = map[action][i]
+
+        if input_map[action].size() == 1:
+            input_map[action].append(null)
+        InputMap.action_erase_events(action)
+        for i in input_map[action].size():
+            if input_map[action][i] == null:
+                continue
+            InputMap.action_add_event(action, input_map[action][i])
+
+## Returns the physical keycodes for every input action in 'map'. {"action": [object InputEventKey,],}
 static func _get_keycodes_from_input_map(map: Dictionary) -> Dictionary:
     var keycodes: Dictionary = {}
     for action in map.keys():
@@ -197,6 +228,20 @@ static func _get_keycodes_from_input_map(map: Dictionary) -> Dictionary:
         keycodes[action] = codes
 
     return keycodes
+
+## Returns true if map is saved as {'key': [object InputEventKey],}
+static func _parse_map_for_input_object(map: Dictionary) -> bool:
+    var string = JSON.stringify(map)
+    var parse = JSON.parse_string(string)
+    for key in parse.keys():
+        for i in parse[key].size():
+            if parse[key][i] is int or parse[key][i] is float or parse[key][i] == null:
+                # keycode files are array of numbers/null
+                return false
+            if parse[key][i].begins_with("InputEvent"):
+                # input objects will be array of strings/null
+                return true
+    return false
 
 ## Converts JSON InputEventKey strings to InputMap events for each DEFAULT_KEY_MAP action. Only works with InputEventKey
 static func _convert_json_string_to_events(json_data: Dictionary) -> Dictionary:
@@ -221,9 +266,10 @@ static func _convert_json_string_to_events(json_data: Dictionary) -> Dictionary:
                 event = InputEventKey.new()
                 event.physical_keycode = keycode
                 codes.append(keycode)
+            else:
+                print_debug("input is not key ", json_data[action][i])
 
         keycodes[action] = codes
-
     return keycodes
 
 
