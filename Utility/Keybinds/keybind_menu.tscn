@@ -209,6 +209,21 @@ size_flags_horizontal = 4
 size_flags_vertical = 8
 text = "Back"
 
+[node name="InputTypeBtn" type="OptionButton" parent="Control/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+alignment = 1
+clip_text = true
+selected = 0
+item_count = 3
+popup/item_0/text = "Keyboard"
+popup/item_0/id = 0
+popup/item_1/text = "Gamepad"
+popup/item_1/id = 1
+popup/item_2/text = "Touch"
+popup/item_2/id = 2
+
 [node name="ResetConfirm" type="ColorRect" parent="Control"]
 unique_name_in_owner = true
 visible = false
@@ -287,6 +302,7 @@ text = "no"
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
 [connection signal="pressed" from="Control/PanelContainer/MarginContainer/VBoxContainer/ResetBtn" to="." method="_on_reset_btn_pressed"]
 [connection signal="pressed" from="Control/PanelContainer/MarginContainer/VBoxContainer/BackBtn" to="." method="_on_back_btn_pressed"]
+[connection signal="item_selected" from="Control/PanelContainer/MarginContainer/VBoxContainer/InputTypeBtn" to="." method="_on_input_type_btn_item_selected"]
 [connection signal="pressed" from="Control/ResetConfirm/PanelContainer/VBoxContainer/HBoxContainer/ConfirmReset" to="." method="_on_confirm_reset_pressed"]
 [connection signal="pressed" from="Control/ResetConfirm/PanelContainer/VBoxContainer/HBoxContainer/CancelReset" to="." method="_on_cancel_reset_pressed"]
 

@@ -34,6 +34,13 @@ const INPUT_MAP_JSON_FILE := SavingManager.CONFIG_DIR + "keybinds_full.json"
 
 static var input_map: Dictionary # {action = [InputEventKey, InputEventKey]}
 
+enum INPUT_SCHEMES {
+    KEYBOARD,
+    CONTROLLER,
+    TOUCH,
+}
+static var input_scheme: INPUT_SCHEMES = INPUT_SCHEMES.KEYBOARD
+
 
 # use ready if setting this to autoload
 # called from SettingsManager ready
@@ -47,18 +54,10 @@ static func init() -> void:
 
 static func save_input_map() -> void:
     _save_keybinds()
-    # _save_input_keycodes_as_config() #WORKING
-    # _save_input_map_as_config() #WORKING
-    # _save_input_keycodes_json() #WORKING
-    # _save_input_map_json() #WORKING
 
 
 static func load_input_map() -> void:
     _load_keybinds()
-    # _load_input_keycodes_from_config() #WORKING
-    # _load_input_map_from_config() #WORKING
-    # _load_input_keycodes_json() #WORKING
-    # _load_input_map_json() #WORKING
 
 ## Reset InputMap to project settings, load default actions to input_map, save
 static func reset_input_map() -> void:
@@ -69,6 +68,18 @@ static func reset_input_map() -> void:
 
 #region Config-------------------------
 
+static func _save_keybinds() -> void:
+    SettingsManager.settings[Strings.KEYBINDS] = _get_keycodes_from_input_map(input_map)
+    SettingsManager.save_settings()
+
+
+static func _load_keybinds() -> void:
+    if SettingsManager.settings.has(Strings.KEYBINDS):
+        input_map = SettingsManager.settings[Strings.KEYBINDS]
+    else:
+        reset_input_map()
+    _add_events_to_input_map(input_map)
+
 ## Save config file with only the keycodes for each action
 static func _save_input_keycodes_as_config() -> void:
     var keycodes: Dictionary = _get_keycodes_from_input_map(input_map)
@@ -77,7 +88,6 @@ static func _save_input_keycodes_as_config() -> void:
 
 static func _load_input_keycodes_from_config() -> void:
     var data := SavingManager.load_from_config_in_file(Strings.KEYBINDS, INPUT_KEYCODES_CONFIG_FILE)
-    print_debug("1.keycodes CONFIG data:\n", data)
     if data == {}:
         reset_input_map()
         _load_input_keycodes_from_config()
@@ -94,7 +104,6 @@ static func _load_input_map_from_config() -> void:
     var data := SavingManager.load_from_config_in_file(Strings.KEYBINDS, INPUT_MAP_CONFIG_FILE)
     if data.has(Strings.KEYBINDS):
         data = data[Strings.KEYBINDS]
-    print_debug("2.keybinds CONFIG data:\n", data)
     if data == {}:
         reset_input_map()
         _load_input_map_from_config()
@@ -102,25 +111,8 @@ static func _load_input_map_from_config() -> void:
     input_map = data
     _add_event_objects_to_input_map(data)
 
-
-static func _save_keybinds() -> void:
-    # SettingsManager.settings[Strings.KEYBINDS] = input_map
-    SettingsManager.settings[Strings.KEYBINDS] = _get_keycodes_from_input_map(input_map)
-    SettingsManager.save_settings()
-    # print_debug("Saved keybinds to SettingsManager:\n", _get_keycodes_from_input_map(SettingsManager.settings[Strings.KEYBINDS]))
-    print_debug("Saved keybinds to SettingsManager:\n", SettingsManager.settings[Strings.KEYBINDS])
-
-
-static func _load_keybinds() -> void:
-    if SettingsManager.settings.has(Strings.KEYBINDS):
-        input_map = SettingsManager.settings[Strings.KEYBINDS]
-        print_debug("Loaded keybinds keys:\n", _get_keycodes_from_input_map(input_map))
-    else:
-        reset_input_map()
-        print_debug("No keybinds found in SettingsManager")
-    _add_events_to_input_map(input_map)
-
 #endregion
+
 
 #region JSON-------------------------
 
@@ -132,7 +124,6 @@ static func _save_input_keycodes_json() -> void:
 
 static func _load_input_keycodes_json() -> void:
     var data := SavingManager.load_file_from_json_unencrypted(INPUT_KEYCODES_JSON_FILE)
-    print_debug("3.keycodes JSON data:\n", data)
     if data == {}:
         reset_input_map()
         _load_input_keycodes_json()
@@ -147,7 +138,6 @@ static func _save_input_map_json() -> void:
 
 static func _load_input_map_json() -> void:
     var full_data := SavingManager.load_file_from_json_unencrypted(INPUT_MAP_JSON_FILE)
-    print_debug("4.keybinds JSON data:\n", full_data)
     if full_data == {}:
         reset_input_map()
         _load_input_map_json()
@@ -158,7 +148,19 @@ static func _load_input_map_json() -> void:
 
 #endregion
 
+
 #region Helpers-------------------------
+
+## If a specific key can be rebound to
+static func can_use_key(action: String) -> bool:
+    var _action: String = action.to_lower()
+    match _action:
+        "escape":
+            return false
+        "backspace":
+            return false
+        _:
+            return true
 
 ## Resets input_map to default InputMap values
 static func _load_default_input_map() -> void:
@@ -187,9 +189,8 @@ static func _add_event_keycodes_to_input_map(map: Dictionary) -> void:
         if !DEFAULT_KEY_MAP.has(action):
             continue
         for i in map[action].size():
-            var event = InputEventKey.new()
             var keycode: int = map[action][i]
-            event.physical_keycode = keycode
+            var event = _create_input_event_key(keycode)
             input_map[action][i] = event
 
         if input_map[action].size() == 1:
@@ -273,15 +274,48 @@ static func _convert_json_string_to_events(json_data: Dictionary) -> Dictionary:
     return keycodes
 
 
-static func can_use_key(action: String) -> bool:
-    var _action: String = action.to_lower()
-    match _action:
-        "escape":
-            return false
-        "backspace":
-            return false
-        _:
-            return true
+static func _create_input_event_key(keycode: int) -> InputEventKey:
+    var event = InputEventKey.new()
+    event.physical_keycode = keycode
+    return event
 
+
+static func _create_input_event_joypad(button_index: int) -> InputEventJoypadButton:
+    var event = InputEventJoypadButton.new()
+    event.button_index = button_index
+    return event
+
+
+static func _create_input_event_joypad_motion(axis: int) -> InputEventJoypadMotion:
+    var event = InputEventJoypadMotion.new()
+    event.axis = axis
+    return event
+
+
+static func _create_input_event_mouse_button(button_index: int) -> InputEventMouseButton:
+    var event = InputEventMouseButton.new()
+    event.button_index = button_index
+    return event
+
+#endregion
+
+
+#region Gamepad-------------------------
+
+# static func _add_gamepad_events_to_input_map(map: Dictionary) -> void:
+#     for action in map.keys():
+#         if !DEFAULT_KEY_MAP.has(action):
+#             continue
+#         for i in map[action].size():
+#             var event = _create_input_event_joypad(map[action][i])
+#             input_map[action][i] = event
+
+#         if input_map[action].size() == 1:
+#             input_map[action].append(null)
+#         InputMap.action_erase_events(action)
+#         for i in input_map[action].size():
+#             if input_map[action][i] == null:
+#                 continue
+#             InputMap.action_add_event(action, input_map[action][i])
 
 #endregion

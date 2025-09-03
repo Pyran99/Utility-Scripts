@@ -112,3 +112,8 @@ func _on_visibility_changed() -> void:
     else:
         set_process_unhandled_key_input(false)
         _unpress_active_btn()
+
+
+func _on_input_type_btn_item_selected(index: int) -> void:
+    if index != -1:
+        KeybindManager.input_scheme = index as KeybindManager.INPUT_SCHEMES
