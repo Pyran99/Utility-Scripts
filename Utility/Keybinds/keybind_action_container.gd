@@ -7,6 +7,7 @@ class_name KeybindActionContainer
 ## Input map name
 @export_placeholder("move_forward") var action_name: String: set = _set_action
 
+var menu: Control
 
 @onready var label: Label = $Label
 @onready var primary_btn: KeybindButton = %PrimaryBtn
@@ -35,17 +36,7 @@ func _set_action(value):
 
 
 func _ready():
-    await get_tree().process_frame
-    var input_map = ProjectSettings.get_setting("input/%s" % action_name)
-    assert(input_map != null, "%s: No input map for %s" % [name, action_name])
-    if KeybindManager.DEFAULT_KEY_MAP.get(action_name) != null:
-        var value = KeybindManager.DEFAULT_KEY_MAP[action_name]
-        if value == false:
-            secondary_btn.queue_free()
-            primary_btn.disabled = true
-            var control = Control.new()
-            control.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-            add_child(control)
+    call_deferred("_deferred_setup")
 
 
 ## Returns primary & secondary button
@@ -56,6 +47,22 @@ func get_buttons() -> Array[KeybindButton]:
     if secondary_btn:
         btns.append(secondary_btn)
     return btns
+
+
+func _deferred_setup() -> void:
+    var input_map = ProjectSettings.get_setting("input/%s" % action_name)
+    assert(input_map != null, "%s: No input map for %s" % [name, action_name])
+    primary_btn.menu = menu
+    secondary_btn.menu = menu
+    if KeybindManager.DEFAULT_KEY_MAP.get(action_name) != null:
+        var value = KeybindManager.DEFAULT_KEY_MAP[action_name]
+        if value == false:
+            secondary_btn.queue_free()
+            primary_btn.disabled = true
+            primary_btn.focus_mode = Control.FOCUS_NONE
+            var control = Control.new()
+            control.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+            add_child(control)
 
 
 func _get_configuration_warnings() -> PackedStringArray:

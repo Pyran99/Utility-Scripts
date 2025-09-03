@@ -1,11 +1,11 @@
 [gd_scene load_steps=16 format=3 uid="uid://bhc01pr3kyhym"]
 
-[ext_resource type="Theme" uid="uid://cfp22mav71a3h" path="res://Utility/options_menu_theme.tres" id="1_wwb16"]
-[ext_resource type="Script" uid="uid://c2kfomcyao3nb" path="res://Utility/options_menu.gd" id="1_y8udk"]
+[ext_resource type="Theme" uid="uid://cfp22mav71a3h" path="res://Utility/Options/options_menu_theme.tres" id="1_wwb16"]
+[ext_resource type="Script" uid="uid://c2kfomcyao3nb" path="res://Utility/Options/options_menu.gd" id="1_y8udk"]
 [ext_resource type="Texture2D" uid="uid://bvwmek25680dv" path="res://Assets/panel-border-008.png" id="3_0ami3"]
 [ext_resource type="PackedScene" uid="uid://dk3j16ukdj05c" path="res://Utility/Keybinds/keybind_menu.tscn" id="3_u51tj"]
-[ext_resource type="Script" uid="uid://dm1tfjpwgnum" path="res://Utility/option_container.gd" id="4_4eplt"]
-[ext_resource type="Script" uid="uid://tutvndbjn44a" path="res://Utility/settings_container.gd" id="4_8nr3t"]
+[ext_resource type="Script" uid="uid://dm1tfjpwgnum" path="res://Utility/Options/option_container.gd" id="4_4eplt"]
+[ext_resource type="Script" uid="uid://tutvndbjn44a" path="res://Utility/Options/settings_container.gd" id="4_8nr3t"]
 [ext_resource type="Texture2D" uid="uid://cl3anb1cwywds" path="res://Assets/selection_arrow_9x9.png" id="5_i6viq"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ql6ir"]
@@ -20,39 +20,6 @@ corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 corner_detail = 4
-anti_aliasing = false
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qnm3g"]
-bg_color = Color(0.0737847, 0.235189, 0.442708, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
-corner_detail = 4
-anti_aliasing = false
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3egnv"]
-bg_color = Color(0, 0, 0, 1)
-corner_detail = 4
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4eplt"]
-texture = ExtResource("3_0ami3")
-texture_margin_left = 11.0
-texture_margin_top = 11.0
-texture_margin_right = 11.0
-texture_margin_bottom = 11.0
-draw_center = false
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uqqkj"]
-bg_color = Color(0.220866, 0.71875, 0.267543, 1)
-border_color = Color(0.0588235, 0.0588235, 0.0588235, 1)
-corner_radius_top_left = 4
-corner_radius_bottom_left = 4
 anti_aliasing = false
 
 [sub_resource type="Animation" id="Animation_sq4jd"]
@@ -92,6 +59,39 @@ _data = {
 &"slide_in": SubResource("Animation_dla8e")
 }
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qnm3g"]
+bg_color = Color(0.0737847, 0.235189, 0.442708, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+corner_detail = 4
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3egnv"]
+bg_color = Color(0, 0, 0, 1)
+corner_detail = 4
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4eplt"]
+texture = ExtResource("3_0ami3")
+texture_margin_left = 11.0
+texture_margin_top = 11.0
+texture_margin_right = 11.0
+texture_margin_bottom = 11.0
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uqqkj"]
+bg_color = Color(0.220866, 0.71875, 0.267543, 1)
+border_color = Color(0.0588235, 0.0588235, 0.0588235, 1)
+corner_radius_top_left = 4
+corner_radius_bottom_left = 4
+anti_aliasing = false
+
 [node name="OptionsMenu" type="Control" node_paths=PackedStringArray("keybind_menu")]
 process_mode = 3
 layout_mode = 3
@@ -102,7 +102,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_wwb16")
 script = ExtResource("1_y8udk")
-do_center_window = true
 keybind_menu = NodePath("KeybindMenu")
 metadata/_edit_lock_ = true
 
@@ -121,6 +120,12 @@ offset_bottom = 206.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ql6ir")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="OptionsPanel"]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_vflxl")
+}
 
 [node name="MarginContainer" type="MarginContainer" parent="OptionsPanel"]
 layout_mode = 2
@@ -167,8 +172,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_3egnv")
 follow_focus = true
-scroll_vertical = 100
-scroll_vertical_custom_step = 22.0
+scroll_vertical_custom_step = 25.0
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 4
 
@@ -640,12 +644,6 @@ focus_neighbor_top = NodePath("../Options/ScrollContainer/MarginContainer/Settin
 theme_type_variation = &"ButtonGreen"
 theme_override_font_sizes/font_size = 20
 text = "Close"
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="OptionsPanel"]
-unique_name_in_owner = true
-libraries = {
-&"": SubResource("AnimationLibrary_vflxl")
-}
 
 [node name="KeybindMenu" parent="." instance=ExtResource("3_u51tj")]
 visible = false

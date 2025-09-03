@@ -17,21 +17,15 @@ extends Node
 #--------------------------------------------#
 
 const SAVE_DIR = "user://saves/"
-const CONFIG_DIR = "user://config/"
-const OPTIONS_FILE: String = CONFIG_DIR + "options.cfg"
-const SETTINGS_FILE: String = CONFIG_DIR + "settings.cfg"
 const MAX_SLOTS = 3
+const CONFIG_DIR = "user://config/"
+const SETTINGS_FILE: String = CONFIG_DIR + "settings.cfg"
 # const JSON_SAVE_FILE: String = "user://saveDataJson.json"
 # const BINARY_SAVE_FILE: String = "user://saveDataBinary.dat"
 # const RESOURCE_SAVE_FILE: String = "user://saveDataResource.res"
+# const KEY_PATH = "user://unlock.bin"
 
-const KEY_PATH = "user://unlock.bin"
-const KEY_RESOURCE_PATH = "res://Utility/unlock_key.tres"
 const SAVE_GROUP = "savable"
-
-var settings_dict: Dictionary = {}
-
-var encryption_key: PackedByteArray
 
 
 func _ready() -> void:
@@ -41,17 +35,23 @@ func _ready() -> void:
         DirAccess.make_dir_recursive_absolute(CONFIG_DIR)
 
     _load_or_generate_key()
-    SettingsManager.init()
-    KeybindManager.init()
 
 
 func _load_or_generate_key() -> void:
-    var key: UnlockKey = load(KEY_RESOURCE_PATH)
-    if key.encryption_key.is_empty():
+    if !ProjectSettings.has_setting("game/unlock_key"):
         var crypto := Crypto.new()
         var new_key := crypto.generate_random_bytes(32)
-        key.encryption_key = new_key
-        ResourceSaver.save(key)
+        ProjectSettings.set_setting("game/unlock_key", new_key)
+
+    # var key: UnlockKey = load(KEY_RESOURCE_PATH)
+    # if key.encryption_key.is_empty():
+    #     print("Generating new key")
+    #     var crypto := Crypto.new()
+    #     var new_key := crypto.generate_random_bytes(32)
+    #     key.encryption_key = new_key
+    #     ResourceSaver.save(key, KEY_RESOURCE_PATH)
+    #     ProjectSettings.set_setting("game/unlock_key", new_key)
+    #     print_debug(key.resource_path)
 
     ######
     # if FileAccess.file_exists(KEY_PATH):
@@ -72,6 +72,8 @@ func _load_or_generate_key() -> void:
 
     # return new_key
 
+
+#region game saves encrypted TODO----------------------------------------
 
 func get_save_path(slot: int) -> String:
     assert(slot >= 0 and slot < MAX_SLOTS, "invalid save slot")
@@ -94,14 +96,6 @@ func get_all_save_slots_info() -> Array:
     return slots
 
 
-func _verify_file(_file: FileAccess) -> bool:
-    if _file == null:
-        push_error("Failed to open file: %s" % FileAccess.get_open_error())
-        return false
-    return true
-
-
-#region game saves encrypted TODO----------------------------------------
 func save_game_encrypted_json(slot: int) -> bool:
     assert(slot >= 0 and slot < MAX_SLOTS, "invalid save slot")
     var save_data = {}
@@ -120,7 +114,7 @@ func save_game_encrypted_json(slot: int) -> bool:
     var file = FileAccess.open_encrypted(
         get_save_path(slot),
         FileAccess.WRITE,
-        encryption_key
+        ProjectSettings.get_setting("game/unlock_key")
     )
 
     if file:
@@ -144,7 +138,7 @@ func load_game_encrypted_json(slot: int) -> bool:
     var file = FileAccess.open_encrypted(
         save_path,
         FileAccess.READ,
-        encryption_key
+        ProjectSettings.get_setting("game/unlock_key")
     )
 
     if not file:
@@ -242,14 +236,9 @@ func save_as_config_in_file(section: String, data: Dictionary, save_file: String
         config.set_value(section, key, data[key])
     config.save(save_file)
 
-## Loads the config 'section' data from 'save file'
+## Loads the config 'section' data from 'save file'. This file will only have 1 section
 func load_from_config_in_file(section: String, save_file: String) -> Dictionary:
-    if !FileAccess.file_exists(save_file):
-        print_debug("File did not exist: %s" % save_file)
-        var _file = FileAccess.open(save_file, FileAccess.WRITE)
-        if !_verify_file(_file):
-            return {}
-        _file.close()
+    _create_and_verify_file(save_file)
 
     var config := ConfigFile.new()
     var err := config.load(save_file)
@@ -262,34 +251,33 @@ func load_from_config_in_file(section: String, save_file: String) -> Dictionary:
             result[i] = config.get_value(section, i)
     return result
 
-## This func adds data to section in settings_dict, intended if saving all data in 1 file. Requires all data to be in settings_dict otherwise it gets erased
-func save_as_config(section: String, data: Dictionary, save_file: String) -> void:
+
+func save_config_data(data: Dictionary, save_file: String) -> void:
     var config = ConfigFile.new()
-    settings_dict[section] = data
-    for _section in settings_dict:
-        for key in settings_dict[_section]:
-            config.set_value(_section, key, settings_dict[_section][key])
+    for section in data: # ["section1": {}, "section2": {},]
+        for key in data[section]:
+            config.set_value(section, key, data[section][key])
+
     config.save(save_file)
 
-## loads all sections to settings_dict & returns section data
-func load_from_config(section: String, save_file: String) -> Dictionary:
-    if !FileAccess.file_exists(save_file):
-        print_debug("File did not exist: %s" % save_file)
-        var _file = FileAccess.open(save_file, FileAccess.WRITE)
-        if !_verify_file(_file):
-            return {}
-        _file.close()
 
-    var config = ConfigFile.new()
-    var err = config.load(save_file)
+func load_config_data(save_file: String) -> Dictionary:
+    print("Loading config data from: %s" % save_file)
+    var loaded_data := {}
+    _create_and_verify_file(save_file)
+    var config := ConfigFile.new()
+    var err := config.load(save_file)
     if err != OK:
+        push_error("Failed to config load: %s" % save_file)
         return {}
-    var result := {}
-    for _section in config.get_sections():
-        for i in config.get_section_keys(section):
-            result[i] = config.get_value(section, i)
-        settings_dict[section] = result
-    return result
+    print_debug("Config sections:\n%s" % config.get_sections())
+    for section in config.get_sections():
+        loaded_data[section] = {}
+        for key in config.get_section_keys(section):
+            loaded_data[section][key] = config.get_value(section, key)
+
+    return loaded_data
+
 
 #endregion
 
@@ -336,8 +324,7 @@ func load_file_from_json_unencrypted(save_file: String) -> Dictionary:
 
 ## Save 'data' to 'save file' as encrypted JSON
 func save_file_as_json_encrypted(data: Dictionary, save_file: String) -> void:
-    var key = load(KEY_RESOURCE_PATH).encryption_key
-    var file = FileAccess.open_encrypted(save_file, FileAccess.WRITE, key)
+    var file = FileAccess.open_encrypted(save_file, FileAccess.WRITE, ProjectSettings.get_setting("game/unlock_key"))
     if !_verify_file(file):
         return
     var json_string = JSON.stringify(data)
@@ -347,15 +334,14 @@ func save_file_as_json_encrypted(data: Dictionary, save_file: String) -> void:
 ## Load 'save file' from encrypted JSON
 func load_file_from_json_encrypted(save_file: String) -> Dictionary:
     var result := {}
-    var key = load(KEY_RESOURCE_PATH).encryption_key
     if !FileAccess.file_exists(save_file):
         print_debug("File did not exist: %s" % save_file)
-        var _file = FileAccess.open_encrypted(save_file, FileAccess.WRITE, key)
+        var _file = FileAccess.open_encrypted(save_file, FileAccess.WRITE, ProjectSettings.get_setting("game/unlock_key"))
         if !_verify_file(_file):
             return {}
         _file.close()
 
-    var file = FileAccess.open_encrypted(save_file, FileAccess.READ, key)
+    var file = FileAccess.open_encrypted(save_file, FileAccess.READ, ProjectSettings.get_setting("game/unlock_key"))
     if !_verify_file(file):
         return {}
     var json_string = file.get_as_text()
@@ -399,6 +385,22 @@ func load_file_as_json_with_password(data: Dictionary, save_file: String, passwo
 
 #endregion
 
+## if save file does not exist, create it
+func _create_and_verify_file(save_file: String) -> bool:
+    if FileAccess.file_exists(save_file):
+        return true
+    var file = FileAccess.open(save_file, FileAccess.WRITE)
+    if !_verify_file(file, save_file):
+        return false
+    file.close()
+    return true
+
+
+func _verify_file(_file: FileAccess, path: String = "") -> bool:
+    if _file == null:
+        push_error("Failed to open file: %s\nError: %s" % [path, FileAccess.get_open_error()])
+        return false
+    return true
 
 #region encoded as binary ----------------------------------------
 ##TODO work is needed for decoding.

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://w171wvd68073"]
 
 [ext_resource type="PackedScene" uid="uid://f2ncpeqnf4c8" path="res://Utility/main_menu.tscn" id="1_jxd7e"]
-[ext_resource type="PackedScene" uid="uid://bhc01pr3kyhym" path="res://Utility/options_menu.tscn" id="2_i34d3"]
+[ext_resource type="PackedScene" uid="uid://bhc01pr3kyhym" path="res://Utility/Options/options_menu.tscn" id="2_i34d3"]
 
 [node name="GameStartMenu" type="CanvasLayer"]
 

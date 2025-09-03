@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://dk3j16ukdj05c"]
 
-[ext_resource type="Theme" uid="uid://cfp22mav71a3h" path="res://Utility/options_menu_theme.tres" id="1_4oefi"]
+[ext_resource type="Theme" uid="uid://cfp22mav71a3h" path="res://Utility/Options/options_menu_theme.tres" id="1_4oefi"]
 [ext_resource type="Script" uid="uid://oa1ijnvjpl84" path="res://Utility/Keybinds/keybind_menu.gd" id="1_scwt4"]
 [ext_resource type="PackedScene" uid="uid://dymui0edah8jp" path="res://Utility/Keybinds/keybind_action_container.tscn" id="3_85ed0"]
 
@@ -169,12 +169,6 @@ layout_mode = 2
 [node name="KeybindActionContainer" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls" instance=ExtResource("3_85ed0")]
 layout_mode = 2
 
-[node name="PrimaryBtn" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/KeybindActionContainer" index="1"]
-text = "W"
-
-[node name="SecondaryBtn" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/KeybindActionContainer" index="2"]
-text = "W"
-
 [node name="KeybindActionContainer2" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls" instance=ExtResource("3_85ed0")]
 layout_mode = 2
 label_name = "Move Backward"
@@ -188,12 +182,6 @@ action_name = "move_left"
 [node name="Label" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/KeybindActionContainer3" index="0"]
 text = "Move Left"
 
-[node name="PrimaryBtn" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/KeybindActionContainer3" index="1"]
-text = "W"
-
-[node name="SecondaryBtn" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/KeybindActionContainer3" index="2"]
-text = "W"
-
 [node name="KeybindActionContainer4" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls" instance=ExtResource("3_85ed0")]
 layout_mode = 2
 label_name = "Move Right"
@@ -204,10 +192,6 @@ text = "Move Right"
 
 [node name="PrimaryBtn" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/KeybindActionContainer4" index="1"]
 disabled = true
-text = "W"
-
-[node name="SecondaryBtn" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/KeybindActionContainer4" index="2"]
-text = "W"
 
 [node name="ResetBtn" type="Button" parent="Control/PanelContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
@@ -225,9 +209,33 @@ size_flags_horizontal = 4
 size_flags_vertical = 8
 text = "Back"
 
-[node name="ResetConfirm" type="PanelContainer" parent="Control"]
+[node name="InputTypeBtn" type="OptionButton" parent="Control/PanelContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 visible = false
+layout_mode = 2
+alignment = 1
+clip_text = true
+selected = 0
+item_count = 3
+popup/item_0/text = "Keyboard"
+popup/item_0/id = 0
+popup/item_1/text = "Gamepad"
+popup/item_1/id = 1
+popup/item_2/text = "Touch"
+popup/item_2/id = 2
+
+[node name="ResetConfirm" type="ColorRect" parent="Control"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="PanelContainer" type="PanelContainer" parent="Control/ResetConfirm"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -242,12 +250,12 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_1b51u")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/ResetConfirm"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/ResetConfirm/PanelContainer"]
 layout_mode = 2
 theme_override_constants/separation = 25
 alignment = 1
 
-[node name="ResetConfirm" type="Label" parent="Control/ResetConfirm/VBoxContainer"]
+[node name="ResetConfirm" type="Label" parent="Control/ResetConfirm/PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 1
@@ -256,12 +264,12 @@ text = "Reset keybinds to default?"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/ResetConfirm/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/ResetConfirm/PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 
-[node name="ConfirmReset" type="Button" parent="Control/ResetConfirm/VBoxContainer/HBoxContainer"]
+[node name="ConfirmReset" type="Button" parent="Control/ResetConfirm/PanelContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -274,10 +282,11 @@ focus_previous = NodePath("../CancelReset")
 theme_override_font_sizes/font_size = 30
 text = "Yes"
 
-[node name="VSeparator" type="VSeparator" parent="Control/ResetConfirm/VBoxContainer/HBoxContainer"]
+[node name="VSeparator" type="VSeparator" parent="Control/ResetConfirm/PanelContainer/VBoxContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
 
-[node name="CancelReset" type="Button" parent="Control/ResetConfirm/VBoxContainer/HBoxContainer"]
+[node name="CancelReset" type="Button" parent="Control/ResetConfirm/PanelContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -293,8 +302,9 @@ text = "no"
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
 [connection signal="pressed" from="Control/PanelContainer/MarginContainer/VBoxContainer/ResetBtn" to="." method="_on_reset_btn_pressed"]
 [connection signal="pressed" from="Control/PanelContainer/MarginContainer/VBoxContainer/BackBtn" to="." method="_on_back_btn_pressed"]
-[connection signal="pressed" from="Control/ResetConfirm/VBoxContainer/HBoxContainer/ConfirmReset" to="." method="_on_confirm_reset_pressed"]
-[connection signal="pressed" from="Control/ResetConfirm/VBoxContainer/HBoxContainer/CancelReset" to="." method="_on_cancel_reset_pressed"]
+[connection signal="item_selected" from="Control/PanelContainer/MarginContainer/VBoxContainer/InputTypeBtn" to="." method="_on_input_type_btn_item_selected"]
+[connection signal="pressed" from="Control/ResetConfirm/PanelContainer/VBoxContainer/HBoxContainer/ConfirmReset" to="." method="_on_confirm_reset_pressed"]
+[connection signal="pressed" from="Control/ResetConfirm/PanelContainer/VBoxContainer/HBoxContainer/CancelReset" to="." method="_on_cancel_reset_pressed"]
 
 [editable path="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/KeybindActionContainer"]
 [editable path="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/KeybindActionContainer3"]
