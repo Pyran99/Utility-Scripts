@@ -1,18 +1,15 @@
 extends RefCounted
 class_name KeybindManager
 
-#TODO controller inputs
-#--make work with other save styles
-
-#-------------------------#
+#-------------------------
 # Add any input to show in keybind menu to DEFAULT_KEY_MAP. bool indicates if key can be rebound, otherwise show key as disabled.
-# Choose file type to save keybinds to.
+# Choose file type to save keybinds to. Can remove unused functions
 #   Config saves only physical keycodes for each actions events -> action = [keycode1, keycode2]
 #   Config Full saves InputEventKey objects for each actions events -> action = Array[InputEvent]([Object(InputEventKey), Object(InputEventKey)])
 #   Json saves only physical keycodes as strings for each actions events -> 'action': [keycode1, keycode2]
 #   Json Full saves InputEventKey data as strings for each actions events -> 'action': ['InputEventKey1', 'InputEventKey2']
 # SavingManager creates missing files
-#-------------------------#
+#-------------------------
 
 ## 'action': can_rebind || for any keys that will show in keybind menu
 const DEFAULT_KEY_MAP = {
@@ -166,7 +163,7 @@ static func can_use_key(action: String) -> bool:
 static func _load_default_input_map() -> void:
     input_map = {}
     for action in InputMap.get_actions():
-        if action.begins_with("ui_"): # ignore all engine defaults
+        if action.begins_with("ui_") or action.begins_with("DEBUG"): # ignore all engine defaults
             continue
         if !DEFAULT_KEY_MAP.has(action):
             continue
@@ -178,7 +175,7 @@ static func _load_default_input_map() -> void:
 
 ## Adds data to input_map. Works for either keycodes or InputEvent objects
 static func _add_events_to_input_map(map: Dictionary) -> void:
-    if _parse_map_for_input_object(map): # if has InputEvent, map needs to be turned into keycodes
+    if _parse_map_for_input_object(map): # if has InputEvent
         _add_event_objects_to_input_map(map)
     else:
         _add_event_keycodes_to_input_map(map)
@@ -200,6 +197,7 @@ static func _add_event_keycodes_to_input_map(map: Dictionary) -> void:
             if input_map[action][i] == null:
                 continue
             InputMap.action_add_event(action, input_map[action][i])
+    _create_missing_actions()
 
 ## Adds data from {'key': [InputEvent,],} format to input_map
 static func _add_event_objects_to_input_map(map: Dictionary) -> void:
@@ -216,6 +214,7 @@ static func _add_event_objects_to_input_map(map: Dictionary) -> void:
             if input_map[action][i] == null:
                 continue
             InputMap.action_add_event(action, input_map[action][i])
+    _create_missing_actions()
 
 ## Returns the physical keycodes for every input action in 'map'. {"action": [object InputEventKey,],}
 static func _get_keycodes_from_input_map(map: Dictionary) -> Dictionary:
@@ -256,7 +255,7 @@ static func _convert_json_string_to_events(json_data: Dictionary) -> Dictionary:
 
         var codes: Array = []
         for i in json_data[action].size():
-            var event = null
+            var _event = null
             if json_data[action][i] == null:
                 continue
             if json_data[action][i].begins_with("InputEventKey"):
@@ -264,14 +263,19 @@ static func _convert_json_string_to_events(json_data: Dictionary) -> Dictionary:
                 json_data[action][i].split(" ")
                 var _key = int(json_data[action][i])
                 var keycode = DisplayServer.keyboard_get_keycode_from_physical(_key)
-                event = InputEventKey.new()
-                event.physical_keycode = keycode
+                _event = _create_input_event_key(keycode)
                 codes.append(keycode)
             else:
                 print_debug("input is not key ", json_data[action][i])
 
         keycodes[action] = codes
     return keycodes
+
+
+static func _create_missing_actions() -> void:
+    for action in DEFAULT_KEY_MAP.keys():
+        if !input_map.has(action):
+            input_map[action] = [null, null]
 
 
 static func _create_input_event_key(keycode: int) -> InputEventKey:
@@ -296,26 +300,5 @@ static func _create_input_event_mouse_button(button_index: int) -> InputEventMou
     var event = InputEventMouseButton.new()
     event.button_index = button_index
     return event
-
-#endregion
-
-
-#region Gamepad-------------------------
-
-# static func _add_gamepad_events_to_input_map(map: Dictionary) -> void:
-#     for action in map.keys():
-#         if !DEFAULT_KEY_MAP.has(action):
-#             continue
-#         for i in map[action].size():
-#             var event = _create_input_event_joypad(map[action][i])
-#             input_map[action][i] = event
-
-#         if input_map[action].size() == 1:
-#             input_map[action].append(null)
-#         InputMap.action_erase_events(action)
-#         for i in input_map[action].size():
-#             if input_map[action][i] == null:
-#                 continue
-#             InputMap.action_add_event(action, input_map[action][i])
 
 #endregion
