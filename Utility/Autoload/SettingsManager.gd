@@ -1,5 +1,4 @@
 extends Node
-# class_name SettingsManager
 #AUTOLOAD
 
 
@@ -34,23 +33,24 @@ const RESOLUTIONS: Array = [
 
 var DEFAULT_RESOLUTION: Vector2i = Vector2i(ProjectSettings.get_setting("display/window/size/viewport_width"), ProjectSettings.get_setting("display/window/size/viewport_height"))
 
-static var player_fullscreen_size: Vector2i
-static var player_windowed_size: Vector2i
+var player_fullscreen_size: Vector2i
+var player_windowed_size: Vector2i
 
-static var en_flag # preload flag image
-static var cs_flag # preload
+var en_flag # preload flag image
+var cs_flag # preload
 
-static var locale_list = [
+var locale_list = [
     {Strings.LOCALE: "en", "language": "English", "flag": en_flag},
     {Strings.LOCALE: "cs", "language": "Czech", "flag": cs_flag},
 ]
 
+var keybind_manager: KeybindManager = preload("res://Utility/Keybinds/KeybindManager.gd").new()
 ## If the game has already loaded, options should only need to set values visually
-static var settings_loaded: bool = false
-static var settings: Dictionary
+var settings_loaded: bool = false
+var settings: Dictionary
 
 
-static func init():
+func init():
     player_fullscreen_size = DisplayServer.screen_get_size()
     player_windowed_size = DisplayServer.screen_get_usable_rect().size
 
@@ -59,7 +59,7 @@ func _ready():
     init()
     load_settings()
     apply_values()
-    KeybindManager.init()
+    keybind_manager.init()
     save_settings()
 
 
