@@ -2,8 +2,8 @@
 
 [ext_resource type="Theme" uid="uid://cfp22mav71a3h" path="res://Utility/Options/options_menu_theme.tres" id="1_6a5b4"]
 [ext_resource type="Script" uid="uid://ckfoe5jk4g1yq" path="res://Utility/Keybinds/keybind_menu.gd" id="1_scwt4"]
-[ext_resource type="Script" path="res://Utility/button_focus.gd" id="3_4mes7"]
-[ext_resource type="Texture2D" path="res://Utility/Assets/check_button_on_10x10.png" id="5_d2ggg"]
+[ext_resource type="Script" uid="uid://c35jcy3pgs6o" path="res://Utility/button_focus.gd" id="3_4mes7"]
+[ext_resource type="Texture2D" uid="uid://bs0kxmkfqtk0f" path="res://Utility/Assets/check_button_on_10x10.png" id="5_d2ggg"]
 [ext_resource type="PackedScene" uid="uid://b78cnhx6y1bcq" path="res://Utility/Keybinds/keybind_container.tscn" id="7_jsfnp"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xeqot"]

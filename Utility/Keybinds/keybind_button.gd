@@ -2,6 +2,13 @@
 extends Button
 class_name KeybindButton
 
+##-------------------------
+## Requires KeybindManager
+## Requires SettingsManager
+## Display current keybind for 'action'
+## ControllerIcon addon will display icon texture
+##-------------------------
+
 signal rebind_mode(value: bool)
 signal keybind_changed(action: String, event: InputEvent)
 

@@ -6,6 +6,7 @@ class_name KeybindContainer
 ## icon.path & icon.force_type are used by addon
 ## gamepad_texture would be used to show controller icon instead of
 ##  button name
+## set 'action_name' in editor to display valid action with tool
 ##-------------------------
 
 

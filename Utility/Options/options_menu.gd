@@ -47,6 +47,24 @@ var original_options: Dictionary = {}
 
 #endregion
 
+#TODO settings container from td project
+# var focused: Control = null
+
+
+# func _ready():
+#     for i in get_children():
+#         if i is HBoxContainer:
+#             if i.option_button != null:
+#                 i.option_button.mouse_entered.connect(_on_mouse_entered.bind(i))
+#                 i.option_button.focus_entered.connect(_on_mouse_entered.bind(i))
+
+
+# func _on_mouse_entered(node: Control):
+#     if focused != null and focused != node:
+#         focused.option_button.release_focus()
+
+#     focused = node
+
 
 func _ready():
     hide()
@@ -55,6 +73,9 @@ func _ready():
     _add_resolutions_to_button()
     reload_language_options()
     load_settings()
+    if OS.is_debug_build():
+        if get_tree().current_scene == self:
+            show()
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
@@ -413,15 +434,16 @@ func _exit_tree() -> void:
 
 
 func _on_visibility_changed() -> void:
+    set_process_unhandled_key_input(option_panel.visible)
     if visible:
-        set_process_unhandled_key_input(true)
+        # set_process_unhandled_key_input(true)
         original_options = SettingsManager.settings[Strings.SETTINGS].duplicate()
         scroll_container.scroll_vertical = 0
         anim_player.play("slide_in")
         await anim_player.animation_finished
         master_slider.call_deferred("grab_focus")
     else:
-        set_process_unhandled_key_input(false)
+        # set_process_unhandled_key_input(false)
         save_settings()
         print_debug("Saved settings:\n", SettingsManager.settings[Strings.SETTINGS])
         original_options.clear()

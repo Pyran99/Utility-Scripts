@@ -37,7 +37,7 @@ func _ready():
 
 func _on_mouse_entered():
     if label:
-        label.modulate = Color.MEDIUM_PURPLE
+        label.modulate = Color(0.6, 0.6, 0.6, 1)
     select_arrow.show()
     option_button.grab_focus()
 

@@ -641,7 +641,6 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
 focus_neighbor_top = NodePath("../Options/ScrollContainer/MarginContainer/SettingsContainer/KeybindsBtn")
-theme_type_variation = &"ButtonGreen"
 theme_override_font_sizes/font_size = 20
 text = "Close"
 

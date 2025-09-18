@@ -31,12 +31,7 @@ func _ready():
     set_process_unhandled_key_input(false)
     _connect_signals()
     reset_confirm.hide()
-
-    for i in controls.get_children():
-        if i is KeybindContainer:
-            controls.remove_child(i)
-            i.queue_free()
-
+    _clear_all_action_containers()
     _create_actions_list()
     _store_all_action_containers()
     Input.joy_connection_changed.connect(_on_joy_connection_changed)
@@ -115,6 +110,13 @@ func _store_all_action_containers() -> void:
             keybind_containers.append(i)
             for j in i.get_buttons():
                 _connect_btn_signals(j)
+
+
+func _clear_all_action_containers() -> void:
+    for i in controls.get_children():
+        if i is KeybindContainer:
+            controls.remove_child(i)
+            i.queue_free()
 
 ## Create a keybind container for every action in DEFAULT_KEY_MAP
 func _create_actions_list() -> void:

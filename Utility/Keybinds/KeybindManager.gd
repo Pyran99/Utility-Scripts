@@ -18,8 +18,8 @@ const DEFAULT_KEY_MAP = {
     "move_down": true,
     "move_left": true,
     "move_right": true,
-    "interact": true,
-    "dodge": true,
+    # "interact": true,
+    # "dodge": true,
     "pause": false,
 }
 const INPUT_SAVE_PATH = SavingManager.CONFIG_DIR + "keybinds.cfg"
