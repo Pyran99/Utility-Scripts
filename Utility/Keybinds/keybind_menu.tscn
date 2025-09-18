@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://cfp22mav71a3h" path="res://Utility/Options/options_menu_theme.tres" id="1_4oefi"]
 [ext_resource type="Script" uid="uid://oa1ijnvjpl84" path="res://Utility/Keybinds/keybind_menu.gd" id="1_scwt4"]
-[ext_resource type="PackedScene" uid="uid://dymui0edah8jp" path="res://Utility/Keybinds/keybind_action_container.tscn" id="3_85ed0"]
+[ext_resource type="PackedScene" uid="uid://c6id0byk428s2" path="res://Utility/Keybinds/keybind_container.tscn" id="3_85ed0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xeqot"]
 bg_color = Color(0, 0, 0, 1)
@@ -166,32 +166,11 @@ vertical_alignment = 1
 [node name="HSeparator" type="HSeparator" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls"]
 layout_mode = 2
 
-[node name="KeybindActionContainer" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls" instance=ExtResource("3_85ed0")]
+[node name="KeybindContainer" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls" instance=ExtResource("3_85ed0")]
 layout_mode = 2
 
-[node name="KeybindActionContainer2" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls" instance=ExtResource("3_85ed0")]
+[node name="KeybindContainer2" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls" instance=ExtResource("3_85ed0")]
 layout_mode = 2
-label_name = "Move Backward"
-action_name = "move_backward"
-
-[node name="KeybindActionContainer3" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls" instance=ExtResource("3_85ed0")]
-layout_mode = 2
-label_name = "Move Left"
-action_name = "move_left"
-
-[node name="Label" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/KeybindActionContainer3" index="0"]
-text = "Move Left"
-
-[node name="KeybindActionContainer4" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls" instance=ExtResource("3_85ed0")]
-layout_mode = 2
-label_name = "Move Right"
-action_name = "move_right"
-
-[node name="Label" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/KeybindActionContainer4" index="0"]
-text = "Move Right"
-
-[node name="PrimaryBtn" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/KeybindActionContainer4" index="1"]
-disabled = true
 
 [node name="ResetBtn" type="Button" parent="Control/PanelContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
@@ -305,7 +284,3 @@ text = "no"
 [connection signal="item_selected" from="Control/PanelContainer/MarginContainer/VBoxContainer/InputTypeBtn" to="." method="_on_input_type_btn_item_selected"]
 [connection signal="pressed" from="Control/ResetConfirm/PanelContainer/VBoxContainer/HBoxContainer/ConfirmReset" to="." method="_on_confirm_reset_pressed"]
 [connection signal="pressed" from="Control/ResetConfirm/PanelContainer/VBoxContainer/HBoxContainer/CancelReset" to="." method="_on_cancel_reset_pressed"]
-
-[editable path="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/KeybindActionContainer"]
-[editable path="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/KeybindActionContainer3"]
-[editable path="Control/PanelContainer/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/Controls/KeybindActionContainer4"]

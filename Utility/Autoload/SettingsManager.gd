@@ -45,9 +45,9 @@ var locale_list = [
 ]
 
 var keybind_manager: KeybindManager = preload("res://Utility/Keybinds/KeybindManager.gd").new()
+var settings: Dictionary
 ## If the game has already loaded, options should only need to set values visually
 var settings_loaded: bool = false
-var settings: Dictionary
 
 
 func init():
@@ -219,8 +219,8 @@ func set_sfx_volume(value: float) -> void:
 func set_brightness(value: float) -> void:
     value = clampf(value, 0.5, 2.0)
     settings[Strings.SETTINGS][Strings.BRIGHTNESS] = value
-    if GameManager.get("environment_res") != null:
-        GameManager.environment_res.adjustment_brightness = value
+    # if GameManager.get("environment_res") != null:
+    #     GameManager.environment_res.adjustment_brightness = value
 
 
 func set_vsync(value: bool) -> void:

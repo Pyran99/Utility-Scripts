@@ -13,8 +13,8 @@ class_name KeybindManager
 
 ## 'action': can_rebind || for any keys that will show in keybind menu
 const DEFAULT_KEY_MAP = {
-    "move_forward": true,
-    "move_backward": true,
+    "move_up": true,
+    "move_down": true,
     "move_left": true,
     "move_right": true,
     "jump": true,

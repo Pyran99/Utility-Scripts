@@ -3,112 +3,108 @@ extends Button
 class_name KeybindButton
 
 ## The name of the action in the project settings input map
-@export var action: String = "": set = _set_action
-@export var primary: bool = true
+@export var action: String = ""
 
 var menu: Control
+var is_rebind_mode: bool = false
 
 
-func _set_action(value) -> void:
-    action = value
-    if Engine.is_editor_hint():
-        _display_current_key()
-
-
-func _init() -> void:
-    toggle_mode = true
-
-
-func _ready() -> void:
+func _ready():
+    # display_current_key()
+    _connect_signals()
     set_process_input(false)
+
+
+func _connect_signals() -> void:
     mouse_entered.connect(_on_mouse_entered)
+    if !visibility_changed.is_connected(_on_visibility_changed):
+        visibility_changed.connect(_on_visibility_changed)
+    if !toggled.is_connected(_on_toggled):
+        toggled.connect(_on_toggled)
 
 
 func _input(event: InputEvent) -> void:
     if event is InputEventKey:
         get_viewport().set_input_as_handled()
-        var keycode := DisplayServer.keyboard_get_keycode_from_physical(event.physical_keycode)
-        if keycode == KEY_ESCAPE: # cancel rebind
+        if event.keycode == KEY_ESCAPE:
             button_pressed = false
             return
-        if keycode == KEY_BACKSPACE: # reset key to default
-            event = _reset_key_to_default()
-        if keycode == KEY_BRACERIGHT: # remap to nothing
-            event = null
-        _remap_action_to(event)
+        elif event.keycode == KEY_BACKSPACE:
+            button_pressed = false
+            _reset_key_to_default()
+            return
+        remap_action_to(event)
+        button_pressed = false
     elif event is InputEventMouseButton:
         if !event.button_index == MOUSE_BUTTON_LEFT:
-            # left click would toggle back to button press without this
             button_pressed = false
 
-## display the key string for 'action' from KBM.input_map. No event shows 'none'
-func _display_current_key() -> void:
-    var action_events: Array = []
-    if Engine.is_editor_hint():
-        var actions = ProjectSettings.get_setting("input/%s" % action)
-        if actions != null:
-            action_events = actions["events"]
-    else:
-        action_events = KeybindManager.input_map[action]
-
-    assert(action_events != null, "No input map for %s" % action)
-    var current_key := ""
-    var action_number: int = 0 if primary else 1
-    if action_events[action_number] is InputEventJoypadButton:
-        # current_key = action_events[action_number].as_text()
-        pass
-    else:
-        if action_events[action_number] != null:
-            var ds_keycode := DisplayServer.keyboard_get_keycode_from_physical(action_events[action_number].physical_keycode)
-            var keycode = OS.get_keycode_string(ds_keycode)
-            current_key = keycode
-            
-    if current_key.is_empty():
-        current_key = "None"
-    text = current_key
+## For text display when not using controller addon
+func display_current_key():
+    # var action_events = InputMap.action_get_events(action)
+    # var current_key = ""
+    # for i in action_events.size():
+    #     if action_events[i] is InputEventKey:
+    #         current_key = action_events[i].as_text()
+    #         break
+    # text = current_key
+    pass
 
 
-func _remap_action_to(event: InputEvent) -> void:
-    button_pressed = false
-    if !KeybindManager.can_use_key(action):
+func remap_action_to(event: InputEventKey) -> void:
+    if event == null:
+        grab_focus()
         return
-    var count := 0 if primary else 1
-    KeybindManager.input_map[action][count] = event
-    _set_events_to_action()
-    _display_current_key()
-
-
-func _set_events_to_action() -> void:
+    var action_events = InputMap.action_get_events(action)
     InputMap.action_erase_events(action)
-    for i in KeybindManager.input_map[action].size():
-        if KeybindManager.input_map[action][i] == null:
+    var events = []
+    for i in action_events.size():
+        if action_events[i] is InputEventKey:
+            events.append(event)
             continue
-        InputMap.action_add_event(action, KeybindManager.input_map[action][i])
-
-# reset key to project settings for 'action'
-func _reset_key_to_default() -> InputEvent:
-    var key = ProjectSettings.get_setting("input/%s" % action)
-    if primary:
-        return key["events"][0]
-    else:
-        if key["events"].size() > 1:
-            return key["events"][1]
-        return null
+        events.append(action_events[i])
+    for e in events:
+        InputMap.action_add_event(action, e)
+        
+    SettingsManager.keybind_manager.input_map[action] = events
+    SettingsManager.keybind_manager.save_input_map()
+    # text = event.as_text()
+    grab_focus()
+    ControllerIcons.refresh()
 
 
 func _on_toggled(toggled_on: bool) -> void:
     set_process_input(toggled_on)
+    is_rebind_mode = toggled_on
     if toggled_on:
-        menu.pressed_btn = self
         text = "..."
         release_focus()
+        if menu != null:
+            menu.active_btn = self
     else:
-        _display_current_key()
-        call_deferred("grab_focus")
+        text = ""
+        display_current_key()
+        button_pressed = false
+
+
+func _reset_key_to_default() -> void:
+    var default_events = ProjectSettings.get_setting("input/%s" % action)
+    var default_action: InputEvent = null
+    for i in default_events.size():
+        if default_events["events"][i] is InputEventKey:
+            default_action = default_events["events"][i]
+    remap_action_to(default_action)
 
 
 func _on_mouse_entered() -> void:
-    if focus_mode == Control.FOCUS_NONE:
-        return
-    if !button_pressed:
-        call_deferred("grab_focus")
+    if disabled: return
+    if !is_rebind_mode:
+        grab_focus()
+
+
+func _on_visibility_changed() -> void:
+    if visible:
+        # display_current_key()
+        pass
+    else:
+        _on_toggled(false)

@@ -8,10 +8,10 @@ extends Control
 #-------------------------#
 
 
-const KEYBIND_CONTAINER: PackedScene = preload("res://Utility/Keybinds/keybind_action_container.tscn")
+const KEYBIND_CONTAINER: PackedScene = preload("res://Utility/Keybinds/keybind_container.tscn")
 
 var previous_menu
-var keybind_containers: Array[KeybindActionContainer]
+var keybind_containers: Array[KeybindContainer]
 var original_binds: Dictionary = {}
 var pressed_btn: KeybindButton
 
@@ -23,7 +23,7 @@ var pressed_btn: KeybindButton
 
 func _ready():
     for i in controls.get_children():
-        if i is KeybindActionContainer:
+        if i is KeybindContainer:
             controls.remove_child(i)
             i.queue_free()
 
@@ -41,10 +41,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
 func store_all_action_containers() -> void:
     var containers = controls.get_children()
     for i in containers:
-        if i is KeybindActionContainer:
+        if i is KeybindContainer:
             keybind_containers.append(i)
 
-    # var all_containers = controls.find_children("*", "KeybindActionContainer", false)
+    # var all_containers = controls.find_children("*", "KeybindContainer", false)
     # print(all_containers) # not getting children
     # for i in all_containers:
     #     keybind_containers.append(i)
@@ -63,7 +63,7 @@ func _close_menu() -> void:
 func _create_actions_list() -> void:
     for input_action: String in KeybindManager.DEFAULT_KEY_MAP.keys():
         var new_text: String = input_action.capitalize()
-        var container: KeybindActionContainer = KEYBIND_CONTAINER.instantiate()
+        var container: KeybindContainer = KEYBIND_CONTAINER.instantiate()
         container.menu = self
         controls.add_child(container)
         container.label_name = new_text

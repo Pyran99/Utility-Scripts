@@ -43,12 +43,12 @@ text = "Move Up"
 layout_mode = 2
 size_flags_horizontal = 3
 toggle_mode = true
+text = "D"
 icon = SubResource("Texture2D_10jco")
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("2_6r32r")
 action = "move_right"
-is_using_addon = true
 
 [node name="ControllerBtn" type="Button" parent="."]
 layout_mode = 2
@@ -56,10 +56,9 @@ size_flags_horizontal = 3
 focus_mode = 0
 disabled = true
 toggle_mode = true
+text = "D"
 icon = SubResource("Texture2D_5jnjn")
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("2_6r32r")
 action = "move_right"
-type = 1
-is_using_addon = true
