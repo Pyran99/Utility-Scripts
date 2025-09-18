@@ -1,64 +1,176 @@
-[gd_scene load_steps=6 format=3 uid="uid://c6id0byk428s2"]
+[gd_scene load_steps=16 format=3 uid="uid://b78cnhx6y1bcq"]
 
-[ext_resource type="Script" uid="uid://crw8gqgf76t4b" path="res://Utility/Keybinds/keybind_container.gd" id="1_obdxr"]
-[ext_resource type="Script" uid="uid://rpqn1n382co5" path="res://Utility/Keybinds/keybind_button.gd" id="2_6r32r"]
-[ext_resource type="Script" uid="uid://c0abbd6ssee0y" path="res://addons/controller_icons/objects/ControllerIconTexture.gd" id="2_10jco"]
+[ext_resource type="Script" uid="uid://cc05xm7cqcoaq" path="res://Utility/Keybinds/keybind_container.gd" id="1_0k6b8"]
+[ext_resource type="Script" uid="uid://c176sxyri1lr8" path="res://Utility/Keybinds/keybind_button.gd" id="2_0k6b8"]
+[ext_resource type="Shader" uid="uid://bra2ikwxc1ejr" path="res://Utility/Assets/2d_highlight_2.gdshader" id="2_5jnjn"]
+[ext_resource type="ButtonGroup" uid="uid://b4lqpix12trqb" path="res://Utility/Keybinds/keybind_btn_group.tres" id="2_mxlil"]
+[ext_resource type="Script" uid="uid://cfw5mfxeuokwn" path="res://addons/controller_icons/objects/ControllerIconTexture.gd" id="4_5jnjn"]
 
-[sub_resource type="Texture2D" id="Texture2D_10jco"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0k6b8"]
+bg_color = Color(0, 0, 0, 0)
+border_color = Color(0.268229, 0.268229, 0.268229, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mxlil"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.460938, 0.460938, 0.460938, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a653d"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.152079, 0.778646, 0.20103, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_56e6m"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 0)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+anti_aliasing = false
+
+[sub_resource type="Theme" id="Theme_0k6b8"]
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_disabled_color = Color(0.544271, 0.544271, 0.544271, 1)
+Button/colors/font_focus_color = Color(1, 1, 1, 1)
+Button/colors/font_hover_color = Color(1, 1, 1, 1)
+Button/colors/font_hover_pressed_color = Color(0.0784314, 1, 0, 1)
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/colors/font_pressed_color = Color(0.0784314, 1, 0, 1)
+Button/colors/icon_disabled_color = Color(1, 1, 1, 0.74)
+Button/colors/icon_focus_color = Color(1, 1, 1, 1)
+Button/colors/icon_hover_color = Color(1, 1, 1, 1)
+Button/colors/icon_hover_pressed_color = Color(1, 1, 1, 1)
+Button/colors/icon_normal_color = Color(1, 1, 1, 1)
+Button/colors/icon_pressed_color = Color(1, 1, 1, 1)
+Button/styles/disabled = SubResource("StyleBoxFlat_0k6b8")
+Button/styles/focus = SubResource("StyleBoxFlat_mxlil")
+Button/styles/hover = SubResource("StyleBoxFlat_mxlil")
+Button/styles/hover_pressed = SubResource("StyleBoxFlat_a653d")
+Button/styles/normal = SubResource("StyleBoxFlat_56e6m")
+Button/styles/pressed = SubResource("StyleBoxFlat_a653d")
+
+[sub_resource type="Gradient" id="Gradient_5jnjn"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 1, 0.140625, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_beq1u"]
+gradient = SubResource("Gradient_5jnjn")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_beq1u"]
+resource_local_to_scene = true
+shader = ExtResource("2_5jnjn")
+shader_parameter/color_gradient = SubResource("GradientTexture1D_beq1u")
+shader_parameter/size_effect = 5.0
+shader_parameter/speed = 1.0
+shader_parameter/highlight_strength = 0.3
+shader_parameter/color_mode_toggle = false
+shader_parameter/is_horizontal = false
+
+[sub_resource type="Texture2D" id="Texture2D_beq1u"]
 resource_local_to_scene = false
 resource_name = ""
-script = ExtResource("2_10jco")
-path = "move_right"
+script = ExtResource("4_5jnjn")
+path = ""
 show_mode = 0
 force_controller_icon_style = -1
-force_type = 1
+force_type = 0
 force_device = 16
 
-[sub_resource type="Texture2D" id="Texture2D_5jnjn"]
+[sub_resource type="Texture2D" id="Texture2D_e71wx"]
 resource_local_to_scene = false
 resource_name = ""
-script = ExtResource("2_10jco")
-path = "move_right"
+script = ExtResource("4_5jnjn")
+path = ""
 show_mode = 0
 force_controller_icon_style = -1
-force_type = 2
+force_type = 0
 force_device = 16
 
 [node name="KeybindContainer" type="HBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 77.0
-grow_horizontal = 2
-script = ExtResource("1_obdxr")
-label_name = "Move Up"
-action_name = "move_right"
+offset_right = 347.0
+offset_bottom = 25.0
+size_flags_horizontal = 3
+theme = SubResource("Theme_0k6b8")
+alignment = 1
+script = ExtResource("1_0k6b8")
+label_name = "Pause"
+action_name = "pause"
 
-[node name="Label" type="Label" parent="."]
-layout_mode = 2
-size_flags_horizontal = 2
-text = "Move Up"
-
-[node name="KeyboardBtn" type="Button" parent="."]
+[node name="InputName" type="Label" parent="."]
+custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 size_flags_horizontal = 3
-toggle_mode = true
-text = "D"
-icon = SubResource("Texture2D_10jco")
-icon_alignment = 1
-expand_icon = true
-script = ExtResource("2_6r32r")
-action = "move_right"
+text = "Pause"
+vertical_alignment = 1
+autowrap_mode = 2
 
-[node name="ControllerBtn" type="Button" parent="."]
+[node name="KeyboardBtn" type="Button" parent="."]
+material = SubResource("ShaderMaterial_beq1u")
+custom_minimum_size = Vector2(75, 50)
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
+theme_override_constants/outline_size = 4
 disabled = true
 toggle_mode = true
-text = "D"
-icon = SubResource("Texture2D_5jnjn")
+button_group = ExtResource("2_mxlil")
+text = "Escape"
+icon = SubResource("Texture2D_beq1u")
+autowrap_mode = 2
+clip_text = true
 icon_alignment = 1
 expand_icon = true
-script = ExtResource("2_6r32r")
-action = "move_right"
+script = ExtResource("2_0k6b8")
+action = "pause"
+
+[node name="ControllerBtn" type="Button" parent="."]
+custom_minimum_size = Vector2(50, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_override_constants/outline_size = 4
+disabled = true
+toggle_mode = true
+button_group = ExtResource("2_mxlil")
+text = "Start"
+icon = SubResource("Texture2D_e71wx")
+autowrap_mode = 2
+clip_text = true
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("2_0k6b8")
+action = "pause"
+type = 1
+
+[node name="GamepadIcon" type="TextureRect" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 6
+expand_mode = 2
+stretch_mode = 5
