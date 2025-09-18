@@ -14,9 +14,9 @@ var sfx_volume: float = 0.5
 func _ready():
     MASTER_BUS = AudioServer.get_bus_index("Master")
     MUSIC_BUS = AudioServer.get_bus_index("Music")
-    SFX_BUS = AudioServer.get_bus_index("SFX")
+    SFX_BUS = AudioServer.get_bus_index("Sfx")
     if MASTER_BUS == -1 or MUSIC_BUS == -1 or SFX_BUS == -1:
-        push_warning("Missing audio bus as -1: Master: %s Music: %s SFX: %s" % [MASTER_BUS, MUSIC_BUS, SFX_BUS])
+        push_warning("Missing audio bus as -1: Master: %s Music: %s Sfx: %s" % [MASTER_BUS, MUSIC_BUS, SFX_BUS])
 
     _load_options()
 

@@ -2,13 +2,6 @@
 extends Button
 class_name KeybindButton
 
-##-------------------------
-## Requires KeybindManager
-## Requires SettingsManager
-## Display current keybind for 'action'
-## ControllerIcon addon will display icon texture
-##-------------------------
-
 signal rebind_mode(value: bool)
 signal keybind_changed(action: String, event: InputEvent)
 
@@ -49,6 +42,7 @@ func _input(event: InputEvent) -> void:
         get_viewport().set_input_as_handled()
         if event.keycode == KEY_ESCAPE:
             button_pressed = false
+            _grab_focus_if_able()
             return
         elif event.keycode == KEY_BACKSPACE:
             button_pressed = false
@@ -59,8 +53,9 @@ func _input(event: InputEvent) -> void:
         remap_action_to(event)
         button_pressed = false
     elif event is InputEventMouseButton:
-        if !event.button_index == MOUSE_BUTTON_LEFT:
+        if !(event.button_index == MOUSE_BUTTON_LEFT):
             button_pressed = false
+            _grab_focus_if_able()
 
 
 func remap_action_to(event: InputEvent) -> void:
@@ -87,7 +82,7 @@ func remap_action_to(event: InputEvent) -> void:
     keybind_changed.emit(action, event)
     set_current_event()
     _grab_focus_if_able()
-    ControllerIcons.refresh()
+    # ControllerIcons.refresh()
 
 
 func set_current_event() -> void:

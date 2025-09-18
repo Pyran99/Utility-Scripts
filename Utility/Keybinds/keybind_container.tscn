@@ -1,10 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://b78cnhx6y1bcq"]
+[gd_scene load_steps=13 format=3 uid="uid://b78cnhx6y1bcq"]
 
 [ext_resource type="Script" uid="uid://cc05xm7cqcoaq" path="res://Utility/Keybinds/keybind_container.gd" id="1_0k6b8"]
 [ext_resource type="Script" uid="uid://c176sxyri1lr8" path="res://Utility/Keybinds/keybind_button.gd" id="2_0k6b8"]
 [ext_resource type="Shader" uid="uid://bra2ikwxc1ejr" path="res://Utility/Assets/2d_highlight_2.gdshader" id="2_5jnjn"]
-[ext_resource type="ButtonGroup" uid="uid://ckipem6nyiwrm" path="res://Utility/Keybinds/keybind_btn_group.tres" id="2_mxlil"]
-[ext_resource type="Script" uid="uid://c0abbd6ssee0y" path="res://addons/controller_icons/objects/ControllerIconTexture.gd" id="4_5jnjn"]
+[ext_resource type="ButtonGroup" uid="uid://b4lqpix12trqb" path="res://Utility/Keybinds/keybind_btn_group.tres" id="2_mxlil"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0k6b8"]
 bg_color = Color(0, 0, 0, 0)
@@ -92,28 +91,6 @@ shader_parameter/highlight_strength = 0.3
 shader_parameter/color_mode_toggle = false
 shader_parameter/is_horizontal = false
 
-[sub_resource type="Texture2D" id="Texture2D_beq1u"]
-resource_local_to_scene = false
-resource_name = ""
-script = ExtResource("4_5jnjn")
-path = ""
-show_mode = 0
-force_controller_icon_style = -1
-force_type = 0
-force_device = 16
-metadata/_custom_type_script = "uid://c0abbd6ssee0y"
-
-[sub_resource type="Texture2D" id="Texture2D_e71wx"]
-resource_local_to_scene = false
-resource_name = ""
-script = ExtResource("4_5jnjn")
-path = ""
-show_mode = 0
-force_controller_icon_style = -1
-force_type = 0
-force_device = 16
-metadata/_custom_type_script = "uid://c0abbd6ssee0y"
-
 [node name="KeybindContainer" type="HBoxContainer"]
 offset_right = 347.0
 offset_bottom = 25.0
@@ -134,7 +111,7 @@ autowrap_mode = 2
 
 [node name="KeyboardBtn" type="Button" parent="."]
 material = SubResource("ShaderMaterial_beq1u")
-custom_minimum_size = Vector2(75, 50)
+custom_minimum_size = Vector2(37.5, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
@@ -143,7 +120,6 @@ disabled = true
 toggle_mode = true
 button_group = ExtResource("2_mxlil")
 text = "Escape"
-icon = SubResource("Texture2D_beq1u")
 autowrap_mode = 2
 clip_text = true
 icon_alignment = 1
@@ -152,7 +128,7 @@ script = ExtResource("2_0k6b8")
 action = "pause"
 
 [node name="ControllerBtn" type="Button" parent="."]
-custom_minimum_size = Vector2(50, 25)
+custom_minimum_size = Vector2(37.5, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
@@ -161,7 +137,6 @@ disabled = true
 toggle_mode = true
 button_group = ExtResource("2_mxlil")
 text = "Start"
-icon = SubResource("Texture2D_e71wx")
 autowrap_mode = 2
 clip_text = true
 icon_alignment = 1

@@ -31,7 +31,12 @@ func _ready():
     set_process_unhandled_key_input(false)
     _connect_signals()
     reset_confirm.hide()
-    _clear_all_action_containers()
+
+    for i in controls.get_children():
+        if i is KeybindContainer:
+            controls.remove_child(i)
+            i.queue_free()
+
     _create_actions_list()
     _store_all_action_containers()
     Input.joy_connection_changed.connect(_on_joy_connection_changed)
@@ -111,13 +116,6 @@ func _store_all_action_containers() -> void:
             for j in i.get_buttons():
                 _connect_btn_signals(j)
 
-
-func _clear_all_action_containers() -> void:
-    for i in controls.get_children():
-        if i is KeybindContainer:
-            controls.remove_child(i)
-            i.queue_free()
-
 ## Create a keybind container for every action in DEFAULT_KEY_MAP
 func _create_actions_list() -> void:
     for input_action: String in KeybindManager.DEFAULT_KEY_MAP.keys():
@@ -163,7 +161,7 @@ func _on_back_btn_pressed() -> void:
 func _confirm_reset_pressed() -> void:
     SettingsManager.keybind_manager.reset_input_map()
     if is_using_addon:
-        ControllerIcons.refresh() # for addon
+        # ControllerIcons.refresh() # for addon
         pass
     for container in keybind_containers:
         for btn in container.get_buttons():

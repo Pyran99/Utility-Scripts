@@ -6,7 +6,6 @@ class_name KeybindContainer
 ## icon.path & icon.force_type are used by addon
 ## gamepad_texture would be used to show controller icon instead of
 ##  button name
-## set 'action_name' in editor to display valid action with tool
 ##-------------------------
 
 
@@ -37,8 +36,8 @@ func _set_action(value):
 
     key_btn.action = action_name
     controller_btn.action = action_name
-    key_btn.icon = ControllerIconTexture.new()
-    controller_btn.icon = ControllerIconTexture.new()
+    # key_btn.icon = ControllerIconTexture.new()
+    # controller_btn.icon = ControllerIconTexture.new()
     # gamepad_texture.texture = ControllerIconTexture.new()
     if action_name != null:
         if KeybindManager.DEFAULT_KEY_MAP.has(action_name):

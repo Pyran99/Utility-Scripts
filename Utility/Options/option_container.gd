@@ -1,18 +1,18 @@
 extends HBoxContainer
+class_name OptionContainer
 
 # Set in editor if multiple of same type of nodes in children
 @export_group("Nodes")
-## The option button
 @export var option_button: Control
-## The label to change color. If not set, will get first label. Not needed
 @export var label: Label
 
 var select_arrow: TextureRect
 var default_color: Color = Color.WHITE
+var options_menu: OptionsMenu
 
 
 func _ready():
-    assert(option_button != null)
+    assert(option_button != null, "Option button not set on " + name)
     if option_button != null:
         option_button.mouse_entered.connect(_on_mouse_entered)
         option_button.mouse_exited.connect(_on_mouse_exited)
@@ -24,28 +24,32 @@ func _ready():
             if i is TextureRect:
                 select_arrow = i
                 select_arrow.hide()
-                continue
 
         if label == null:
             if i is Label:
                 label = i
-                continue
 
     if label != null:
         default_color = label.modulate
 
 
-func _on_mouse_entered():
-    if label:
-        label.modulate = Color(0.6, 0.6, 0.6, 1)
-    select_arrow.show()
+func grab_btn_focus() -> void:
+    if option_button == null:
+        return
     option_button.grab_focus()
+    if options_menu:
+        options_menu.last_focus_item = option_button
+
+
+func _on_mouse_entered():
+    label.modulate = Color(0.49, 0.965, 1.0)
+    select_arrow.show()
+    grab_btn_focus()
 
 
 func _on_mouse_exited():
     if option_button.has_focus():
         return
-    if label:
-        label.modulate = default_color
+
+    label.modulate = default_color
     select_arrow.hide()
-    option_button.release_focus()

@@ -1,6 +1,6 @@
-[gd_scene load_steps=12 format=3 uid="uid://dk3j16ukdj05c"]
+[gd_scene load_steps=17 format=3 uid="uid://dk3j16ukdj05c"]
 
-[ext_resource type="Theme" uid="uid://cfp22mav71a3h" path="res://Utility/Options/options_menu_theme.tres" id="1_6a5b4"]
+[ext_resource type="Theme" uid="uid://by8n175bud8x1" path="res://Utility/options_menu_theme.tres" id="1_6a5b4"]
 [ext_resource type="Script" uid="uid://ckfoe5jk4g1yq" path="res://Utility/Keybinds/keybind_menu.gd" id="1_scwt4"]
 [ext_resource type="Script" uid="uid://c35jcy3pgs6o" path="res://Utility/button_focus.gd" id="3_4mes7"]
 [ext_resource type="Texture2D" uid="uid://bs0kxmkfqtk0f" path="res://Utility/Assets/check_button_on_10x10.png" id="5_d2ggg"]
@@ -39,6 +39,75 @@ color = Color(0.498039, 0.498039, 0.498039, 1)
 grow_begin = 20.0
 grow_end = 15.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0k6b8"]
+bg_color = Color(0, 0, 0, 0)
+border_color = Color(0.268229, 0.268229, 0.268229, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mxlil"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.460938, 0.460938, 0.460938, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a653d"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.152079, 0.778646, 0.20103, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_56e6m"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 0)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+anti_aliasing = false
+
+[sub_resource type="Theme" id="Theme_0k6b8"]
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_disabled_color = Color(0.544271, 0.544271, 0.544271, 1)
+Button/colors/font_focus_color = Color(1, 1, 1, 1)
+Button/colors/font_hover_color = Color(1, 1, 1, 1)
+Button/colors/font_hover_pressed_color = Color(0.0784314, 1, 0, 1)
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/colors/font_pressed_color = Color(0.0784314, 1, 0, 1)
+Button/colors/icon_disabled_color = Color(1, 1, 1, 0.74)
+Button/colors/icon_focus_color = Color(1, 1, 1, 1)
+Button/colors/icon_hover_color = Color(1, 1, 1, 1)
+Button/colors/icon_hover_pressed_color = Color(1, 1, 1, 1)
+Button/colors/icon_normal_color = Color(1, 1, 1, 1)
+Button/colors/icon_pressed_color = Color(1, 1, 1, 1)
+Button/styles/disabled = SubResource("StyleBoxFlat_0k6b8")
+Button/styles/focus = SubResource("StyleBoxFlat_mxlil")
+Button/styles/hover = SubResource("StyleBoxFlat_mxlil")
+Button/styles/hover_pressed = SubResource("StyleBoxFlat_a653d")
+Button/styles/normal = SubResource("StyleBoxFlat_56e6m")
+Button/styles/pressed = SubResource("StyleBoxFlat_a653d")
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1b51u"]
 bg_color = Color(0, 0, 0, 1)
 border_width_left = 2
@@ -59,21 +128,20 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_6a5b4")
 script = ExtResource("1_scwt4")
-is_using_addon = true
 metadata/_edit_lock_ = true
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(310, 0)
+custom_minimum_size = Vector2(155, 0)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -206.0
-offset_top = -283.0
-offset_right = 208.0
-offset_bottom = 283.0
+offset_left = -205.5
+offset_top = -242.0
+offset_right = 205.5
+offset_bottom = 242.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_xeqot")
@@ -101,7 +169,6 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_tbdwv")
 layout_mode = 2
 size_flags_vertical = 1
 theme_type_variation = &"LabelTitle"
-theme_override_font_sizes/font_size = 50
 text = "Controls"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -173,32 +240,18 @@ size_flags_vertical = 4
 theme_override_styles/separator = SubResource("StyleBoxLine_d2ggg")
 
 [node name="HBoxContainer" parent="PanelContainer/Menu/VBoxContainer/ControlsScrollContainer/MarginContainer/Controls" instance=ExtResource("7_jsfnp")]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 1
+theme = SubResource("Theme_0k6b8")
 label_name = "Move Up"
 action_name = "move_up"
 
 [node name="HBoxContainer2" parent="PanelContainer/Menu/VBoxContainer/ControlsScrollContainer/MarginContainer/Controls" instance=ExtResource("7_jsfnp")]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 1
-label_name = "Move Down"
-action_name = "move_down"
-
-[node name="HBoxContainer3" parent="PanelContainer/Menu/VBoxContainer/ControlsScrollContainer/MarginContainer/Controls" instance=ExtResource("7_jsfnp")]
-layout_mode = 2
-size_flags_horizontal = 1
-label_name = "Move Left"
-action_name = "move_left"
-
-[node name="HBoxContainer4" parent="PanelContainer/Menu/VBoxContainer/ControlsScrollContainer/MarginContainer/Controls" instance=ExtResource("7_jsfnp")]
-layout_mode = 2
-size_flags_horizontal = 1
-label_name = "Move Right"
-action_name = "move_right"
-
-[node name="HBoxContainer5" parent="PanelContainer/Menu/VBoxContainer/ControlsScrollContainer/MarginContainer/Controls" instance=ExtResource("7_jsfnp")]
-layout_mode = 2
-size_flags_horizontal = 1
+theme = SubResource("Theme_0k6b8")
 
 [node name="HSeparator2" type="HSeparator" parent="PanelContainer/Menu/VBoxContainer"]
 layout_mode = 2
@@ -206,21 +259,19 @@ theme_override_constants/separation = 12
 
 [node name="ResetBtn" type="Button" parent="PanelContainer/Menu/VBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 50)
+custom_minimum_size = Vector2(150, 25)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_font_sizes/font_size = 30
 text = "Reset"
 script = ExtResource("3_4mes7")
 
 [node name="BackBtn" type="Button" parent="PanelContainer/Menu/VBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 50)
+custom_minimum_size = Vector2(150, 25)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
-theme_override_font_sizes/font_size = 30
 text = "Back"
 script = ExtResource("3_4mes7")
 
@@ -241,10 +292,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -201.0
-offset_top = -57.0
-offset_right = 201.0
-offset_bottom = 68.0
+offset_left = -197.0
+offset_top = -62.0
+offset_right = 197.0
+offset_bottom = 63.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_1b51u")
@@ -308,10 +359,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -190.0
-offset_top = -220.0
-offset_right = 190.0
-offset_bottom = -85.0
+offset_left = -174.0
+offset_top = -200.0
+offset_right = 174.0
+offset_bottom = -65.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_1b51u")

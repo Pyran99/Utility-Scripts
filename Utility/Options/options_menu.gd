@@ -16,10 +16,12 @@ class_name OptionsMenu
 var last_selected_resolution: Vector2i = Vector2i(1280, 720)
 var window_position: Vector2i
 var original_options: Dictionary = {}
+var last_focus_item: Control
 
 #region Nodes onready
 @onready var option_panel: PanelContainer = $OptionsPanel
 @onready var anim_player: AnimationPlayer = %AnimationPlayer
+@onready var settings_container: VBoxContainer = %SettingsContainer
 
 @onready var master_slider: HSlider = %MasterSlider
 @onready var music_slider: HSlider = %MusicSlider
@@ -47,24 +49,6 @@ var original_options: Dictionary = {}
 
 #endregion
 
-#TODO settings container from td project
-# var focused: Control = null
-
-
-# func _ready():
-#     for i in get_children():
-#         if i is HBoxContainer:
-#             if i.option_button != null:
-#                 i.option_button.mouse_entered.connect(_on_mouse_entered.bind(i))
-#                 i.option_button.focus_entered.connect(_on_mouse_entered.bind(i))
-
-
-# func _on_mouse_entered(node: Control):
-#     if focused != null and focused != node:
-#         focused.option_button.release_focus()
-
-#     focused = node
-
 
 func _ready():
     hide()
@@ -76,11 +60,16 @@ func _ready():
     if OS.is_debug_build():
         if get_tree().current_scene == self:
             show()
+    for i in settings_container.get_children():
+        if i is OptionContainer:
+            i.options_menu = self
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
     if event.is_action_pressed("ui_cancel"):
-        _close_menu()
+        get_viewport().set_input_as_handled()
+        if option_panel.visible:
+            _close_menu()
 
 
 func _connect_signals() -> void:
@@ -188,6 +177,15 @@ func _close_menu() -> void:
         previous_menu.show()
     else:
         push_warning("No previous menu to show")
+
+
+func _get_focus_first_visible_container() -> Node:
+    for child in settings_container.get_children():
+        if child.visible:
+            if child.get("option_button") != null:
+                child.grab_btn_focus()
+                return child.option_button
+    return null
 
 
 #region Audio------------------------------------------
@@ -391,6 +389,7 @@ func _on_keybind_btn_pressed() -> void:
         return
 
     keybind_menu.previous_menu = option_panel
+    last_focus_item = %KeybindsBtn
     option_panel.hide()
     keybind_menu.show()
 
@@ -434,21 +433,26 @@ func _exit_tree() -> void:
 
 
 func _on_visibility_changed() -> void:
-    set_process_unhandled_key_input(option_panel.visible)
+    set_process_unhandled_key_input(visible)
     if visible:
-        # set_process_unhandled_key_input(true)
         original_options = SettingsManager.settings[Strings.SETTINGS].duplicate()
         scroll_container.scroll_vertical = 0
         anim_player.play("slide_in")
         await anim_player.animation_finished
-        master_slider.call_deferred("grab_focus")
+        _get_focus_first_visible_container()
     else:
-        # set_process_unhandled_key_input(false)
         save_settings()
-        print_debug("Saved settings:\n", SettingsManager.settings[Strings.SETTINGS])
         original_options.clear()
 
 
 func _notification(what: int) -> void:
     if what == NOTIFICATION_WM_CLOSE_REQUEST:
         save_settings()
+
+
+func _on_options_panel_visibility_changed() -> void:
+    if option_panel.visible and !anim_player.is_playing():
+        if last_focus_item != null:
+            last_focus_item.grab_focus()
+            return
+        _get_focus_first_visible_container()
