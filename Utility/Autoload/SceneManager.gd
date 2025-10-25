@@ -19,6 +19,7 @@ signal level_changed(new_level: Node)
 const DEFAULT_LOAD_SCENE_PATH: String = "res://Utility/loading_screen.tscn"
 
 @export var artificial_delay: float = 0.0 # to test loading progress bar
+@export var manually_change_scene: bool = false
 
 var _active_level: Node
 var _active_load_scene: Node
@@ -94,7 +95,10 @@ func _thread_load_resource_finished(status: int) -> void:
             if artificial_delay > 0.0:
                 await get_tree().create_timer(artificial_delay).timeout
             var packed_scene = ResourceLoader.load_threaded_get(new_scene_path)
-            _change_scene(packed_scene)
+            if manually_change_scene:
+                _change_scene_manually(packed_scene)
+            else:
+                _change_scene(packed_scene)
 
 ## sets load scene to default load scene
 func _load_loading_scene() -> void:
@@ -131,25 +135,33 @@ func _change_scene(packed_scene: PackedScene) -> void:
         return
     var tree := get_tree()
     tree.change_scene_to_packed(packed_scene)
-    await tree.process_frame
-    _set_active_level(tree.current_scene)
-    _finished_loading()
+    call_deferred("_set_active_level", tree.current_scene)
+    call_deferred("_finished_loading")
 
-## manually changing scene
-# func _change_scene(packed_scene: PackedScene) -> void:
-#     if packed_scene == null:
-#         _finished_loading()
-#         return
-#     var tree := get_tree()
-#     if is_instance_valid(_active_level):
-#         _active_level.call_deferred("queue_free")
-#         await tree.process_frame
-#     tree.current_scene = null
-#     var new_scene: Node = packed_scene.instantiate()
-#     tree.root.add_child(new_scene)
-#     tree.current_scene = new_scene
-#     _set_active_level(new_scene)
-#     _finished_loading()
+# manually changing scene
+func _change_scene_manually(packed_scene: PackedScene) -> void:
+    if packed_scene == null:
+        _finished_loading()
+        return
+    _remove_old_level()
+    _add_new_level(packed_scene)
+
+
+func _remove_old_level() -> void:
+    if is_instance_valid(_active_level):
+        get_tree().root.remove_child(_active_level)
+        _active_level.queue_free()
+        _active_level = null
+        get_tree().current_scene = null
+
+
+func _add_new_level(new_scene: PackedScene) -> void:
+    var s: Node = new_scene.instantiate()
+    var tree := get_tree()
+    tree.root.call_deferred("add_child", s)
+    tree.set_deferred("current_scene", s)
+    call_deferred("_set_active_level", s)
+    call_deferred("_finished_loading")
 
 
 func _finished_loading() -> void:
