@@ -90,8 +90,6 @@ func _save_input_keycodes_as_config() -> void:
         Strings.KEYBINDS: _get_keycodes_from_input_map(input_map)
     }
     SavingManager.save_config_data(keycodes, INPUT_KEYCODES_SAVE_PATH)
-    #old
-    # SavingManager.save_as_config_in_file(Strings.KEYBINDS, keycodes, INPUT_KEYCODES_SAVE_PATH)
 
 
 func _load_input_keycodes_from_config() -> void:

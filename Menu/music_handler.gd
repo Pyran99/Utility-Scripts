@@ -3,8 +3,8 @@ extends Node
 class_name MusicHandler
 
 
-@export var music_id: GlobalAudioManager.LevelMusicID
+@export var music_id: GlobalAudioPlayer.LevelMusicID
 
 
 func _ready():
-    GlobalAudioManager.switch_music_by_id(music_id)
+    GlobalAudioPlayer.switch_music_by_id(music_id)

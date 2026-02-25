@@ -8,6 +8,7 @@ const SETTINGS_FILE: String = CONFIG_DIR + "settings.cfg"
 const SAVE_GROUP = "savable"
 const MAX_SLOTS = 3
 
+## all data to be saved
 var saved_data: Dictionary = {}
 
 
@@ -313,35 +314,35 @@ func load_file_as_json_with_password(data: Dictionary, save_file: String, passwo
 
 #endregion
 
-#
-##region Console ----------------------------------------
-#
-#func _add_cs_commands() -> void:
-    #GameManager.console_manager.add_command("save_game", _cs_save_game, ["slot"], 0, "Save game")
-    #GameManager.console_manager.add_command("delete_save", _cs_delete_save, ["slot"], 0, "Delete save")
-#
-#
-#func _remove_cs_commands() -> void:
-    #GameManager.console_manager.remove_command("save_game")
-    #GameManager.console_manager.remove_command("delete_save")
-#
-#
-#func _cs_save_game(_slot: String = "") -> void:
-    #var slot = _slot.to_int()
-    #if slot != 0:
-        #slot = 0
-    #save_game(slot)
-    #GameManager.print_to_console("Saved game to slot %d" % slot)
-#
-#
-#func _cs_delete_save(_slot: String = "") -> void:
-    #var slot = _slot.to_int()
-    #if slot != 0:
-        #slot = 0
-    #_delete_save_data(slot)
-    #GameManager.print_to_console("Save slot deleted %d" % slot)
-#
-##endregion
+
+#region Console ----------------------------------------
+
+# func _add_cs_commands() -> void:
+#     GameManager.console_manager.add_command("save_game", _cs_save_game, ["slot"], 0, "Save game")
+#     GameManager.console_manager.add_command("delete_save", _cs_delete_save, ["slot"], 0, "Delete save")
+
+
+# func _remove_cs_commands() -> void:
+#     GameManager.console_manager.remove_command("save_game")
+#     GameManager.console_manager.remove_command("delete_save")
+
+
+# func _cs_save_game(_slot: String = "") -> void:
+#     var slot = _slot.to_int()
+#     if slot != 0:
+#         slot = 0
+#     save_game(slot)
+#     GameManager.print_to_console("Saved game to slot %d" % slot)
+
+
+# func _cs_delete_save(_slot: String = "") -> void:
+#     var slot = _slot.to_int()
+#     if slot != 0:
+#         slot = 0
+#     _delete_save_data(slot)
+#     GameManager.print_to_console("Save slot deleted %d" % slot)
+
+#endregion
 
 
 # # For a save/load menu-----------------
