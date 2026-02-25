@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://bo3rt5020053r"]
+
+[ext_resource type="Script" uid="uid://ddd28b84uri5p" path="res://Utility/Autoload/global_audio_player.gd" id="1_7x5uy"]
+
+[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_7x5uy"]
+
+[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_5cxip"]
+
+[node name="GlobalAudioPlayer" type="Node" unique_id=1236599803]
+script = ExtResource("1_7x5uy")
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=2037538779]
+unique_name_in_owner = true
+bus = &"Music"
+
+[node name="GlobalSounds" type="Node" parent="." unique_id=1533246879]
+unique_name_in_owner = true
+
+[node name="GlobalPolyphonic" type="AudioStreamPlayer" parent="GlobalSounds" unique_id=625814183]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamPolyphonic_7x5uy")
+bus = &"Sfx"
+
+[node name="UiPolyphonic" type="AudioStreamPlayer" parent="GlobalSounds" unique_id=333016974]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamPolyphonic_5cxip")
+bus = &"Sfx"
+
+[node name="PositionalSounds" type="Node" parent="." unique_id=1560372383]
+unique_name_in_owner = true

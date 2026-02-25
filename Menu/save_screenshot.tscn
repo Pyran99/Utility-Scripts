@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://cgue7b8v421ks"]
+
+[ext_resource type="Script" uid="uid://bes478uaodo0t" path="res://Menu/save_screenshot.gd" id="1_noe75"]
+
+[node name="SaveScreenshot" type="Node2D" unique_id=813052117]
+process_mode = 3
+script = ExtResource("1_noe75")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=2056636083]
+enabled = false

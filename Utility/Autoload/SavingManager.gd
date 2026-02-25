@@ -1,31 +1,18 @@
+@icon("res://Assets/Packs/Kenney/Game Icons/gear.png")
 extends Node
 #AUTOLOAD
 
-#--------------------------------------------#
-# SET IN ANY NODE TO BE SAVED
-# ADD NODES TO SAVE GROUP
-
-# func get_save_data() -> Dictionary:
-#     var save_data = {
-#         "health": health # example
-#     }
-#     return save_data
-
-# func load_save_data(data: Dictionary) -> void:
-#     health = data["health"] # example
-#     pass
-#--------------------------------------------#
-
 const SAVE_DIR = "user://saves/"
-const MAX_SLOTS = 3
 const CONFIG_DIR = "user://config/"
 const SETTINGS_FILE: String = CONFIG_DIR + "settings.cfg"
-# const JSON_SAVE_FILE: String = "user://saveDataJson.json"
-# const BINARY_SAVE_FILE: String = "user://saveDataBinary.dat"
-# const RESOURCE_SAVE_FILE: String = "user://saveDataResource.res"
-# const KEY_PATH = "user://unlock.bin"
-
 const SAVE_GROUP = "savable"
+const MAX_SLOTS = 3
+
+var saved_data: Dictionary = {}
+
+
+#func _exit_tree() -> void:
+    #_remove_cs_commands()
 
 
 func _ready() -> void:
@@ -33,51 +20,24 @@ func _ready() -> void:
         DirAccess.make_dir_recursive_absolute(SAVE_DIR)
     if !DirAccess.dir_exists_absolute(CONFIG_DIR):
         DirAccess.make_dir_recursive_absolute(CONFIG_DIR)
-
-    _load_or_generate_key()
-
-
-func _load_or_generate_key() -> void:
-    if !ProjectSettings.has_setting("game/unlock_key"):
-        var crypto := Crypto.new()
-        var new_key := crypto.generate_random_bytes(32)
-        ProjectSettings.set_setting("game/unlock_key", new_key)
-
-    # var key: UnlockKey = load(KEY_RESOURCE_PATH)
-    # if key.encryption_key.is_empty():
-    #     print("Generating new key")
-    #     var crypto := Crypto.new()
-    #     var new_key := crypto.generate_random_bytes(32)
-    #     key.encryption_key = new_key
-    #     ResourceSaver.save(key, KEY_RESOURCE_PATH)
-    #     ProjectSettings.set_setting("game/unlock_key", new_key)
-    #     print_debug(key.resource_path)
-
-    ######
-    # if FileAccess.file_exists(KEY_PATH):
-    #     var file1 = FileAccess.open(KEY_PATH, FileAccess.READ)
-    #     if file1:
-    #         var key = file1.get_buffer(32)
-    #         file1.close()
-    #         return key
-
-    # # Generate new key if none exists
-    # var crypto = Crypto.new()
-    # var new_key = crypto.generate_random_bytes(32)
-
-    # var file = FileAccess.open(KEY_PATH, FileAccess.WRITE)
-    # if file:
-    #     file.store_buffer(new_key)
-    #     file.close()
-
-    # return new_key
+    #_add_cs_commands.call_deferred()
 
 
-#region game saves encrypted TODO----------------------------------------
+func save_game(slot: int) -> void:
+    save_game_binary(get_save_path(slot))
+
+
+func load_game(slot: int) -> void:
+    load_game_binary(get_save_path(slot))
+
+
+func add_to_save_group(node: Node) -> void:
+    node.add_to_group(SAVE_GROUP)
+
 
 func get_save_path(slot: int) -> String:
     assert(slot >= 0 and slot < MAX_SLOTS, "invalid save slot")
-    return SAVE_DIR + "save_slot_%d.dat" % slot
+    return SAVE_DIR + "save_%d.dat" % slot
 
 
 func has_save_slot(slot: int) -> bool:
@@ -94,296 +54,6 @@ func get_all_save_slots_info() -> Array:
             # can add timestamp or other metadata (ex. last save at 10pm)
         })
     return slots
-
-
-func save_game_encrypted_json(slot: int) -> bool:
-    assert(slot >= 0 and slot < MAX_SLOTS, "invalid save slot")
-    var save_data = {}
-    var savable_nodes = get_tree().get_nodes_in_group(SAVE_GROUP)
-    # Store each node's data with its scene tree path as key
-    for node in savable_nodes:
-        if !node.has_method("get_save_data"):
-            push_error("Node %s does not have a get_save_data method." % node.get_path())
-            continue
-        save_data[node.get_path()] = {
-            "class": node.get_class(),
-            "data": node.get_save_data()
-        }
-
-    var json_string = JSON.stringify(save_data, "  ", true)
-    var file = FileAccess.open_encrypted(
-        get_save_path(slot),
-        FileAccess.WRITE,
-        ProjectSettings.get_setting("game/unlock_key")
-    )
-
-    if file:
-        file.store_string(json_string)
-        file.close()
-        print("Game saved to slot %d" % slot)
-        return true
-    else:
-        print("Failed to save game to slot %d" % slot)
-        return false
-
-
-func load_game_encrypted_json(slot: int) -> bool:
-    assert(slot >= 0 and slot < MAX_SLOTS, "invalid save slot")
-    var save_path = get_save_path(slot)
-
-    if !FileAccess.file_exists(save_path):
-        print_debug("No save file found in slot %d" % slot)
-        return false
-
-    var file = FileAccess.open_encrypted(
-        save_path,
-        FileAccess.READ,
-        ProjectSettings.get_setting("game/unlock_key")
-    )
-
-    if not file:
-        print_debug("Failed to load save file from slot %d" % slot)
-        return false
-
-    var json_string = file.get_as_text()
-    file.close()
-
-    var json = JSON.new()
-    var parse_result = json.parse(json_string)
-
-    if parse_result != OK:
-        print("Error parsing save file: ", json.get_error_message())
-        return false
-
-    var save_data = json.data
-
-    for node_path in save_data.keys():
-        var node = get_node_or_null(node_path)
-        if node and node.is_in_group(SAVE_GROUP):
-            node.load_save_data(save_data[node_path]["data"])
-
-    print("Game loaded from slot %d successfully" % slot)
-    return true
-#endregion
-
-
-#region game saves unencrypted TODO----------------------------------------
-func save_game_unencrypted_json(slot: int) -> void:
-    assert(slot >= 0 and slot < MAX_SLOTS, "invalid save slot")
-    var save_data = {}
-    var savable_nodes = get_tree().get_nodes_in_group(SAVE_GROUP)
-    for node in savable_nodes:
-        if !node.has_method("get_save_data"):
-            continue
-        save_data[node.get_path()] = {
-            "class": node.get_class(),
-            "data": node.get_save_data()
-        }
-
-    var json_string = JSON.stringify(save_data, "  ", true)
-
-    # Write to file
-    var file = FileAccess.open(get_save_path(slot), FileAccess.WRITE)
-    if file:
-        file.store_string(json_string)
-        file.close()
-        print("Game saved to slot %d" % slot)
-    else:
-        print("Failed to save game to slot %d" % slot)
-
-
-func load_game_unencrypted_json(slot: int) -> void:
-    assert(slot >= 0 and slot < MAX_SLOTS, "invalid save slot")
-    var save_path = get_save_path(slot)
-
-    if !FileAccess.file_exists(save_path):
-        print("No save file found in slot %d" % slot)
-        return
-
-    var file = FileAccess.open(save_path, FileAccess.READ)
-    if not file:
-        print("Failed to load save file from slot %d" % slot)
-        return
-
-    var json_string = file.get_as_text()
-    file.close()
-
-    var json = JSON.new()
-    var parse_result = json.parse(json_string)
-
-    if parse_result != OK:
-        print("Error parsing save file: ", json.get_error_message())
-        return
-
-    var save_data = json.data
-
-    for node_path in save_data.keys():
-        var node = get_node_or_null(node_path)
-        if !node.has_method("load_save_data"):
-            continue
-        if node and node.is_in_group(SAVE_GROUP):
-            node.load_save_data(save_data[node_path]["data"])
-
-    print("Game loaded from slot %d successfully" % slot)
-#endregion
-
-
-#region config files for settings ----------------------------------------
-## Specify a file to save. File will only contain 'data' & overwrite any existing data
-func save_as_config_in_file(section: String, data: Dictionary, save_file: String) -> void:
-    var config := ConfigFile.new()
-    for key in data:
-        config.set_value(section, key, data[key])
-    config.save(save_file)
-
-## Loads the config 'section' data from 'save file'. This file will only have 1 section
-func load_from_config_in_file(section: String, save_file: String) -> Dictionary:
-    _create_and_verify_file(save_file)
-
-    var config := ConfigFile.new()
-    var err := config.load(save_file)
-    if err != OK:
-        push_error("Failed to config load: %s" % save_file)
-        return {}
-    var result := {}
-    if config.has_section(section):
-        for i in config.get_section_keys(section):
-            result[i] = config.get_value(section, i)
-    return result
-
-
-func save_config_data(data: Dictionary, save_file: String) -> void:
-    var config = ConfigFile.new()
-    for section in data: # ["section1": {}, "section2": {},]
-        for key in data[section]:
-            config.set_value(section, key, data[section][key])
-
-    config.save(save_file)
-
-
-func load_config_data(save_file: String) -> Dictionary:
-    print("Loading config data from: %s" % save_file)
-    var loaded_data := {}
-    _create_and_verify_file(save_file)
-    var config := ConfigFile.new()
-    var err := config.load(save_file)
-    if err != OK:
-        push_error("Failed to config load: %s" % save_file)
-        return {}
-    print_debug("Config sections:\n%s" % config.get_sections())
-    for section in config.get_sections():
-        loaded_data[section] = {}
-        for key in config.get_section_keys(section):
-            loaded_data[section][key] = config.get_value(section, key)
-
-    return loaded_data
-
-
-#endregion
-
-
-#region json files ----------------------------------------
-## Save 'data' to 'save file' as unencrypted JSON
-func save_file_as_json_unencrypted(data: Dictionary, save_file: String) -> void:
-    var file = FileAccess.open(save_file, FileAccess.WRITE)
-    if !_verify_file(file):
-        return
-    var json_string = JSON.stringify(data)
-    file.store_string(json_string)
-    file.close()
-
-## Load 'save file' from unencrypted JSON
-func load_file_from_json_unencrypted(save_file: String) -> Dictionary:
-    if !FileAccess.file_exists(save_file):
-        print_debug("File did not exist: %s" % save_file)
-        var _file = FileAccess.open(save_file, FileAccess.WRITE)
-        if !_verify_file(_file):
-            return {}
-        _file.close()
-
-    var file = FileAccess.open(save_file, FileAccess.READ)
-    if !_verify_file(file):
-        return {}
-
-    var json_string = file.get_as_text()
-    file.close()
-    if json_string.is_empty():
-        return {}
-    var json := JSON.new()
-    var err = json.parse(json_string)
-    if err != OK:
-        push_error("Parse Error: %s, in %s, at line %s " % [json.get_error_message(), json_string, json.get_error_line()])
-        return {}
-
-    return json.data
-    # alternate file scans
-    # while file.eof_reached():
-    #     pass
-    # while file.get_position() < file.get_length():
-    #     var json_string := file.get_line()
-
-## Save 'data' to 'save file' as encrypted JSON
-func save_file_as_json_encrypted(data: Dictionary, save_file: String) -> void:
-    var file = FileAccess.open_encrypted(save_file, FileAccess.WRITE, ProjectSettings.get_setting("game/unlock_key"))
-    if !_verify_file(file):
-        return
-    var json_string = JSON.stringify(data)
-    file.store_string(json_string)
-    file.close()
-
-## Load 'save file' from encrypted JSON
-func load_file_from_json_encrypted(save_file: String) -> Dictionary:
-    var result := {}
-    if !FileAccess.file_exists(save_file):
-        print_debug("File did not exist: %s" % save_file)
-        var _file = FileAccess.open_encrypted(save_file, FileAccess.WRITE, ProjectSettings.get_setting("game/unlock_key"))
-        if !_verify_file(_file):
-            return {}
-        _file.close()
-
-    var file = FileAccess.open_encrypted(save_file, FileAccess.READ, ProjectSettings.get_setting("game/unlock_key"))
-    if !_verify_file(file):
-        return {}
-    var json_string = file.get_as_text()
-    file.close()
-    if json_string.is_empty():
-        return {}
-    var json := JSON.new()
-    var err = json.parse(json_string)
-    if err != OK:
-        push_error("Parse Error: %s, in %s, at line %s " % [json.get_error_message(), json_string, json.get_error_line()])
-        return {}
-
-    result = json.data
-    return result
-
-## Save 'data' to 'save file' as encrypted JSON with password
-func save_file_as_json_with_password(data: Dictionary, save_file: String, password: String) -> void:
-    var file = FileAccess.open_encrypted_with_pass(save_file, FileAccess.WRITE, password)
-    if !_verify_file(file):
-        return
-    var json_string = JSON.stringify(data)
-    file.store_string(json_string)
-    file.close()
-
-## Load 'save file' from encrypted JSON with password
-func load_file_as_json_with_password(data: Dictionary, save_file: String, password: String) -> Dictionary:
-    var file = FileAccess.open_encrypted_with_pass(save_file, FileAccess.READ, password)
-    if _verify_file(file):
-        return {}
-    var json_string = file.get_as_text()
-    file.close()
-    if json_string.is_empty():
-        return {}
-    var json := JSON.new()
-    var err = json.parse(json_string)
-    if err != OK:
-        push_error("Parse Error: %s, at line %s, in\n%s  " % [json.get_error_message(), json.get_error_line(), json_string])
-        return {}
-
-    return json.data
-
-#endregion
 
 ## if save file does not exist, create it
 func _create_and_verify_file(save_file: String) -> bool:
@@ -402,68 +72,280 @@ func _verify_file(_file: FileAccess, path: String = "") -> bool:
         return false
     return true
 
-#region encoded as binary ----------------------------------------
-##TODO work is needed for decoding.
-## file is encoded
-# func save_as_encoded_file(data: Variant, _file: String) -> void:
-#     var file = FileAccess.open(_file, FileAccess.WRITE)
-#     if file:
-#         file.store_var(data)
-#         file.close()
 
-# ## file is decoded
-# func load_from_encoded_file(_file: String) -> Dictionary:
-#     var options = {}
-#     var file = FileAccess.open(_file, FileAccess.READ)
-#     if file:
-#         options = file.get_var()
-#     else:
-#         save_as_encoded_file(options, _file)
-#         options = load_from_encoded_file(_file)
-#     file.close()
-#     return options
+#region config files for settings ----------------------------------------
+
+## Save data in readable config format. [Section] key=value. Loads existing data then overwrites any section in data
+func save_config_data(data: Dictionary, save_file: String) -> void:
+    var config2 = ConfigFile.new()
+    for section in data:
+        for key in data[section]:
+            config2.set_value(section, key, data[section][key])
+    config2.save(save_file)
+    return
+    # var existing = load_config_data(save_file)
+    # # data["Test"] = {"test2": 5.0} # can do multiple sections
+    # for section in data:
+    #     if !existing.has(section):
+    #         existing[section] = {}
+    #     for key in data[section]:
+    #         existing[section][key] = data[section][key]
+
+    # var config = ConfigFile.new()
+    # for section in existing: # ["section1": {}, "section2": {},]
+    #     for key in existing[section]:
+    #         config.set_value(section, key, existing[section][key])
+    # config.save(save_file)
+
+
+func load_config_data(save_file: String) -> Dictionary:
+    print("Loading config data from: %s" % save_file)
+    var loaded_data := {}
+    _create_and_verify_file(save_file)
+    var config := ConfigFile.new()
+    var err := config.load(save_file)
+    if err != OK:
+        push_error("Failed to config load: %s" % save_file)
+        return {}
+    for section in config.get_sections():
+        loaded_data[section] = {}
+        for key in config.get_section_keys(section):
+            loaded_data[section][key] = config.get_value(section, key)
+
+    return loaded_data
+
+## converts data into {section: {data}} format
+func save_config_section(section: String, data: Dictionary, save_file: String) -> void:
+    var new_data = {section: data}
+    save_config_data(new_data, save_file)
+
+## returns specific config section from file
+func load_config_section(section: String, save_file: String) -> Dictionary:
+    var existing := load_config_data(save_file)
+    var result = existing.get(section, {})
+    return result
+
 #endregion
 
 
-#region example usage ----------------------------------------
-#   # saving in slot-----------------
-# func _input(event: InputEvent) -> void:
-#     if event.is_action_pressed("debug1"):
-#         var slot = 0
-#         if Input.is_key_pressed(KEY_SHIFT):
-#             slot = 0
-#         elif Input.is_key_pressed(KEY_CTRL):
-#             slot = 1
-#         elif Input.is_key_pressed(KEY_ALT):
-#             slot = 2
-#         save_game_encrypted_json(slot)
+#region encoded as binary ----------------------------------------
+#https://github.com/MorneVenter/godot-blueprint/blob/main/addons/blueprint/autoloads/save_manager.gd#L86
 
-#     if event.is_action_pressed("debug2"):
-#         var slot = 0
-#         if Input.is_key_pressed(KEY_SHIFT):
-#             slot = 0
-#         elif Input.is_key_pressed(KEY_CTRL):
-#             slot = 1
-#         elif Input.is_key_pressed(KEY_ALT):
-#             slot = 2
-#         load_game_encrypted_json(slot)
+func update_save_data(_key: String, value: Variant, immediate_save: bool = false) -> void:
+    if value == null:
+        return
+    saved_data[_key] = value
+    if immediate_save:
+        save_game_binary(get_save_path(0))
 
-#   # in another script-----------------
-# func save_to_slot(slot: int) -> void:
-#     if SaveManager.save_game(slot):
-#         print("Saved successfully!")
-#     else:
-#         print("Save failed!")
+## Optionally, provide a default return value as the second parameter to assist with typed returns. Will return null by default.
+func get_save_data_from(_key: String, default: Variant = null) -> Variant:
+    if !saved_data.has(_key):
+        return default
+    var loaded: Variant = saved_data[_key]
+    if loaded == null:
+        return default
+    return loaded
 
-# func load_from_slot(slot: int) -> void:
-#     if SaveManager.load_game(slot):
-#         print("Loaded successfully!")
-#     else:
-#         print("Load failed!")
+## Gets the last date and time the current loaded save file was written to.
+## format (YYYY-MM-DDTHH:MM:SS)
+func get_last_write_date() -> String:
+    var date_and_time: String = get_save_data_from("save_date", "")
+    return date_and_time
+
+
+func get_last_save_version() -> String:
+    var version: String = get_save_data_from("game_version", ProjectSettings.get_setting("application/config/version", "0.0"))
+    return version
+
+
+func save_game_binary(_file: String) -> void:
+    saved_data["save_date"] = Time.get_datetime_string_from_system()
+    saved_data["game_version"] = ProjectSettings.get_setting("application/config/version", "0.0")
+    _save_groups()
+    _save_as_encoded_file(saved_data, _file)
+    print("Saved game to: %s" % _file)
+
+
+func load_game_binary(_file: String) -> void:
+    saved_data = _load_from_encoded_file(_file)
+    if saved_data.get("game_version", "0.0") != ProjectSettings.get_setting("application/config/version", "0.0"):
+        # migration logic
+        pass
+    _load_groups()
+
+
+func _delete_save_data(id: int = 0) -> void:
+    var save_path: String = get_save_path(id)
+    OS.move_to_trash(ProjectSettings.globalize_path(save_path))
+    print("deleted save file: %s" % save_path)
+
+
+func append_save_as_encoded_file(data: Dictionary, _file: String) -> void:
+    var save = _load_from_encoded_file(_file)
+    for _section in data:
+        if !save.has(_section):
+            save[_section] = {}
+        save[_section] = data[_section]
+    # save.merge(data, true)
+    _save_as_encoded_file(save, _file)
+
+## file is encoded as bytes
+func _save_as_encoded_file(data: Dictionary, _file: String) -> void:
+    var file = FileAccess.open(_file, FileAccess.WRITE)
+    file.store_var(data)
+    file.close()
+
+## file is decoded from bytes
+func _load_from_encoded_file(_file: String) -> Dictionary:
+    var options = {}
+    if !_create_and_verify_file(_file): return options
+    if FileAccess.get_size(_file) <= 0: return options
+
+    var file = FileAccess.open(_file, FileAccess.READ)
+    var contents = file.get_var()
+    file.close()
+    if contents == null or contents.is_empty(): return options
+    if typeof(contents) == TYPE_DICTIONARY: return contents
+    var err
+    if typeof(contents) == TYPE_STRING:
+        err = JSON.parse_string(contents)
+    if err == null:
+        print_debug("JSON parse error: ", err)
+        return options
+    push_warning("data is not a dictionary")
+    return options
+
+
+func _save_groups() -> void:
+    get_tree().call_group(SAVE_GROUP, "_save_game_data", saved_data)
+
+## for scripts that may be active before load game, add them to 'savable' & create function '_load_game_data'
+func _load_groups() -> void:
+    get_tree().call_group(SAVE_GROUP, "_load_game_data", saved_data)
+
+#endregion
+
+
+#region json files ----------------------------------------
+## Save 'data' to 'save file' as JSON string
+func save_file_as_json_unencrypted(data: Dictionary, save_file: String) -> void:
+    var file = FileAccess.open(save_file, FileAccess.WRITE)
+    if !_verify_file(file): return
+    var json_string = JSON.stringify(data)
+    file.store_string(json_string)
+    file.close()
+
+## Load 'save file' from JSON string
+func load_file_from_json_unencrypted(save_file: String) -> Dictionary:
+    if !_create_and_verify_file(save_file): return {}
+    var file = FileAccess.open(save_file, FileAccess.READ)
+    if !_verify_file(file): return {}
+    var json_string = file.get_as_text()
+    file.close()
+    if json_string.is_empty():
+        return {}
+    var json := JSON.new()
+    var err = json.parse(json_string)
+    if err != OK:
+        push_error("Parse Error: %s, in %s, at line %s " % [json.get_error_message(), json_string, json.get_error_line()])
+        return {}
+    return json.data
+
+## Save 'data' to 'save file' as encrypted JSON
+func save_file_as_json_encrypted(data: Dictionary, save_file: String) -> void:
+    var file = FileAccess.open_encrypted(save_file, FileAccess.WRITE, ProjectSettings.get_setting("game/unlock_key"))
+    if !_verify_file(file): return
+    var json_string = JSON.stringify(data)
+    file.store_string(json_string)
+    file.close()
+
+## Load 'save file' from encrypted JSON
+func load_file_from_json_encrypted(save_file: String) -> Dictionary:
+    var _file: FileAccess = null
+    if !FileAccess.file_exists(save_file):
+        print_debug("File did not exist: %s" % save_file)
+        _file = FileAccess.open_encrypted(save_file, FileAccess.WRITE, ProjectSettings.get_setting("game/unlock_key"))
+        if !_verify_file(_file): return {}
+    if _file == null:
+        _file = FileAccess.open_encrypted(save_file, FileAccess.READ, ProjectSettings.get_setting("game/unlock_key"))
+        if !_verify_file(_file): return {}
+
+    var json_string = _file.get_as_text()
+    _file.close()
+    if json_string.is_empty(): return {}
+    var json := JSON.new()
+    var err = json.parse(json_string)
+    if err != OK:
+        push_error("Parse Error: %s, in %s, at line %s " % [json.get_error_message(), json_string, json.get_error_line()])
+        return {}
+    return json.data
+
+## Save 'data' to 'save file' as encrypted JSON with password
+func save_file_as_json_with_password(data: Dictionary, save_file: String, password: String) -> void:
+    var file = FileAccess.open_encrypted_with_pass(save_file, FileAccess.WRITE, password)
+    if !_verify_file(file):
+        return
+    var json_string = JSON.stringify(data)
+    file.store_string(json_string)
+    file.close()
+
+## Load 'save file' from encrypted JSON with password
+func load_file_as_json_with_password(data: Dictionary, save_file: String, password: String) -> Dictionary:
+    var _file: FileAccess = null
+    if !FileAccess.file_exists(save_file):
+        print_debug("File did not exist: %s" % save_file)
+        _file = FileAccess.open_encrypted_with_pass(save_file, FileAccess.WRITE, password)
+        if !_verify_file(_file): return {}
+    if _file == null:
+        _file = FileAccess.open_encrypted_with_pass(save_file, FileAccess.READ, password)
+        if !_verify_file(_file): return {}
+
+    var json_string = _file.get_as_text()
+    _file.close()
+    if json_string.is_empty(): return {}
+    var json := JSON.new()
+    var err = json.parse(json_string)
+    if err != OK:
+        push_error("Parse Error: %s, at line %s, in\n%s  " % [json.get_error_message(), json.get_error_line(), json_string])
+        return {}
+    return json.data
+
+#endregion
+
+#
+##region Console ----------------------------------------
+#
+#func _add_cs_commands() -> void:
+    #GameManager.console_manager.add_command("save_game", _cs_save_game, ["slot"], 0, "Save game")
+    #GameManager.console_manager.add_command("delete_save", _cs_delete_save, ["slot"], 0, "Delete save")
+#
+#
+#func _remove_cs_commands() -> void:
+    #GameManager.console_manager.remove_command("save_game")
+    #GameManager.console_manager.remove_command("delete_save")
+#
+#
+#func _cs_save_game(_slot: String = "") -> void:
+    #var slot = _slot.to_int()
+    #if slot != 0:
+        #slot = 0
+    #save_game(slot)
+    #GameManager.print_to_console("Saved game to slot %d" % slot)
+#
+#
+#func _cs_delete_save(_slot: String = "") -> void:
+    #var slot = _slot.to_int()
+    #if slot != 0:
+        #slot = 0
+    #_delete_save_data(slot)
+    #GameManager.print_to_console("Save slot deleted %d" % slot)
+#
+##endregion
+
 
 # # For a save/load menu-----------------
 # func update_save_menu() -> void:
 #     var slots = SaveManager.get_all_save_slots_info()
 #     for slot in slots:
 #         print("Slot %d: %s" % [slot.slot, "Occupied" if slot.exists else "Empty"])
-#endregion

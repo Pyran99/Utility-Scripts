@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://buahsptxef7qp"]
+
+[ext_resource type="Script" uid="uid://baf0i5d47o4vq" path="res://Scenes/UI/Windows/v_scroll_bar.gd" id="1_ud0nq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ud0nq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_picns"]
+
+[node name="VScrollBar" type="VScrollBar" unique_id=1700633789]
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -4.5
+offset_right = 4.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 8
+theme_override_styles/scroll = SubResource("StyleBoxEmpty_ud0nq")
+theme_override_styles/scroll_focus = SubResource("StyleBoxEmpty_picns")
+step = 1.0
+page = 50.0
+rounded = true
+custom_step = 50.0
+script = ExtResource("1_ud0nq")
+
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]

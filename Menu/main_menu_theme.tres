@@ -1,8 +1,8 @@
-[gd_resource type="Theme" load_steps=14 format=3 uid="uid://cac0fd78fa17o"]
+[gd_resource type="Theme" format=3 uid="uid://cac0fd78fa17o"]
 
-[ext_resource type="StyleBox" uid="uid://c5xbmpve882l8" path="res://Utility/Assets/main_menu_disabled.tres" id="1_dtqmo"]
-[ext_resource type="StyleBox" uid="uid://lqiawbxrj0qc" path="res://Utility/Assets/main_menu_focus.tres" id="1_jy8hy"]
-[ext_resource type="StyleBox" uid="uid://dtog727ax84vy" path="res://Utility/Assets/main_menu_normal.tres" id="2_dtqmo"]
+[ext_resource type="StyleBox" uid="uid://c5xbmpve882l8" path="res://Utility/Assets/main_menu_disabled.tres" id="1_oqnx7"]
+[ext_resource type="StyleBox" uid="uid://lqiawbxrj0qc" path="res://Utility/Assets/main_menu_focus.tres" id="2_onjxk"]
+[ext_resource type="StyleBox" uid="uid://dtog727ax84vy" path="res://Utility/Assets/main_menu_normal.tres" id="3_1yvtg"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vbirn"]
 
@@ -66,12 +66,12 @@ Button/constants/align_to_largest_stylebox = 0
 Button/constants/h_separation = 0
 Button/constants/icon_max_width = 0
 Button/constants/outline_size = 0
-Button/styles/disabled = ExtResource("1_dtqmo")
-Button/styles/focus = ExtResource("1_jy8hy")
-Button/styles/hover = ExtResource("1_jy8hy")
-Button/styles/hover_pressed = ExtResource("1_jy8hy")
-Button/styles/normal = ExtResource("2_dtqmo")
-Button/styles/pressed = ExtResource("1_jy8hy")
+Button/styles/disabled = ExtResource("1_oqnx7")
+Button/styles/focus = ExtResource("2_onjxk")
+Button/styles/hover = ExtResource("2_onjxk")
+Button/styles/hover_pressed = ExtResource("2_onjxk")
+Button/styles/normal = ExtResource("3_1yvtg")
+Button/styles/pressed = ExtResource("2_onjxk")
 ButtonNoBg/base_type = &"Button"
 ButtonNoBg/colors/font_color = Color(1, 1, 1, 1)
 ButtonNoBg/colors/font_disabled_color = Color(0.872396, 0.872396, 0.872396, 0.501961)

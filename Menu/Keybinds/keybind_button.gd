@@ -9,10 +9,9 @@ signal keybind_changed(action: String, event: InputEvent)
 @export var action: String = "": set = _set_action
 @export var type: KeybindManager.INPUT_SCHEMES = KeybindManager.INPUT_SCHEMES.KEYBOARD
 
-var menu: Control = null
+var menu: Control
 var is_rebind_mode: bool = false
 var current_event: InputEvent
-var shader: ShaderMaterial
 
 
 func _set_action(value: String) -> void:
@@ -21,11 +20,10 @@ func _set_action(value: String) -> void:
 
 
 func _ready():
-    shader = material
-    if shader != null:
-        shader.set_shader_parameter("speed", 0)
     set_process_input(false)
     _connect_signals()
+    if disabled:
+        focus_mode = Control.FOCUS_NONE
 
 
 func _connect_signals() -> void:
@@ -42,7 +40,6 @@ func _input(event: InputEvent) -> void:
         get_viewport().set_input_as_handled()
         if event.keycode == KEY_ESCAPE:
             button_pressed = false
-            _grab_focus_if_able()
             return
         elif event.keycode == KEY_BACKSPACE:
             button_pressed = false
@@ -53,9 +50,8 @@ func _input(event: InputEvent) -> void:
         remap_action_to(event)
         button_pressed = false
     elif event is InputEventMouseButton:
-        if !(event.button_index == MOUSE_BUTTON_LEFT):
+        if !event.button_index == MOUSE_BUTTON_LEFT:
             button_pressed = false
-            _grab_focus_if_able()
 
 
 func remap_action_to(event: InputEvent) -> void:
@@ -67,22 +63,18 @@ func remap_action_to(event: InputEvent) -> void:
         KeybindManager.INPUT_SCHEMES.KEYBOARD:
             if event == null or event is InputEventKey:
                 SettingsManager.keybind_manager.input_map[action][0] = event
-                pass
         KeybindManager.INPUT_SCHEMES.CONTROLLER:
             if event == null or event is InputEventJoypadButton or event is InputEventJoypadMotion:
                 SettingsManager.keybind_manager.input_map[action][1] = event
-                pass
 
-    if InputMap.has_action(action):
-        if current_event != null:
-            InputMap.action_erase_event(action, current_event)
-        if event != null:
-            InputMap.action_add_event(action, event)
-            
+    if current_event != null:
+        InputMap.action_erase_event(action, current_event)
+    if event != null:
+        InputMap.action_add_event(action, event)
     keybind_changed.emit(action, event)
     set_current_event()
-    _grab_focus_if_able()
-    # ControllerIcons.refresh()
+    call_deferred("grab_focus")
+    ControllerIcons.refresh()
 
 
 func set_current_event() -> void:
@@ -109,16 +101,14 @@ func set_current_event() -> void:
 
 ## display the key string for 'action' from KBM.input_map. No event shows ''
 func display_current_key() -> void:
-    if menu != null:
-        if menu.is_using_addon:
-            text = ""
-            return
+    if menu == null: return
+    if menu.is_using_addon:
+        text = ""
+        return
     var events: Array
     if Engine.is_editor_hint():
         var project_events = ProjectSettings.get_setting("input/%s" % action)
-        if project_events == null:
-            text = ""
-            return
+        if project_events == null: return
         events = project_events["events"]
     else:
         events = InputMap.action_get_events(action)
@@ -174,15 +164,11 @@ func _on_toggled(toggled_on: bool) -> void:
     is_rebind_mode = toggled_on
     rebind_mode.emit(toggled_on)
     if toggled_on:
-        if shader != null:
-            shader.set_shader_parameter("speed", 1)
-        # text = "..."
+        text = "..."
         release_focus()
         if menu != null:
             menu.active_btn = self
     else:
-        if shader != null:
-            shader.set_shader_parameter("speed", 0)
         text = ""
         display_current_key()
         button_pressed = false
@@ -191,29 +177,24 @@ func _on_toggled(toggled_on: bool) -> void:
 func _reset_key_to_default() -> void:
     var default_events = ProjectSettings.get_setting("input/%s" % action)
     var default_action: InputEvent = null
-    var action_key: String = "events"
     for i in default_events.size():
         match type:
             KeybindManager.INPUT_SCHEMES.KEYBOARD:
-                if default_events[action_key][i] is InputEventKey:
-                    default_action = default_events[action_key][i]
+                if default_events["events"][i] is InputEventKey:
+                    default_action = default_events["events"][i]
                 break
             KeybindManager.INPUT_SCHEMES.CONTROLLER:
-                if default_events[action_key][i] is InputEventJoypadButton or default_events[action_key][i] is InputEventJoypadMotion:
-                    default_action = default_events[action_key][i]
+                if default_events["events"][i] is InputEventJoypadButton or default_events["events"][i] is InputEventJoypadMotion:
+                    default_action = default_events["events"][i]
                 break
                 
     remap_action_to(default_action)
 
 
-func _grab_focus_if_able() -> void:
+func _on_mouse_entered() -> void:
     if disabled or focus_mode == Control.FOCUS_NONE: return
     if !is_rebind_mode:
-        call_deferred("grab_focus")
-
-
-func _on_mouse_entered() -> void:
-    _grab_focus_if_able()
+        grab_focus()
 
 
 func _on_visibility_changed() -> void:

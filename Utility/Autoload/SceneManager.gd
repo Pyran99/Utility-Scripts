@@ -1,3 +1,4 @@
+@icon("res://Assets/Packs/Kenney/Game Icons/gear.png")
 extends Node
 #AUTOLOAD
 
@@ -19,7 +20,7 @@ signal level_changed(new_level: Node)
 const DEFAULT_LOAD_SCENE_PATH: String = "res://Utility/loading_screen.tscn"
 
 @export var artificial_delay: float = 0.0 # to test loading progress bar
-@export var manually_change_scene: bool = false
+@export var manually_change_scene: bool = true
 
 var _active_level: Node
 var _active_load_scene: Node
@@ -34,7 +35,7 @@ func _ready():
     set_process(false)
     process_mode = Node.PROCESS_MODE_ALWAYS
     _load_loading_scene()
-    _set_start_scene()
+    _set_start_scene.call_deferred()
 
 
 func _process(_delta: float) -> void:
@@ -91,10 +92,10 @@ func _thread_load_resource_finished(status: int) -> void:
             _finished_loading()
             return
         ResourceLoader.THREAD_LOAD_LOADED:
-            new_scene_loaded.emit()
             if artificial_delay > 0.0:
                 await get_tree().create_timer(artificial_delay).timeout
             var packed_scene = ResourceLoader.load_threaded_get(new_scene_path)
+            new_scene_loaded.emit()
             if manually_change_scene:
                 _change_scene_manually(packed_scene)
             else:
@@ -113,7 +114,7 @@ func _load_loading_scene() -> void:
 func _start_loading(use_load_screen: bool) -> void:
     if use_load_screen:
         await _create_load_screen()
-    
+
     ResourceLoader.load_threaded_request(new_scene_path)
     set_process(true)
 
@@ -135,10 +136,10 @@ func _change_scene(packed_scene: PackedScene) -> void:
         return
     var tree := get_tree()
     tree.change_scene_to_packed(packed_scene)
-    call_deferred("_set_active_level", tree.current_scene)
-    call_deferred("_finished_loading")
+    _set_active_level.call_deferred(tree.current_scene)
+    _finished_loading.call_deferred()
 
-# manually changing scene
+## manually changing scene
 func _change_scene_manually(packed_scene: PackedScene) -> void:
     if packed_scene == null:
         _finished_loading()
@@ -148,20 +149,27 @@ func _change_scene_manually(packed_scene: PackedScene) -> void:
 
 
 func _remove_old_level() -> void:
+    var tree = get_tree()
     if is_instance_valid(_active_level):
-        get_tree().root.remove_child(_active_level)
+        tree.root.remove_child(_active_level)
         _active_level.queue_free()
         _active_level = null
-        get_tree().current_scene = null
+        tree.current_scene = null
+    elif is_instance_valid(tree.current_scene):
+        var scene = tree.current_scene
+        tree.root.remove_child(scene)
+        scene.queue_free()
+        _active_level = null
+        tree.current_scene = null
 
 
 func _add_new_level(new_scene: PackedScene) -> void:
     var s: Node = new_scene.instantiate()
     var tree := get_tree()
-    tree.root.call_deferred("add_child", s)
+    tree.root.add_child.call_deferred(s)
     tree.set_deferred("current_scene", s)
-    call_deferred("_set_active_level", s)
-    call_deferred("_finished_loading")
+    _set_active_level.call_deferred(s)
+    _finished_loading.call_deferred(s)
 
 
 func _finished_loading() -> void:
@@ -184,10 +192,6 @@ func _free_load_scene() -> void:
 
 ## Sets active level var and emits level changed
 func _set_active_level(level: Node) -> void:
-    if OS.is_debug_build():
-        if is_instance_valid(_active_level):
-            push_warning("Overwriting active level: %s" % _active_level.name)
-
     _active_level = level
     level_changed.emit(level)
 

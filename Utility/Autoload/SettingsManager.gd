@@ -1,23 +1,28 @@
+@icon("res://Assets/Packs/Kenney/Game Icons/gear.png")
 extends Node
 #AUTOLOAD
 
+signal language_changed(new_locale: String)
 
 const DEFAULT_SETTINGS: Dictionary = {
     Strings.FULLSCREEN: false,
     Strings.MAXIMIZED: false,
     Strings.WIDTH: 1280,
     Strings.HEIGHT: 720,
-    Strings.LOCALE: "en",
     Strings.SCALER_MODE: 1,
     Strings.SCALER_VALUE: 100.0,
     Strings.FSR_SELECTED: 1,
     Strings.BRIGHTNESS: 1.0,
+    Strings.VSYNC: true,
+    Strings.LOCALE: "en",
+    }
+
+const DEFAULT_AUDIO: Dictionary = {
+    Strings.MUTE: false,
     Strings.MASTER_VOLUME: 0.5,
     Strings.MUSIC_VOLUME: 0.5,
     Strings.SFX_VOLUME: 0.5,
-    Strings.MUTE: false,
-    Strings.VSYNC: true,
-    }
+}
 
 const RESOLUTIONS: Array = [
     {Strings.WIDTH: 1920, Strings.HEIGHT: 1080},
@@ -41,10 +46,15 @@ var cs_flag # preload
 
 var locale_list = [
     {Strings.LOCALE: "en", "language": "English", "flag": en_flag},
-    {Strings.LOCALE: "cs", "language": "Czech", "flag": cs_flag},
+    {Strings.LOCALE: "zh", "language": "Chinese"},
+    {Strings.LOCALE: "ru", "language": "Russian"},
+    {Strings.LOCALE: "es", "language": "Spanish"},
+    {Strings.LOCALE: "pt", "language": "Portuguese"},
+    {Strings.LOCALE: "de", "language": "German"},
+    {Strings.LOCALE: "ja", "language": "Japanese"},
 ]
 
-var keybind_manager: KeybindManager = preload("res://Utility/Keybinds/KeybindManager.gd").new()
+var keybind_manager: KeybindManager = preload("res://Menu/Keybinds/KeybindManager.gd").new()
 var settings: Dictionary
 ## If the game has already loaded, options should only need to set values visually
 var settings_loaded: bool = false
@@ -60,7 +70,7 @@ func _ready():
     load_settings()
     apply_values()
     keybind_manager.init()
-    save_settings()
+    save_settings.call_deferred()
 
 
 func check_option_settings(options: Dictionary) -> Dictionary:
@@ -84,10 +94,13 @@ func load_settings() -> void:
     var data = SavingManager.load_config_data(SavingManager.SETTINGS_FILE)
     if data.is_empty() or !data.has(Strings.SETTINGS):
         data[Strings.SETTINGS] = DEFAULT_SETTINGS.duplicate()
+    if !data.has(Strings.AUDIO):
+        data[Strings.AUDIO] = DEFAULT_AUDIO.duplicate()
     settings = data
 
 ## apply saved settings to game on startup
 func apply_values() -> void:
+    assert(settings.has(Strings.SETTINGS))
     var _settings = settings[Strings.SETTINGS]
     set_window_mode()
     set_resolution(get_resolution_index())
@@ -98,12 +111,13 @@ func apply_values() -> void:
     set_language(get_language_index())
     set_brightness(_settings[Strings.BRIGHTNESS])
     set_vsync(_settings[Strings.VSYNC])
-    set_mute(_settings[Strings.MUTE])
-    set_master_volume(_settings[Strings.MASTER_VOLUME])
-    set_music_volume(_settings[Strings.MUSIC_VOLUME])
-    set_sfx_volume(_settings[Strings.SFX_VOLUME])
     settings_loaded = true
 
+
+func set_save_setting(section: String, key: String, value: Variant) -> void:
+    if !settings.has(section):
+        settings[section] = {}
+    settings[section][key] = value
 
 #region Resolution---------------------------------
 
@@ -121,16 +135,14 @@ func set_window_mode() -> void:
 func set_resolution(index: int) -> void:
     var idx = clampi(index, 0, RESOLUTIONS.size() - 1)
     var size = RESOLUTIONS[idx]
-    var _settings = settings[Strings.SETTINGS]
-    _settings[Strings.WIDTH] = size[Strings.WIDTH]
-    _settings[Strings.HEIGHT] = size[Strings.HEIGHT]
+    set_save_setting(Strings.SETTINGS, Strings.WIDTH, size[Strings.WIDTH])
+    set_save_setting(Strings.SETTINGS, Strings.HEIGHT, size[Strings.HEIGHT])
     resize_window()
 
 ## this can be used to set a custom resolution not in RESOLUTIONS array
 func set_resolution_by_value(width: int, height: int) -> void:
-    var _settings = settings[Strings.SETTINGS]
-    _settings[Strings.WIDTH] = width
-    _settings[Strings.HEIGHT] = height
+    set_save_setting(Strings.SETTINGS, Strings.WIDTH, width)
+    set_save_setting(Strings.SETTINGS, Strings.HEIGHT, height)
     resize_window()
 
 
@@ -163,7 +175,7 @@ func get_resolution_index() -> int:
     var _settings = settings[Strings.SETTINGS]
     var idx := RESOLUTIONS.find({Strings.WIDTH: _settings[Strings.WIDTH], Strings.HEIGHT: _settings[Strings.HEIGHT]})
     if idx == -1:
-        idx = 5
+        idx = RESOLUTIONS.find({Strings.WIDTH: 1280, Strings.HEIGHT: 720})
     return idx
 
 
@@ -173,77 +185,78 @@ func get_resolution_index() -> int:
 
 func set_scaler_mode(index: int) -> void:
     var _settings = settings[Strings.SETTINGS]
-    _settings[Strings.SCALER_MODE] = index
     var viewport = get_viewport()
     if ProjectSettings.get_setting("rendering/renderer/rendering_method") == "gl_compatibility":
         viewport.scaling_3d_mode = Viewport.SCALING_3D_MODE_BILINEAR
     else:
         viewport.scaling_3d_mode = _settings[Strings.SCALER_MODE]
+    set_save_setting(Strings.SETTINGS, Strings.SCALER_MODE, index)
 
 
 func set_scaler_value(value: float) -> void:
     var _settings = settings[Strings.SETTINGS]
-    _settings[Strings.SCALER_VALUE] = value
     var viewport = get_viewport()
     var resolution_scale = _settings[Strings.SCALER_VALUE] / 100.00
     viewport.scaling_3d_scale = resolution_scale
+    set_save_setting(Strings.SETTINGS, Strings.SCALER_VALUE, value)
 
 
 func set_fsr_index(index: int) -> void:
-    settings[Strings.SETTINGS][Strings.FSR_SELECTED] = index
+    set_save_setting(Strings.SETTINGS, Strings.FSR_SELECTED, index)
 
 #endregion
 
-#region Audio---------------------------------
-
-func set_mute(value: bool) -> void:
-    settings[Strings.SETTINGS][Strings.MUTE] = value
-    AudioManager.mute_volume(value)
-
-func set_master_volume(value: float) -> void:
-    settings[Strings.SETTINGS][Strings.MASTER_VOLUME] = value
-    AudioManager.set_master_volume(value)
-
-func set_music_volume(value: float) -> void:
-    settings[Strings.SETTINGS][Strings.MUSIC_VOLUME] = value
-    AudioManager.set_music_volume(value)
-
-func set_sfx_volume(value: float) -> void:
-    settings[Strings.SETTINGS][Strings.SFX_VOLUME] = value
-    AudioManager.set_sfx_volume(value)
-
-#endregion
 
 #region Other---------------------------------
 
 func set_brightness(value: float) -> void:
     value = clampf(value, 0.5, 2.0)
-    settings[Strings.SETTINGS][Strings.BRIGHTNESS] = value
-    # if GameManager.get("environment_res") != null:
-    #     GameManager.environment_res.adjustment_brightness = value
+    #if GameManager.get("environment_res") != null:
+        #GameManager.environment_res.adjustment_brightness = value
+    set_save_setting(Strings.SETTINGS, Strings.BRIGHTNESS, value)
 
 
 func set_vsync(value: bool) -> void:
-    settings[Strings.SETTINGS][Strings.VSYNC] = value
     if value:
         DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
     else:
         DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+    set_save_setting(Strings.SETTINGS, Strings.VSYNC, value)
 
 
 func set_language(index: int) -> void:
     index = clampi(index, 0, locale_list.size() - 1)
     var locale = locale_list[index][Strings.LOCALE]
-    settings[Strings.SETTINGS][Strings.LOCALE] = locale
     TranslationServer.set_locale(locale)
+    language_changed.emit(locale)
+    set_save_setting(Strings.SETTINGS, Strings.LOCALE, locale)
+
+
+func set_language_by_locale(locale: String) -> void:
+    var index = get_language_index_by_locale(locale)
+    set_language(index)
 
 
 func get_language_index() -> int:
     var idx: int = 0
-    for d: Dictionary in locale_list:
-        if d[Strings.LOCALE] == settings[Strings.SETTINGS][Strings.LOCALE]:
-            idx = locale_list.find(d)
+    for locale: Dictionary in locale_list:
+        if locale[Strings.LOCALE] == settings[Strings.SETTINGS][Strings.LOCALE]:
+            idx = locale_list.find(locale)
             break
     return idx
+
+
+func get_language_index_by_locale(_locale: String) -> int:
+    var idx: int = 0
+    for locale: Dictionary in locale_list:
+        if locale[Strings.LOCALE] == _locale:
+            idx = locale_list.find(locale)
+            break
+    return idx
+
+##NYI
+func set_max_fps(value: int) -> void:
+    Engine.max_fps = value
+    settings[Strings.SETTINGS][Strings.MAX_FPS] = value
 
 #endregion

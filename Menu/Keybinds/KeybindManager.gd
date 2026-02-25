@@ -1,16 +1,15 @@
 extends RefCounted
 class_name KeybindManager
 
-##-------------------------
-## Add any input to show in keybind menu to DEFAULT_KEY_MAP. bool indicates if key can be rebound, otherwise show key as disabled.
-## Choose file type to save keybinds to. Can remove unused functions
-##   Config saves only physical keycodes for each actions events -> action = [keycode1, keycode2]
-##   Config Full saves InputEventKey objects for each actions events -> action = Array[InputEvent]([Object(InputEventKey), Object(InputEventKey)])
-##   Json saves only physical keycodes as strings for each actions events -> 'action': [keycode1, keycode2]
-##   Json Full saves InputEventKey data as strings for each actions events -> 'action': ['InputEventKey1', 'InputEventKey2']
-## SavingManager creates missing files
-## Uncomment any lines from scenes for ControllerIcons if using addon
-##-------------------------
+#-------------------------
+# Add any input to show in keybind menu to DEFAULT_KEY_MAP. bool indicates if key can be rebound, otherwise show key as disabled.
+# Choose file type to save keybinds to. Can remove unused functions
+#   Config saves only physical keycodes for each actions events -> action = [keycode1, keycode2]
+#   Config Full saves InputEventKey objects for each actions events -> action = Array[InputEvent]([Object(InputEventKey), Object(InputEventKey)])
+#   Json saves only physical keycodes as strings for each actions events -> 'action': [keycode1, keycode2]
+#   Json Full saves InputEventKey data as strings for each actions events -> 'action': ['InputEventKey1', 'InputEventKey2']
+# SavingManager creates missing files
+#-------------------------
 
 ## 'action': can_rebind || for any keys that will show in keybind menu
 const DEFAULT_KEY_MAP = {
@@ -87,12 +86,16 @@ func _load_keybinds() -> void:
 
 ## Save config file with only the keycodes for each action
 func _save_input_keycodes_as_config() -> void:
-    var keycodes: Dictionary = _get_keycodes_from_input_map(input_map)
-    SavingManager.save_as_config_in_file(Strings.KEYBINDS, keycodes, INPUT_KEYCODES_SAVE_PATH)
+    var keycodes: Dictionary = {
+        Strings.KEYBINDS: _get_keycodes_from_input_map(input_map)
+    }
+    SavingManager.save_config_data(keycodes, INPUT_KEYCODES_SAVE_PATH)
+    #old
+    # SavingManager.save_as_config_in_file(Strings.KEYBINDS, keycodes, INPUT_KEYCODES_SAVE_PATH)
 
 
 func _load_input_keycodes_from_config() -> void:
-    var data := SavingManager.load_from_config_in_file(Strings.KEYBINDS, INPUT_KEYCODES_SAVE_PATH)
+    var data := SavingManager.load_config_section(Strings.KEYBINDS, INPUT_KEYCODES_SAVE_PATH)
     if data == {}:
         reset_input_map()
         _load_input_keycodes_from_config()
@@ -102,11 +105,12 @@ func _load_input_keycodes_from_config() -> void:
 
 ## Save config file with the InputEventKey as objects for each action
 func _save_input_map_as_config() -> void:
+    SavingManager.save_config_section(Strings.KEYBINDS, input_map, INPUT_SAVE_PATH)
     SavingManager.save_as_config_in_file(Strings.KEYBINDS, input_map, INPUT_SAVE_PATH)
 
 
 func _load_input_map_from_config() -> void:
-    var data := SavingManager.load_from_config_in_file(Strings.KEYBINDS, INPUT_SAVE_PATH)
+    var data := SavingManager.load_config_section(Strings.KEYBINDS, INPUT_SAVE_PATH)
     if data.has(Strings.KEYBINDS):
         data = data[Strings.KEYBINDS]
     if data == {}:
@@ -263,7 +267,7 @@ func _add_events_to_input_map(map: Dictionary) -> void:
 ## Adds data from {'key': [keycode,],} format to input_map
 func _add_event_keycodes_to_input_map(map: Dictionary) -> void:
     for action in map.keys():
-        if !DEFAULT_KEY_MAP.has(action) or !InputMap.has_action(action):
+        if !DEFAULT_KEY_MAP.has(action):
             continue
         var action_events := []
         var events = InputMap.action_get_events(action)
@@ -292,8 +296,6 @@ func _add_event_keycodes_to_input_map(map: Dictionary) -> void:
         #     var event = _create_input_event_key(keycode)
         #     action_events[action][i] = event
         #endregion
-        while action_events.size() < 2:
-            action_events.append(null)
         input_map[action] = []
         for i in action_events.size():
             input_map[action].append(action_events[i])
@@ -305,22 +307,18 @@ func _add_event_keycodes_to_input_map(map: Dictionary) -> void:
 ## Adds data from {'key': [InputEvent,],} format to input_map
 func _add_event_objects_to_input_map(map: Dictionary) -> void:
     for action in map.keys():
-        if !DEFAULT_KEY_MAP.has(action) or !InputMap.has_action(action):
+        if !DEFAULT_KEY_MAP.has(action):
             continue
         var action_events := []
         for i in map[action].size():
             var event = map[action][i]
             action_events.append(event)
 
-        while action_events.size() < 2:
-            action_events.append(null)
         InputMap.action_erase_events(action)
-        input_map[action] = []
         for a in action_events.size():
-            input_map[action].append(action_events[a])
             if action_events[a] != null:
                 InputMap.action_add_event(action, action_events[a])
-        # input_map[action] = InputMap.action_get_events(action)
+        input_map[action] = InputMap.action_get_events(action)
 
     _create_missing_actions()
 
@@ -331,16 +329,13 @@ func _get_keycodes_from_input_map(map: Dictionary) -> Dictionary:
         var codes := []
         for _event in map[action]:
             if _event is InputEventKey:
-                # codes[0] = _event.physical_keycode
                 codes.append(_event.physical_keycode)
             elif !save_joypad:
                 continue
             elif _event is InputEventJoypadButton:
-                # codes[1] = {}
                 codes.append({})
                 codes[codes.size() - 1]["button_index"] = _event.button_index
             elif _event is InputEventJoypadMotion:
-                # codes[1] = {}
                 codes.append({})
                 codes[codes.size() - 1]["axis"] = _event.axis
                 codes[codes.size() - 1]["axis_value"] = _event.axis_value
@@ -367,12 +362,7 @@ func _parse_map_for_input_object(map: Dictionary) -> bool:
 func _create_missing_actions() -> void:
     for action in DEFAULT_KEY_MAP.keys():
         if !input_map.has(action):
-            if InputMap.has_action(action):
-                input_map[action] = InputMap.action_get_events(action)
-            else:
-                input_map[action] = []
-            while input_map[action].size() < 2:
-                input_map[action].append(null)
+            input_map[action] = InputMap.action_get_events(action)
 
 
 func _create_input_event_key(keycode: int) -> InputEventKey:

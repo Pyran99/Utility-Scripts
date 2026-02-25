@@ -1,18 +1,8 @@
-[gd_resource type="Theme" load_steps=15 format=3 uid="uid://dl3vovyr3a3ft"]
+[gd_resource type="Theme" format=3 uid="uid://dl3vovyr3a3ft"]
 
-[ext_resource type="Texture2D" uid="uid://bf5cg573ot5u8" path="res://Utility/Assets/selection_arrow_btn.png" id="1_8jfhk"]
+[ext_resource type="StyleBox" uid="uid://bkgulxipxgqi8" path="res://Menu/StyleBox_empty_arrows.tres" id="1_8jfhk"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1cjqa"]
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_aq6gd"]
-texture = ExtResource("1_8jfhk")
-texture_margin_left = 8.0
-texture_margin_right = 8.0
-expand_margin_left = 20.0
-expand_margin_top = 20.0
-expand_margin_right = 20.0
-expand_margin_bottom = 20.0
-region_rect = Rect2(0, 0, 64, 64)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qje0n"]
 
@@ -80,11 +70,11 @@ Button/constants/icon_max_width = 0
 Button/constants/outline_size = 8
 Button/font_sizes/font_size = 40
 Button/styles/disabled = SubResource("StyleBoxEmpty_1cjqa")
-Button/styles/focus = SubResource("StyleBoxTexture_aq6gd")
-Button/styles/hover = SubResource("StyleBoxTexture_aq6gd")
-Button/styles/hover_pressed = SubResource("StyleBoxTexture_aq6gd")
+Button/styles/focus = ExtResource("1_8jfhk")
+Button/styles/hover = ExtResource("1_8jfhk")
+Button/styles/hover_pressed = ExtResource("1_8jfhk")
 Button/styles/normal = SubResource("StyleBoxEmpty_qje0n")
-Button/styles/pressed = SubResource("StyleBoxTexture_aq6gd")
+Button/styles/pressed = ExtResource("1_8jfhk")
 ButtonNoBg/base_type = &"Button"
 ButtonNoBg/colors/font_color = Color(1, 1, 1, 1)
 ButtonNoBg/colors/font_disabled_color = Color(0.872396, 0.872396, 0.872396, 0.501961)

@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://w171wvd68073"]
+[gd_scene format=3 uid="uid://w171wvd68073"]
 
-[ext_resource type="PackedScene" uid="uid://cbn18oynkifs7" path="res://Utility/main_menu.tscn" id="1_jxd7e"]
+[ext_resource type="PackedScene" uid="uid://cbn18oynkifs7" path="res://Menu/main_menu.tscn" id="1_jxd7e"]
 
 [node name="GameStartMenu" type="CanvasLayer"]
 

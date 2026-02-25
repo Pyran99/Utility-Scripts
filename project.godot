@@ -8,23 +8,30 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="Utility Scripts"
 config/version="0.1"
 config/tags=PackedStringArray("testing")
-run/main_scene="uid://w171wvd68073"
-config/features=PackedStringArray("4.4", "GL Compatibility")
+run/main_scene="uid://cbn18oynkifs7"
+config/features=PackedStringArray("4.6", "GL Compatibility")
 run/max_fps=60
 config/icon="res://icon.svg"
 
 [autoload]
 
-SceneManager="*res://Utility/Autoload/scene_manager.tscn"
+ControllerIcons="*res://addons/controller_icons/ControllerIcons.gd"
 SavingManager="*res://Utility/Autoload/SavingManager.gd"
 SettingsManager="*res://Utility/Autoload/SettingsManager.gd"
 AudioManager="*res://Utility/Autoload/AudioManager.gd"
-ControllerIcons="*res://addons/controller_icons/ControllerIcons.gd"
+GlobalAudioPlayer="*uid://bo3rt5020053r"
+SceneManager="*res://Utility/Autoload/scene_manager.tscn"
+GameManager="*uid://bk56kj2n8qp2i"
+CutsceneManager="*uid://v3ynh5giy5rr"
 
 [debug]
 
@@ -47,8 +54,8 @@ enabled=PackedStringArray("res://addons/controller_icons/plugin.cfg")
 
 [gui]
 
-theme/custom="uid://d0qjhkyuijej"
 theme/default_font_multichannel_signed_distance_field=true
+theme/custom="uid://d0qjhkyuijej"
 
 [input]
 

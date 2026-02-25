@@ -1,14 +1,12 @@
 extends Control
 
-##-------------------------
-## Requires KeybindManager
-## Requires KeybindButton
-## Requires KeybindContainer
-## Requires SettingsManager
-## For new actions, add action to InputMap, add to DEFAULT_KEY_MAP
-##-------------------------
+#-------------------------
+# Requires KeybindManager
+# Requires KeybindButton
+# For new actions, dupe an hboxcontainer, set action, set default values to KeybindManager
+#-----------------------------
 
-const KEYBIND_CONTAINER: PackedScene = preload("res://Utility/Keybinds/keybind_container.tscn")
+const KEYBIND_CONTAINER: PackedScene = preload("res://Menu/Keybinds/keybind_container.tscn")
 
 @export var previous_menu: Control
 @export var is_using_addon: bool = false
@@ -20,7 +18,7 @@ var active_btn: KeybindButton
 @onready var scroll_container: ScrollContainer = %ControlsScrollContainer
 @onready var rebind_tooltip: PanelContainer = %RebindTooltip
 @onready var controls: VBoxContainer = %Controls
-@onready var reset_confirm: Control = %ResetMenu
+@onready var reset_menu: Control = %ResetMenu
 @onready var confirm_reset: Button = %ConfirmReset
 @onready var cancel_reset: Button = %CancelReset
 @onready var reset_btn: Button = %ResetBtn
@@ -28,9 +26,10 @@ var active_btn: KeybindButton
 
 
 func _ready():
-    set_process_unhandled_key_input(false)
+    call_deferred("set_process_unhandled_key_input", visible)
     _connect_signals()
-    reset_confirm.hide()
+    reset_menu.hide()
+    rebind_tooltip.hide()
 
     for i in controls.get_children():
         if i is KeybindContainer:
@@ -39,7 +38,7 @@ func _ready():
 
     _create_actions_list()
     _store_all_action_containers()
-    Input.joy_connection_changed.connect(_on_joy_connection_changed)
+    _set_neighbor_top_bottom()
 
 
 func _connect_signals() -> void:
@@ -53,8 +52,12 @@ func _connect_signals() -> void:
         back_btn.pressed.connect(_on_back_btn_pressed)
 
 
-# func _process(delta: float) -> void:
-#     SettingsManager.keybind_manager._t += delta
+func _set_neighbor_top_bottom() -> void:
+    if keybind_containers.size() == 0: return
+    var btns = keybind_containers.front().get_buttons()
+    for i: Button in btns:
+        i.focus_neighbor_top = back_btn.get_path()
+    back_btn.focus_neighbor_bottom = btns[0].get_path()
 
 
 ##TODO this would be used to notify when a different input type is used. send global signal other scenes can use to change visuals
@@ -88,8 +91,14 @@ func _connect_signals() -> void:
 
 func _unhandled_key_input(event: InputEvent) -> void:
     if event.is_action_pressed("ui_cancel"):
-        get_viewport().set_input_as_handled()
-        _close_menu()
+        if rebind_tooltip.visible:
+            rebind_tooltip.hide()
+        if reset_menu.visible:
+            _cancel_reset_pressed()
+            return
+        if visible:
+            _close_menu()
+            get_viewport().set_input_as_handled()
 
 
 func set_previous_menu(menu: Control) -> void:
@@ -104,7 +113,7 @@ func _close_menu() -> void:
 
     original_binds.clear()
     previous_menu = null
-    reset_confirm.hide()
+    reset_menu.hide()
     hide()
 
 
@@ -113,20 +122,16 @@ func _store_all_action_containers() -> void:
     for i in containers:
         if i is KeybindContainer:
             keybind_containers.append(i)
-            for j in i.get_buttons():
-                _connect_btn_signals(j)
+            _connect_btn_signals(i.get_button())
 
 ## Create a keybind container for every action in DEFAULT_KEY_MAP
 func _create_actions_list() -> void:
     for input_action: String in KeybindManager.DEFAULT_KEY_MAP.keys():
-        if !InputMap.has_action(input_action):
-            push_warning("%s: Action '%s' not found in InputMap" % [name, input_action])
-            continue
         var container: KeybindContainer = KEYBIND_CONTAINER.instantiate()
         container.menu = self
         container.name = "InputContainer_%s" % input_action
-        container.action_name = input_action
         controls.add_child(container)
+        container.action_name = input_action
         # var separator = HSeparator.new()
         # controls.add_child(separator)
 
@@ -139,7 +144,7 @@ func _unpress_active_btn() -> void:
 
 func _hide_reset_window() -> void:
     _unpress_active_btn()
-    reset_confirm.hide()
+    reset_menu.hide()
     reset_btn.call_deferred("grab_focus")
 
 
@@ -148,9 +153,9 @@ func _connect_btn_signals(btn: KeybindButton) -> void:
 
 
 func _on_reset_btn_pressed() -> void:
-    reset_confirm.show()
-    cancel_reset.call_deferred("grab_focus")
+    reset_menu.show()
     _unpress_active_btn()
+    cancel_reset.call_deferred("grab_focus")
 
 
 func _on_back_btn_pressed() -> void:
@@ -161,8 +166,7 @@ func _on_back_btn_pressed() -> void:
 func _confirm_reset_pressed() -> void:
     SettingsManager.keybind_manager.reset_input_map()
     if is_using_addon:
-        # ControllerIcons.refresh() # for addon
-        pass
+        ControllerIcons.refresh() # for addon
     for container in keybind_containers:
         for btn in container.get_buttons():
             btn.set_current_event()
@@ -178,14 +182,8 @@ func _on_visibility_changed() -> void:
     if !is_node_ready():
         await ready
     if visible:
+        original_binds = SettingsManager.keybind_manager.input_map.duplicate()
         scroll_container.set_deferred("scroll_vertical", 0)
-        original_binds = SettingsManager.keybind_manager.input_map.duplicate(true)
-        if keybind_containers.size() > 0:
-            for i in keybind_containers.size():
-                var first_btn: KeybindButton = keybind_containers[i].get_buttons()[0]
-                if !first_btn.disabled:
-                    first_btn.grab_focus()
-                    break
 
 
 func _btn_rebind_mode(value: bool) -> void:
@@ -193,6 +191,8 @@ func _btn_rebind_mode(value: bool) -> void:
         rebind_tooltip.show()
     else:
         rebind_tooltip.hide()
+        if active_btn != null:
+            active_btn.grab_focus()
 
 
 func _on_joy_connection_changed(device_id: int, connected: bool) -> void:

@@ -1,0 +1,798 @@
+[gd_scene format=3 uid="uid://bhc01pr3kyhym"]
+
+[ext_resource type="Script" uid="uid://c75qiox2nikal" path="res://Menu/Options/options_menu.gd" id="1_y8udk"]
+[ext_resource type="Script" uid="uid://cgkucwyinmfpv" path="res://Menu/UIKeyInputManager.gd" id="3_0mdco"]
+[ext_resource type="PackedScene" uid="uid://dk3j16ukdj05c" path="res://Menu/Keybinds/keybind_menu.tscn" id="3_u51tj"]
+[ext_resource type="Script" uid="uid://varajhfk5xj8" path="res://Menu/Options/option_container.gd" id="4_4eplt"]
+[ext_resource type="Texture2D" uid="uid://dqvi0x4g4x6sc" path="res://Utility/Assets/selection_arrow_9x9.png" id="5_i6viq"]
+[ext_resource type="Script" uid="uid://bixr2g6rey0wp" path="res://Menu/CustomBaseButton.gd" id="5_syfvs"]
+[ext_resource type="Texture2D" uid="uid://w77qc0q2gj1o" path="res://icon.svg" id="6_ahvj0"]
+
+[sub_resource type="Gradient" id="Gradient_0mdco"]
+offsets = PackedFloat32Array(0, 0.3105346)
+colors = PackedColorArray(0, 0, 0, 0.25, 0, 0, 0, 0.8)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ahvj0"]
+gradient = SubResource("Gradient_0mdco")
+width = 128
+height = 128
+fill_from = Vector2(0.5, 1)
+fill_to = Vector2(0.5, 0.5)
+repeat = 2
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0mdco"]
+
+[sub_resource type="Animation" id="Animation_qgiao"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("OptionsPanel:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-350, 160)]
+}
+
+[sub_resource type="Animation" id="Animation_0mdco"]
+resource_name = "default"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("OptionsPanel:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(338.0005, 400)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("OptionsPanel:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(470.99976, 160)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("OptionsPanel:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_syfvs"]
+resource_name = "expand"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("OptionsPanel:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(338.0005, 400)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("OptionsPanel:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(470.99976, 160)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("OptionsPanel:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.19999999),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_q83jt"]
+resource_name = "slide_in"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("OptionsPanel:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-350, 160), Vector2(471, 160)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hy36m"]
+_data = {
+&"RESET": SubResource("Animation_qgiao"),
+&"default": SubResource("Animation_0mdco"),
+&"expand": SubResource("Animation_syfvs"),
+&"slide_in": SubResource("Animation_q83jt")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qnm3g"]
+bg_color = Color(0.0737847, 0.235189, 0.442708, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+corner_detail = 4
+anti_aliasing = false
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ahvj0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dt0ej"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4eplt"]
+texture_margin_left = 11.0
+texture_margin_top = 11.0
+texture_margin_right = 11.0
+texture_margin_bottom = 11.0
+draw_center = false
+
+[node name="OptionsMenu" type="Control" unique_id=1302460396 node_paths=PackedStringArray("keybind_menu")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_y8udk")
+keybind_menu = NodePath("KeybindMenu")
+visible_animation = "default"
+metadata/_edit_lock_ = true
+
+[node name="UIKeyInputManager" type="Control" parent="." unique_id=2133674455 node_paths=PackedStringArray("default_focus", "monitored_visible")]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_0mdco")
+default_focus = NodePath("../OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/MusicVol/MusicSlider")
+monitored_visible = NodePath("../OptionsPanel")
+metadata/_custom_type_script = "uid://cgkucwyinmfpv"
+metadata/_edit_lock_ = true
+
+[node name="Background" type="TextureRect" parent="." unique_id=453138319]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_ahvj0")
+expand_mode = 1
+metadata/_edit_lock_ = true
+
+[node name="OptionsPanel" type="PanelContainer" parent="." unique_id=615431536]
+custom_minimum_size = Vector2(100, 150)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -990.0
+offset_top = -200.0
+offset_right = -651.9995
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+theme_override_styles/panel = SubResource("StyleBoxEmpty_0mdco")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="OptionsPanel" unique_id=468577192]
+unique_name_in_owner = true
+root_node = NodePath("../..")
+libraries/ = SubResource("AnimationLibrary_hy36m")
+
+[node name="MarginContainer" type="MarginContainer" parent="OptionsPanel" unique_id=1986499385]
+layout_mode = 2
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="OptionsPanel/MarginContainer" unique_id=799607103]
+layout_mode = 2
+alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="Title" type="MarginContainer" parent="OptionsPanel/MarginContainer/VBoxContainer" unique_id=1395383343]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.15
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+
+[node name="Panel" type="Panel" parent="OptionsPanel/MarginContainer/VBoxContainer/Title" unique_id=1192654675]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qnm3g")
+
+[node name="Label" type="Label" parent="OptionsPanel/MarginContainer/VBoxContainer/Title" unique_id=80601455]
+layout_mode = 2
+size_flags_vertical = 1
+theme_type_variation = &"LabelTitle"
+theme_override_font_sizes/font_size = 48
+text = "OPTIONS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="OptionsPanel/MarginContainer/VBoxContainer" unique_id=949179889]
+visible = false
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Options" type="MarginContainer" parent="OptionsPanel/MarginContainer/VBoxContainer" unique_id=1084335936]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="OptionsPanel/MarginContainer/VBoxContainer/Options" unique_id=1351269724]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ahvj0")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_dt0ej")
+follow_focus = true
+scroll_vertical_custom_step = 30.0
+horizontal_scroll_mode = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer" unique_id=534966311]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+
+[node name="SettingsContainer" type="VBoxContainer" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer" unique_id=797406100]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+
+[node name="AudioTitle" type="Label" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer" unique_id=18768738]
+process_mode = 4
+visible = false
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/normal = SubResource("StyleBoxTexture_4eplt")
+text = "AUDIO"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MasterVol" type="HBoxContainer" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer" unique_id=670930867 node_paths=PackedStringArray("option_button")]
+process_mode = 4
+visible = false
+layout_mode = 2
+script = ExtResource("4_4eplt")
+option_button = NodePath("MasterSlider")
+
+[node name="Icon" type="TextureRect" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/MasterVol" unique_id=783162558]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("5_i6viq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Master" type="Label" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/MasterVol" unique_id=1502980552]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Master"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MasterSlider" type="HSlider" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/MasterVol" unique_id=26454218]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.1
+value = 0.5
+scrollable = false
+
+[node name="MusicVol" type="HBoxContainer" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer" unique_id=271496234 node_paths=PackedStringArray("option_button")]
+layout_mode = 2
+script = ExtResource("4_4eplt")
+option_button = NodePath("MusicSlider")
+
+[node name="Icon" type="TextureRect" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/MusicVol" unique_id=779018877]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("5_i6viq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Music" type="Label" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/MusicVol" unique_id=1224254121]
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Music"
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="MusicSlider" type="HSlider" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/MusicVol" unique_id=1011585813]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.1
+value = 0.5
+scrollable = false
+
+[node name="SfxVol" type="HBoxContainer" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer" unique_id=1467771149 node_paths=PackedStringArray("option_button")]
+layout_mode = 2
+script = ExtResource("4_4eplt")
+option_button = NodePath("SFXSlider")
+
+[node name="Icon" type="TextureRect" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/SfxVol" unique_id=186103696]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("5_i6viq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SFX" type="Label" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/SfxVol" unique_id=694734631]
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "SFX"
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="SFXSlider" type="HSlider" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/SfxVol" unique_id=1765297679]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.1
+value = 0.5
+scrollable = false
+
+[node name="Mute" type="HBoxContainer" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer" unique_id=219132288 node_paths=PackedStringArray("option_button")]
+process_mode = 4
+visible = false
+layout_mode = 2
+script = ExtResource("4_4eplt")
+option_button = NodePath("MuteBtn")
+
+[node name="Icon" type="TextureRect" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/Mute" unique_id=725246812]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("5_i6viq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Mute" type="Label" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/Mute" unique_id=313123644]
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Mute"
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="MuteBtn" type="CheckBox" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/Mute" unique_id=1021314688]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(22, 0)
+layout_direction = 3
+layout_mode = 2
+theme_type_variation = &"ButtonEmpty"
+
+[node name="ResolutionTitle" type="Label" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer" unique_id=890704067]
+process_mode = 4
+visible = false
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxTexture_4eplt")
+text = "RESOLUTION"
+horizontal_alignment = 1
+
+[node name="Fullscreen" type="HBoxContainer" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer" unique_id=1608373849 node_paths=PackedStringArray("option_button")]
+layout_mode = 2
+tooltip_text = "Toggle windowed fullscreen"
+script = ExtResource("4_4eplt")
+option_button = NodePath("FullscreenBtn")
+
+[node name="Icon" type="TextureRect" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/Fullscreen" unique_id=314999057]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("5_i6viq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Fullscreen" type="Label" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/Fullscreen" unique_id=1388466961]
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Fullscreen"
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="FullscreenBtn" type="CheckBox" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/Fullscreen" unique_id=801099330]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(125, 0)
+layout_direction = 3
+layout_mode = 2
+theme_type_variation = &"ButtonEmpty"
+
+[node name="Maximize" type="HBoxContainer" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer" unique_id=374273741 node_paths=PackedStringArray("option_button")]
+process_mode = 4
+visible = false
+layout_mode = 2
+tooltip_text = "Toggle window maximize"
+script = ExtResource("4_4eplt")
+option_button = NodePath("MaximizeBtn")
+
+[node name="Icon" type="TextureRect" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/Maximize" unique_id=446974575]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("5_i6viq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Maximize" type="Label" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/Maximize" unique_id=86080302]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Maximize"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MaximizeBtn" type="CheckBox" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/Maximize" unique_id=1447843668]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_direction = 3
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"ButtonEmpty"
+
+[node name="Vsync" type="HBoxContainer" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer" unique_id=526147153 node_paths=PackedStringArray("option_button")]
+process_mode = 4
+visible = false
+layout_mode = 2
+script = ExtResource("4_4eplt")
+option_button = NodePath("VsyncBtn")
+
+[node name="Icon" type="TextureRect" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/Vsync" unique_id=1965441395]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("5_i6viq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Vsync" type="Label" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/Vsync" unique_id=68321991]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Vsync"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VsyncBtn" type="CheckBox" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/Vsync" unique_id=1629613293]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_direction = 3
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"ButtonEmpty"
+
+[node name="Resolutions" type="HBoxContainer" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer" unique_id=328725173 node_paths=PackedStringArray("option_button")]
+layout_mode = 2
+script = ExtResource("4_4eplt")
+option_button = NodePath("ResolutionBtn")
+
+[node name="Icon" type="TextureRect" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/Resolutions" unique_id=1018447133]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("5_i6viq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Resolution" type="Label" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/Resolutions" unique_id=1439021468]
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Resolution"
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ResolutionBtn" type="OptionButton" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/Resolutions" unique_id=1172787624]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+theme_type_variation = &"ButtonEmpty"
+alignment = 1
+
+[node name="QualityTitle" type="Label" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer" unique_id=2147252361]
+process_mode = 4
+visible = false
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxTexture_4eplt")
+text = "QUALITY"
+horizontal_alignment = 1
+
+[node name="Brightness" type="HBoxContainer" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer" unique_id=2146953545 node_paths=PackedStringArray("option_button", "label")]
+process_mode = 4
+visible = false
+layout_mode = 2
+script = ExtResource("4_4eplt")
+option_button = NodePath("BrightnessSlider")
+label = NodePath("Brightness")
+
+[node name="Icon" type="TextureRect" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/Brightness" unique_id=1690011840]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("5_i6viq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Brightness" type="Label" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/Brightness" unique_id=2142673957]
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Brightness"
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="BrightnessValue" type="Label" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/Brightness" unique_id=1474193846]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+text = "1.0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="BrightnessSlider" type="HSlider" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/Brightness" unique_id=913958473]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 1
+min_value = 0.5
+max_value = 2.0
+step = 0.1
+value = 1.0
+scrollable = false
+
+[node name="ScalerOptions" type="HBoxContainer" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer" unique_id=1881075725 node_paths=PackedStringArray("option_button")]
+process_mode = 4
+visible = false
+layout_mode = 2
+tooltip_text = "Resolution scaling mode
+BILINEAR - Default mode
+AMD FSR - AMD FidelityFX Super Resolution 2.2"
+script = ExtResource("4_4eplt")
+option_button = NodePath("ScalerOptions")
+
+[node name="Icon" type="TextureRect" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/ScalerOptions" unique_id=163232886]
+visible = false
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("5_i6viq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Scaler" type="Label" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/ScalerOptions" unique_id=292277039]
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Scaler"
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ScalerOptions" type="OptionButton" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/ScalerOptions" unique_id=48679326]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+theme_type_variation = &"ButtonEmpty"
+theme_override_font_sizes/font_size = 10
+alignment = 1
+text_overrun_behavior = 1
+selected = 0
+item_count = 3
+popup/item_0/text = "SCALER"
+popup/item_0/id = 0
+popup/item_0/disabled = true
+popup/item_0/separator = true
+popup/item_1/text = "BILINEAR"
+popup/item_1/id = 1
+popup/item_2/text = "AMD FSR"
+popup/item_2/id = 2
+
+[node name="FsrContainer" type="HBoxContainer" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer" unique_id=1024633421 node_paths=PackedStringArray("option_button")]
+unique_name_in_owner = true
+process_mode = 4
+visible = false
+layout_mode = 2
+tooltip_text = "AMD FSR preset values"
+script = ExtResource("4_4eplt")
+option_button = NodePath("FSROptions")
+
+[node name="Icon" type="TextureRect" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/FsrContainer" unique_id=232153191]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("5_i6viq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="FSR" type="Label" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/FsrContainer" unique_id=1935969787]
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+size_flags_horizontal = 2
+text = "FSR"
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="FSROptions" type="OptionButton" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/FsrContainer" unique_id=1149412227]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+theme_type_variation = &"ButtonEmpty"
+theme_override_font_sizes/font_size = 10
+alignment = 1
+text_overrun_behavior = 1
+selected = 0
+item_count = 5
+popup/item_0/text = "FSR Options"
+popup/item_0/id = 0
+popup/item_0/disabled = true
+popup/item_0/separator = true
+popup/item_1/text = "Performance"
+popup/item_1/id = 1
+popup/item_2/text = "Balanced"
+popup/item_2/id = 2
+popup/item_3/text = "Quality"
+popup/item_3/id = 3
+popup/item_4/text = "Ultra Quality"
+popup/item_4/id = 4
+
+[node name="ScaleSlider" type="HBoxContainer" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer" unique_id=1531318932 node_paths=PackedStringArray("option_button")]
+process_mode = 4
+visible = false
+layout_mode = 2
+tooltip_text = "Resolution scale as percent of current resolution.
+When scaler is set to 'AMD FSR', this value is set from the FSR options."
+script = ExtResource("4_4eplt")
+option_button = NodePath("ScaleSlider")
+
+[node name="Icon" type="TextureRect" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/ScaleSlider" unique_id=692595639]
+visible = false
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 2
+texture = ExtResource("5_i6viq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Control" type="Control" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/ScaleSlider" unique_id=1388883867]
+layout_mode = 2
+size_flags_horizontal = 2
+mouse_filter = 2
+
+[node name="Scale" type="Label" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/ScaleSlider" unique_id=2021317252]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+text = "100%"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ScaleSlider" type="HSlider" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/ScaleSlider" unique_id=1855988485]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 1
+min_value = 50.0
+max_value = 200.0
+step = 5.0
+value = 120.0
+scrollable = false
+ticks_on_borders = true
+
+[node name="LanguageOption" type="HBoxContainer" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer" unique_id=2011037537 node_paths=PackedStringArray("option_button")]
+layout_mode = 2
+script = ExtResource("4_4eplt")
+option_button = NodePath("LanguageOptions")
+
+[node name="Icon" type="TextureRect" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/LanguageOption" unique_id=1419660941]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("5_i6viq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Language" type="Label" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/LanguageOption" unique_id=945181844]
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Language"
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="LanguageOptions" type="OptionButton" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/LanguageOption" unique_id=1000814008]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+theme_type_variation = &"ButtonEmpty"
+alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="OptionsPanel/MarginContainer/VBoxContainer" unique_id=606401068]
+visible = false
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="OptionsPanel/MarginContainer/VBoxContainer" unique_id=1426626689]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="OptionsPanel/MarginContainer/VBoxContainer/MarginContainer" unique_id=1103836276]
+layout_mode = 2
+
+[node name="KeybindsBtn" type="Button" parent="OptionsPanel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer" unique_id=503757205]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/icon_max_width = 29
+theme_override_font_sizes/font_size = 26
+text = "Controls"
+icon = ExtResource("6_ahvj0")
+autowrap_mode = 2
+script = ExtResource("5_syfvs")
+metadata/_custom_type_script = "uid://bixr2g6rey0wp"
+
+[node name="BackBtn" type="Button" parent="OptionsPanel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer" unique_id=1703697334]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/icon_max_width = 29
+theme_override_font_sizes/font_size = 26
+text = "Close"
+icon = ExtResource("6_ahvj0")
+autowrap_mode = 2
+script = ExtResource("5_syfvs")
+metadata/_custom_type_script = "uid://bixr2g6rey0wp"
+
+[node name="KeybindMenu" parent="." unique_id=1725139772 instance=ExtResource("3_u51tj")]
+visible = false
+layout_mode = 1
+
+[connection signal="visibility_changed" from="OptionsPanel" to="." method="_on_options_panel_visibility_changed"]
