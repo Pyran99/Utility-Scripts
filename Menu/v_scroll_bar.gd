@@ -4,10 +4,12 @@ extends VScrollBar
 
 
 @export var always_visible: bool = false
+## Allows scrolling with mouse wheel anywhere while visible
 @export var always_scrollable: bool = false
 @export var scroll_bar_owner: Control: set = set_scroll_bar_owner
 
 var bar: VScrollBar
+var scroll_value: int = 30
 
 
 func set_scroll_bar_owner(_value: Control) -> void:
@@ -17,13 +19,12 @@ func set_scroll_bar_owner(_value: Control) -> void:
 
 func _ready():
     if Engine.is_editor_hint(): return
-    # visible = always_visible
     if scroll_bar_owner == null: return
     if !scroll_bar_owner.has_method("get_v_scroll_bar"): return
     if !value_changed.is_connected(_on_value_changed):
         value_changed.connect(_on_value_changed)
-    call_deferred("setup")
-    call_deferred("update_properties")
+    setup.call_deferred()
+    update_properties.call_deferred()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -31,9 +32,9 @@ func _unhandled_input(event: InputEvent) -> void:
         if !visible: return
         if !always_scrollable: return
         if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-            bar.value -= 10
+            bar.value -= scroll_value
         elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-            bar.value += 10
+            bar.value += scroll_value
 
 
 func setup() -> void:
@@ -47,8 +48,10 @@ func setup() -> void:
 func update_properties() -> void:
     await get_tree().process_frame # some nodes may need to wait for draw call
     max_value = bar.max_value
-    page = bar.page
     value = bar.value
+    page = bar.page
+    var _step = page * 0.7
+    custom_step = _step
     if !always_visible:
         visible = max_value > page
 
@@ -62,12 +65,12 @@ func _on_value_changed(_value: float) -> void:
 
 
 func _on_rich_label_finished() -> void:
-    update_properties()
+    update_properties.call_deferred()
 
 
 func _on_visibility_changed() -> void:
     if visible and bar:
-        update_properties()
+        update_properties.call_deferred()
 
 
 func _get_configuration_warnings() -> PackedStringArray:

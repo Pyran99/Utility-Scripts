@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://35d2n0ifxs3g" path="res://Menu/main_menu.gd" id="1_5nflc"]
 [ext_resource type="Script" uid="uid://bixr2g6rey0wp" path="res://Menu/CustomBaseButton.gd" id="3_ohgnh"]
 [ext_resource type="PackedScene" uid="uid://bhc01pr3kyhym" path="res://Menu/Options/options_menu.tscn" id="4_u7lva"]
+[ext_resource type="Texture2D" uid="uid://dqvi0x4g4x6sc" path="res://Utility/Assets/selection_arrow_9x9.png" id="5_fw3rq"]
+[ext_resource type="PackedScene" uid="uid://b6x4dglubp4hq" path="res://Menu/v_scroll_bar.tscn" id="6_rw3mj"]
 [ext_resource type="Script" uid="uid://cgkucwyinmfpv" path="res://Menu/UIKeyInputManager.gd" id="8_lq81c"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4pqbp"]
@@ -132,10 +134,20 @@ script = ExtResource("3_ohgnh")
 visible = false
 layout_mode = 1
 
+[node name="VScrollBar" type="VScrollBar" parent="." unique_id=709073839]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 1.0
+offset_right = 201.0
+offset_bottom = 149.0
+page = 20.0
+value = 20.0
+
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1362544768]
 layout_mode = 0
+offset_top = 126.0
 offset_right = 181.0
-offset_bottom = 52.0
+offset_bottom = 233.0
 
 [node name="Button" type="Button" parent="VBoxContainer" unique_id=926867629]
 layout_mode = 2
@@ -150,3 +162,53 @@ text = "button empty"
 [node name="Button3" type="Button" parent="VBoxContainer" unique_id=1117368483]
 layout_mode = 2
 text = "button default"
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=1297651308]
+layout_mode = 2
+text = "test label dfg sdgf"
+
+[node name="PopupMenu" type="PopupMenu" parent="VBoxContainer" unique_id=1773781799]
+oversampling_override = 1.0
+title = "test title"
+size = Vector2i(188, 125)
+visible = true
+item_count = 3
+item_0/text = "test 1"
+item_0/icon = ExtResource("5_fw3rq")
+item_0/id = 0
+item_1/text = "test 3"
+item_1/id = 1
+item_2/text = "test 3"
+item_2/id = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer" unique_id=1385746688]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+text = "rich text label for custom
+v scroll bar
+rich text label for custom
+v scroll bar
+rich text label for custom
+v scroll bar
+rich text label for custom
+v scroll bar
+rich text label for custom
+v scroll bar
+rich text label for custom
+v scroll bar
+rich text label for custom
+v scroll bar"
+visible_characters_behavior = 1
+
+[node name="VScrollBar2" parent="." unique_id=1700633789 node_paths=PackedStringArray("scroll_bar_owner") instance=ExtResource("6_rw3mj")]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 222.0
+offset_right = 231.0
+offset_bottom = 180.0
+grow_horizontal = 1
+grow_vertical = 1
+scroll_bar_owner = NodePath("../VBoxContainer/RichTextLabel")
