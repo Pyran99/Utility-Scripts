@@ -34,10 +34,11 @@ options_btn = NodePath("Scene/VBoxContainer/OptionsBtn")
 quit_btn = NodePath("Scene/VBoxContainer/QuitBtn")
 metadata/_edit_lock_ = true
 
-[node name="UIKeyInputManager" type="Control" parent="." unique_id=2117847838 node_paths=PackedStringArray("default_focus")]
+[node name="UIKeyInputManager" type="Control" parent="." unique_id=2117847838 node_paths=PackedStringArray("default_focus", "monitored_visible")]
 anchors_preset = 0
 script = ExtResource("8_lq81c")
 default_focus = NodePath("../Scene/VBoxContainer/GameLvlBtn")
+monitored_visible = NodePath("../Scene")
 metadata/_custom_type_script = "uid://cgkucwyinmfpv"
 
 [node name="Background" type="TextureRect" parent="." unique_id=508952603]

@@ -25,15 +25,16 @@ func _ready() -> void:
     get_viewport().gui_focus_changed.connect(_on_focus_changed)
     if monitored_visible != null:
         monitored_visible.visibility_changed.connect(_on_monitored_visibility_changed)
+        _on_monitored_visibility_changed()
         if grab_focus_on_ready and monitored_visible.visible:
             _try_grab_focus.call_deferred()
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
     if !event is InputEventKey: return
+    if !is_visible_in_tree(): return
     if event.is_action_pressed("ui_cancel"): return
-    if event.is_pressed():
-        if !is_visible_in_tree(): return
+    if event.is_action_pressed("ui_manager_grab_focus"):
         if _try_grab_focus():
             get_viewport().set_input_as_handled()
 
@@ -70,6 +71,7 @@ func _on_monitored_visibility_changed() -> void:
     if !is_instance_valid(monitored_visible):
         push_warning("monitored_visible is invalid")
         return
+    set_process_unhandled_key_input(monitored_visible.visible)
     if !monitored_visible.is_node_ready(): await monitored_visible.ready
     if monitored_visible.visible:
         _try_grab_focus()

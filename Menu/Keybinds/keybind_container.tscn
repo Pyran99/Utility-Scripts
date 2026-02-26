@@ -6,14 +6,14 @@
 [ext_resource type="Script" uid="uid://j2bfwmbl78us" path="res://Menu/Keybinds/keybind_button.gd" id="2_0k6b8"]
 [ext_resource type="ButtonGroup" uid="uid://dlyvxt72nn31m" path="res://Menu/Keybinds/keybind_btn_group.tres" id="2_mxlil"]
 
-[sub_resource type="Texture2D" id="Texture2D_6h0us"]
+[sub_resource type="Texture2D" id="Texture2D_lwxr2"]
 resource_local_to_scene = false
 resource_name = ""
 script = ExtResource("1_mwd7s")
 path = "move_up"
 force_type = 1
 
-[sub_resource type="Texture2D" id="Texture2D_1kn47"]
+[sub_resource type="Texture2D" id="Texture2D_6h0us"]
 resource_local_to_scene = false
 resource_name = ""
 script = ExtResource("1_mwd7s")
@@ -42,38 +42,35 @@ controller_btn = NodePath("ControllerBtn")
 [node name="InputName" type="Label" parent="." unique_id=920846934]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-size_flags_horizontal = 6
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
 text = "MOVE_UP"
 vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="KeyboardBtn" type="Button" parent="." unique_id=119122855]
-custom_minimum_size = Vector2(50, 30)
+custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
-size_flags_horizontal = 6
+size_flags_horizontal = 3
 size_flags_vertical = 4
-theme_override_constants/icon_max_width = 30
 toggle_mode = true
 button_group = ExtResource("2_mxlil")
-icon = SubResource("Texture2D_6h0us")
-autowrap_mode = 2
-clip_text = true
+icon = SubResource("Texture2D_lwxr2")
+autowrap_mode = 3
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("2_0k6b8")
 action = "move_up"
 
 [node name="ControllerBtn" type="Button" parent="." unique_id=2075794834]
-custom_minimum_size = Vector2(50, 30)
+custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
-theme_override_constants/icon_max_width = 30
 disabled = true
 toggle_mode = true
 button_group = ExtResource("2_mxlil")
-icon = SubResource("Texture2D_1kn47")
+icon = SubResource("Texture2D_6h0us")
 autowrap_mode = 2
 clip_text = true
 icon_alignment = 1

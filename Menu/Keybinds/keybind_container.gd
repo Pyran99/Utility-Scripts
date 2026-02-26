@@ -29,23 +29,30 @@ func _set_action(value):
     #     return
     if !is_node_ready():
         await ready
+    if menu == null: return
 
     key_btn.action = action_name
-    key_btn.icon = ControllerIconTexture.new()
     controller_btn.action = action_name
-    controller_btn.icon = ControllerIconTexture.new()
+    if menu.is_using_addon:
+        key_btn.icon = ControllerIconTexture.new()
+        controller_btn.icon = ControllerIconTexture.new()
+        # gamepad_texture.texture = ControllerIconTexture.new()
+        if action_name != null:
+            key_btn.icon.path = action_name
+            key_btn.icon.force_type = 1
+            # gamepad_texture.texture.path = action_name
+            # gamepad_texture.texture.force_type = 2
+            controller_btn.icon.path = action_name
+            controller_btn.icon.force_type = 2
+    else:
+        key_btn.icon = null
+        controller_btn.icon = null
+        key_btn.display_current_key() # for not addon
+        controller_btn.display_current_key()
 
-    # gamepad_texture.texture = ControllerIconTexture.new()
     if action_name != null:
-        key_btn.icon.path = action_name
-        key_btn.icon.force_type = 1
         if KeybindManager.DEFAULT_KEY_MAP.has(action_name):
             key_btn.disabled = !KeybindManager.DEFAULT_KEY_MAP[action_name]
-        # gamepad_texture.texture.path = action_name
-        # gamepad_texture.texture.force_type = 2
-        controller_btn.icon.path = action_name
-        controller_btn.icon.force_type = 2
-    # key_btn.display_current_key() # for not addon
     if Engine.is_editor_hint():
         update_configuration_warnings()
 

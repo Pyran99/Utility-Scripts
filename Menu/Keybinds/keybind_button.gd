@@ -50,7 +50,7 @@ func _input(event: InputEvent) -> void:
         remap_action_to(event)
         button_pressed = false
     elif event is InputEventMouseButton:
-        if !event.button_index == MOUSE_BUTTON_LEFT:
+        if event.button_index == MOUSE_BUTTON_LEFT or event.button_index == MOUSE_BUTTON_RIGHT:
             button_pressed = false
 
 
@@ -73,7 +73,7 @@ func remap_action_to(event: InputEvent) -> void:
         InputMap.action_add_event(action, event)
     keybind_changed.emit(action, event)
     set_current_event()
-    call_deferred("grab_focus")
+    grab_focus.call_deferred()
     ControllerIcons.refresh()
 
 
