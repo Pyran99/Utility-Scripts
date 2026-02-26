@@ -69,20 +69,20 @@ func _set_neighbor_top_bottom() -> void:
 #         "InputEventKey", "InputEventMouseButton":
 #             # input_type = InputType.KEYBOARD_MOUSE
 #             if event.is_pressed():
-#                 SettingsManager.keybind_manager.input_scheme = KeybindManager.INPUT_SCHEMES.KEYBOARD
+#                 KeybindManager.input_scheme = KeybindManager.INPUT_SCHEMES.KEYBOARD
 #                 print("keyboard")
 #         "InputEventMouseMotion":
-#             if SettingsManager.keybind_manager.allow_mouse_remap and SettingsManager.keybind_manager._test_mouse_velocity(event.relative):
-#                 SettingsManager.keybind_manager.input_scheme = KeybindManager.INPUT_SCHEMES.KEYBOARD
+#             if KeybindManager.allow_mouse_remap and KeybindManager._test_mouse_velocity(event.relative):
+#                 KeybindManager.input_scheme = KeybindManager.INPUT_SCHEMES.KEYBOARD
 #                 print("mouse motion")
 #         "InputEventJoypadButton":
 #             if event.is_pressed():
-#                 SettingsManager.keybind_manager.input_scheme = KeybindManager.INPUT_SCHEMES.CONTROLLER
+#                 KeybindManager.input_scheme = KeybindManager.INPUT_SCHEMES.CONTROLLER
 #                 # controller = event.device
 #                 print("controller button")
 #         "InputEventJoypadMotion":
 #             if abs(event.axis_value) > joypad_deadzone:
-#                 SettingsManager.keybind_manager.input_scheme = KeybindManager.INPUT_SCHEMES.CONTROLLER
+#                 KeybindManager.input_scheme = KeybindManager.INPUT_SCHEMES.CONTROLLER
 #                 # controller = event.device
 #                 print("controller motion")
 # # 	if input_type != _last_input_type or controller != _last_controller:
@@ -106,8 +106,8 @@ func set_previous_menu(menu: Control) -> void:
 
 
 func _close_menu() -> void:
-    if original_binds.hash() != SettingsManager.keybind_manager.input_map.hash():
-        SettingsManager.keybind_manager.save_input_map()
+    if original_binds.hash() != KeybindManager.input_map.hash():
+        KeybindManager.save_input_map()
     if previous_menu != null:
         previous_menu.show()
 
@@ -164,7 +164,7 @@ func _on_back_btn_pressed() -> void:
 
 
 func _confirm_reset_pressed() -> void:
-    SettingsManager.keybind_manager.reset_input_map()
+    KeybindManager.reset_input_map()
     if is_using_addon:
         ControllerIcons.refresh() # for addon
     for container in keybind_containers:
@@ -182,7 +182,7 @@ func _on_visibility_changed() -> void:
     if !is_node_ready():
         await ready
     if visible:
-        original_binds = SettingsManager.keybind_manager.input_map.duplicate()
+        original_binds = KeybindManager.input_map.duplicate()
         scroll_container.set_deferred("scroll_vertical", 0)
 
 

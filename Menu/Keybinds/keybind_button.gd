@@ -56,16 +56,16 @@ func _input(event: InputEvent) -> void:
 
 func remap_action_to(event: InputEvent) -> void:
     button_pressed = false
-    # if !SettingsManager.keybind_manager.can_use_key(action):
+    # if !KeybindManager.can_use_key(action):
     #     return
 
     match type:
         KeybindManager.INPUT_SCHEMES.KEYBOARD:
             if event == null or event is InputEventKey:
-                SettingsManager.keybind_manager.input_map[action][0] = event
+                KeybindManager.input_map[action][0] = event
         KeybindManager.INPUT_SCHEMES.CONTROLLER:
             if event == null or event is InputEventJoypadButton or event is InputEventJoypadMotion:
-                SettingsManager.keybind_manager.input_map[action][1] = event
+                KeybindManager.input_map[action][1] = event
 
     if current_event != null:
         InputMap.action_erase_event(action, current_event)
@@ -154,9 +154,9 @@ func _display_gamepad_motion(event: InputEventJoypadMotion) -> String:
 
 func _set_events_to_action() -> void:
     InputMap.action_erase_events(action)
-    for i in SettingsManager.keybind_manager.input_map[action].size():
-        if SettingsManager.keybind_manager.input_map[action][i] != null:
-            InputMap.action_add_event(action, SettingsManager.keybind_manager.input_map[action][i])
+    for i in KeybindManager.input_map[action].size():
+        if KeybindManager.input_map[action][i] != null:
+            InputMap.action_add_event(action, KeybindManager.input_map[action][i])
 
     
 func _on_toggled(toggled_on: bool) -> void:

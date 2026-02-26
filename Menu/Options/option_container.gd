@@ -7,7 +7,7 @@ class_name OptionContainer
 @export var label: Label
 
 var select_arrow: TextureRect
-var default_color: Color = Color(0.6, 0.6, 0.6, 1.0)
+var default_color: Color = Color(0.418, 0.418, 0.418, 1.0)
 var focused_color: Color = Color.WHITE
 var options_menu: OptionsMenu
 

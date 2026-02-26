@@ -54,7 +54,7 @@ var locale_list = [
     {Strings.LOCALE: "ja", "language": "Japanese"},
 ]
 
-var keybind_manager: KeybindManager = preload("res://Menu/Keybinds/KeybindManager.gd").new()
+# var keybind_manager: KeybindManager = preload("res://Menu/Keybinds/KeybindManager.gd").new()
 var settings: Dictionary
 ## If the game has already loaded, options should only need to set values visually
 var settings_loaded: bool = false
@@ -69,7 +69,7 @@ func _ready():
     init()
     load_settings()
     apply_values()
-    keybind_manager.init()
+    # keybind_manager.init()
     save_settings.call_deferred()
 
 

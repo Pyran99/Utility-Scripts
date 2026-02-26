@@ -1,5 +1,5 @@
-extends RefCounted
-class_name KeybindManager
+extends Node
+#AUTOLOAD
 
 #-------------------------
 # Add any input to show in keybind menu to DEFAULT_KEY_MAP. bool indicates if key can be rebound, otherwise show key as disabled.
@@ -44,7 +44,10 @@ var _mouse_velocity: int
 @export_range(0, 10000) var mouse_min_movement: int = 200
 
 
-# called from SettingsManager ready
+func _ready():
+    init()
+
+
 func init() -> void:
     load_input_map()
 
@@ -71,7 +74,7 @@ func reset_input_map() -> void:
 
 
 #region Config-------------------------
-
+## Save keybinds within settings file
 func _save_keybinds() -> void:
     SettingsManager.settings[Strings.KEYBINDS] = _get_keycodes_from_input_map(input_map)
     SettingsManager.save_settings()
@@ -93,7 +96,7 @@ func _save_input_keycodes_as_config() -> void:
 
 
 func _load_input_keycodes_from_config() -> void:
-    var data := SavingManager.load_config_section(Strings.KEYBINDS, INPUT_KEYCODES_SAVE_PATH)
+    var data := SavingManager.load_config_data(INPUT_KEYCODES_SAVE_PATH)
     if data == {}:
         reset_input_map()
         _load_input_keycodes_from_config()
@@ -104,11 +107,10 @@ func _load_input_keycodes_from_config() -> void:
 ## Save config file with the InputEventKey as objects for each action
 func _save_input_map_as_config() -> void:
     SavingManager.save_config_section(Strings.KEYBINDS, input_map, INPUT_SAVE_PATH)
-    SavingManager.save_as_config_in_file(Strings.KEYBINDS, input_map, INPUT_SAVE_PATH)
 
 
 func _load_input_map_from_config() -> void:
-    var data := SavingManager.load_config_section(Strings.KEYBINDS, INPUT_SAVE_PATH)
+    var data := SavingManager.load_config_data(INPUT_SAVE_PATH)
     if data.has(Strings.KEYBINDS):
         data = data[Strings.KEYBINDS]
     if data == {}:

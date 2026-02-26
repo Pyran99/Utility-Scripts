@@ -4,10 +4,20 @@
 [ext_resource type="Script" uid="uid://bixr2g6rey0wp" path="res://Menu/CustomBaseButton.gd" id="3_ohgnh"]
 [ext_resource type="PackedScene" uid="uid://bhc01pr3kyhym" path="res://Menu/Options/options_menu.tscn" id="4_u7lva"]
 [ext_resource type="Texture2D" uid="uid://dqvi0x4g4x6sc" path="res://Utility/Assets/selection_arrow_9x9.png" id="5_fw3rq"]
+[ext_resource type="Texture2D" uid="uid://d35ulkn73f0va" path="res://Utility/Assets/arrows_32.png" id="6_cn2sd"]
 [ext_resource type="PackedScene" uid="uid://b6x4dglubp4hq" path="res://Menu/v_scroll_bar.tscn" id="6_rw3mj"]
+[ext_resource type="Texture2D" uid="uid://dkn5husdpcjj3" path="res://Utility/Assets/arrows_16.png" id="7_vv7ca"]
 [ext_resource type="Script" uid="uid://cgkucwyinmfpv" path="res://Menu/UIKeyInputManager.gd" id="8_lq81c"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4pqbp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vv7ca"]
+atlas = ExtResource("6_cn2sd")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_218iu"]
+atlas = ExtResource("7_vv7ca")
+region = Rect2(16, 0, 16, 16)
 
 [node name="MainMenu" type="Control" unique_id=1274408829 node_paths=PackedStringArray("options_window", "play_btn", "options_btn", "quit_btn")]
 process_mode = 3
@@ -199,6 +209,28 @@ v scroll bar
 rich text label for custom
 v scroll bar"
 visible_characters_behavior = 1
+
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer" unique_id=558411903]
+layout_mode = 2
+text = "check box"
+
+[node name="CheckButton" type="CheckButton" parent="VBoxContainer" unique_id=1079430598]
+layout_mode = 2
+text = "check switch"
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer" unique_id=1124821202]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = SubResource("AtlasTexture_vv7ca")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextureRect2" type="TextureRect" parent="VBoxContainer" unique_id=1975523990]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_218iu")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="VScrollBar2" parent="." unique_id=1700633789 node_paths=PackedStringArray("scroll_bar_owner") instance=ExtResource("6_rw3mj")]
 layout_mode = 1

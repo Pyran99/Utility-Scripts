@@ -388,8 +388,6 @@ value = 0.5
 scrollable = false
 
 [node name="Mute" type="HBoxContainer" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer" unique_id=219132288 node_paths=PackedStringArray("option_button")]
-process_mode = 4
-visible = false
 layout_mode = 2
 script = ExtResource("4_4eplt")
 option_button = NodePath("MuteBtn")
@@ -411,7 +409,7 @@ autowrap_mode = 2
 
 [node name="MuteBtn" type="CheckBox" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/Mute" unique_id=1021314688]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(22, 0)
+custom_minimum_size = Vector2(30, 0)
 layout_direction = 3
 layout_mode = 2
 theme_type_variation = &"ButtonEmpty"
@@ -447,7 +445,7 @@ autowrap_mode = 2
 
 [node name="FullscreenBtn" type="CheckBox" parent="OptionsPanel/MarginContainer/VBoxContainer/Options/ScrollContainer/MarginContainer/SettingsContainer/Fullscreen" unique_id=801099330]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(125, 0)
+custom_minimum_size = Vector2(30, 0)
 layout_direction = 3
 layout_mode = 2
 theme_type_variation = &"ButtonEmpty"
