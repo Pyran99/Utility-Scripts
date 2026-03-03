@@ -2,7 +2,7 @@ extends Area3D
 
 
 @export var has_played: bool = false: set = _set_has_played
-@export var cutscene: PackedScene
+@export_file("*.tscn") var cutscene_path: String
 
 @onready var col_shape: CollisionShape3D = $CollisionShape3D
 
@@ -30,12 +30,7 @@ func _disable_collision() -> void:
 
 
 func _add_cutscene() -> void:
-    if cutscene == null: return
-    var manager: CutsceneManager = get_tree().get_first_node_in_group("cutscene_manager")
-    if manager == null:
-        printerr("no cutscene manager found")
-        return
-    manager.setup_cutscene(cutscene)
+    CutsceneManager.setup_cutscene(cutscene_path)
 
 
 func _on_body_entered(_body: Node3D) -> void:

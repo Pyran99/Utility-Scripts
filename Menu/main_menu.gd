@@ -8,6 +8,8 @@ class_name MainMenu
 @export var quit_btn: Button
 
 @onready var menu_scene: Control = %Scene
+@onready var _3d_level_btn: CustomBaseButton = %"3DLevelBtn"
+
 
 
 func _ready():
@@ -24,6 +26,8 @@ func _connect_signals() -> void:
         options_btn.pressed.connect(_on_options_btn_pressed)
     if !quit_btn.pressed.is_connected(_on_quit_btn_pressed):
         quit_btn.pressed.connect(_on_quit_btn_pressed)
+    if !_3d_level_btn.pressed.is_connected(_on_3d_level_pressed):
+        _3d_level_btn.pressed.connect(_on_3d_level_pressed)
 
 
 func _start_music() -> void:
@@ -60,4 +64,9 @@ func _on_weapon_test_lvl_btn_pressed() -> void:
 
 func _on_wave_test_lvl_btn_pressed() -> void:
     #SceneManager.load_level(Levels.levels["wave_test_level"], false)
+    pass
+
+
+func _on_3d_level_pressed() -> void:
+    SceneManager.load_level(Levels.levels["3d_level"], false)
     pass

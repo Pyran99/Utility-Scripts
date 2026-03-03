@@ -2,7 +2,7 @@
 extends Node
 #AUTOLOAD
 
-#const PAUSE_SCENE: PackedScene = preload("res://Scenes/UI/Options/pause_menu.tscn")
+const PAUSE_SCENE: PackedScene = preload("res://Scenes/pause_menu.tscn")
 #const DEBUG_CONSOLE_PATH: String = "res://_Debug/debug_console.tscn"
 
 signal toggle_game_paused(is_paused: bool)
@@ -32,6 +32,7 @@ var is_game_paused: bool = false: set = _set_game_paused
 var debug_console: CanvasLayer = null
 #var console_manager: DebugConsoleManager
 var pause_menu: CanvasLayer
+var player: Node
 
 
 func _set_game_paused(value: bool) -> void:
@@ -72,7 +73,7 @@ func show_pause_menu() -> void:
     if pause_menu != null: return
     var _ui = get_tree().get_first_node_in_group("ui")
     if _ui == null: return
-    #pause_menu = PAUSE_SCENE.instantiate()
+    pause_menu = PAUSE_SCENE.instantiate()
     _ui.add_child(pause_menu)
     # _level.add_child(pause_menu)
 
@@ -89,16 +90,25 @@ func finish_level() -> void:
 func pause_game():
     is_game_paused = true
     change_game_state(GameStates.PAUSED)
+    Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 
 func resume_game():
     is_game_paused = false
     change_game_state(GameStates.PLAYING)
+    Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 
 func quit_game() -> void:
     get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
     get_tree().quit()
+
+
+func toggle_mouse_mode() -> void:
+    if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
+        Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+    else:
+        Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 
 func change_game_state(_game_state: GameStates) -> void:

@@ -169,7 +169,7 @@ func _add_new_level(new_scene: PackedScene) -> void:
     tree.root.add_child.call_deferred(s)
     tree.set_deferred("current_scene", s)
     _set_active_level.call_deferred(s)
-    _finished_loading.call_deferred(s)
+    _finished_loading.call_deferred()
 
 
 func _finished_loading() -> void:

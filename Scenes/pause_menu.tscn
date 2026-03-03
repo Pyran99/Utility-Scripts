@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://bxnjqjg21jvkd"]
+
+[ext_resource type="Script" uid="uid://bixr2g6rey0wp" path="res://Menu/CustomBaseButton.gd" id="1_emv3i"]
+[ext_resource type="Script" uid="uid://bp07fwb11m2pj" path="res://Scenes/pause_menu.gd" id="1_k0w1u"]
+
+[node name="PauseMenu" type="CanvasLayer" unique_id=484956966]
+script = ExtResource("1_k0w1u")
+
+[node name="Control" type="Control" parent="." unique_id=32948042]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Control" unique_id=677576911]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.47800002)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control" unique_id=1302765345]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -102.0
+offset_top = -20.0
+offset_right = 102.0
+offset_bottom = 111.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CustomBaseButton" type="Button" parent="Control/VBoxContainer" unique_id=349455837]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+text = "Resume"
+script = ExtResource("1_emv3i")
+metadata/_custom_type_script = "uid://bixr2g6rey0wp"
+
+[node name="CustomBaseButton2" type="Button" parent="Control/VBoxContainer" unique_id=1738278596]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+text = "Menu"
+script = ExtResource("1_emv3i")
+metadata/_custom_type_script = "uid://bixr2g6rey0wp"
+
+[connection signal="pressed" from="Control/VBoxContainer/CustomBaseButton" to="." method="_on_custom_base_button_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/CustomBaseButton2" to="." method="_on_custom_base_button_2_pressed"]

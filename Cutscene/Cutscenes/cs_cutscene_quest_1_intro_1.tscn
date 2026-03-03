@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://0pc1ut6q2ii2"]
+
+[ext_resource type="Script" uid="uid://c2csgkn4paghs" path="res://Cutscene/CutsceneBase.gd" id="1_g066r"]
+[ext_resource type="AnimationLibrary" uid="uid://b8yqto5cgywk3" path="res://Cutscene/Cutscenes/Library/lib_cutscene_quest_1_intro_1.res" id="1_r72ul"]
+[ext_resource type="Script" uid="uid://cqo7qdtnmjhhs" path="res://Cutscene/Cutscenes/cutscene_camera.gd" id="3_c0qnd"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_g066r"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_r72ul"]
+
+[sub_resource type="Curve3D" id="Curve3D_r72ul"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0.07271743, 1.8647364, -5.4367614, 0.22499251, -0.7068572, 1.2077484, -0.22499251, 0.7068572, -1.2077484, 0.12131739, 4.174538, -12.823155, 0.00016713142, 0.26073098, 0.39189148, -0.00016713142, -0.26073098, -0.39189148, 0.08138323, 4.2101054, -16.354393, 0.013778448, -0.3916552, 1.0974712, -0.013778448, 0.3916552, -1.0974712, 0.20793915, 2.5153182, -23.741253),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
+[node name="cs_cutscene_quest_1_intro_1" type="AnimationPlayer" unique_id=2131115254 node_paths=PackedStringArray("main_camera", "audio_player")]
+libraries/ = ExtResource("1_r72ul")
+script = ExtResource("1_g066r")
+main_camera = NodePath("Camera3D")
+audio_player = NodePath("AudioStreamPlayer")
+metadata/_custom_type_script = "uid://c2csgkn4paghs"
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=334914615]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.076728016, 1.8425007, -5.4097643)
+script = ExtResource("3_c0qnd")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=2140041472]
+
+[node name="Node3D" type="Node3D" parent="." unique_id=59900065]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D" unique_id=1289559237]
+transform = Transform3D(-0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, -0.70710677, 1.1638535, 1.1694183, -7.058827)
+mesh = SubResource("BoxMesh_g066r")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D" unique_id=2040879374]
+transform = Transform3D(0.7913302, 0, 0.611389, 0, 1, 0, -0.611389, 0, 0.7913302, -0.6617439, 1.7143898, -18.59562)
+mesh = SubResource("CapsuleMesh_r72ul")
+
+[node name="Path3D" type="Path3D" parent="Node3D" unique_id=1191480268]
+curve = SubResource("Curve3D_r72ul")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="Node3D/Path3D" unique_id=937789429]
+transform = Transform3D(0.99902105, -0.011098589, -0.042822093, -1.862645e-09, 0.96801573, -0.25088933, 0.044236988, 0.2506438, 0.9670679, 0.07271743, 1.8647364, -5.4367614)

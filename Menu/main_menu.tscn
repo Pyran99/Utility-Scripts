@@ -141,6 +141,13 @@ size_flags_vertical = 3
 text = "Quit"
 script = ExtResource("3_ohgnh")
 
+[node name="3DLevelBtn" type="Button" parent="Scene/VBoxContainer" unique_id=169087468]
+unique_name_in_owner = true
+layout_mode = 2
+text = "3D Level"
+script = ExtResource("3_ohgnh")
+metadata/_custom_type_script = "uid://bixr2g6rey0wp"
+
 [node name="OptionsMenu" parent="." unique_id=905142548 instance=ExtResource("4_u7lva")]
 visible = false
 layout_mode = 1

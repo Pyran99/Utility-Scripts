@@ -7,4 +7,5 @@ static var levels: Dictionary = {
     "level": "res://Scenes/level.tscn",
     "level_1": "res://Scenes/level_1.tscn",
     "level_2": "res://Scenes/level_2.tscn",
+    "3d_level": "res://Cutscene/level_cutscene.tscn",
 }

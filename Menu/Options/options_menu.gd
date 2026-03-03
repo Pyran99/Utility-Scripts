@@ -175,10 +175,6 @@ func _set_toggles():
         maximize_btn.set_pressed_no_signal(false)
 
 
-func _on_back_btn_pressed() -> void:
-    _close_menu()
-
-
 func _close_menu() -> void:
     anim_player.play_backwards(visible_animation)
     await anim_player.animation_finished
@@ -436,6 +432,9 @@ func _on_language_changed(locale: String) -> void:
     language_btn.select(SettingsManager.get_language_index_by_locale(locale))
 
 #endregion
+
+func _on_back_btn_pressed() -> void:
+    _close_menu()
 
 
 func _exit_tree() -> void:

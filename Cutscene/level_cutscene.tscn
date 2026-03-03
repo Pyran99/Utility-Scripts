@@ -1,0 +1,182 @@
+[gd_scene format=3 uid="uid://107wirp4aeiq"]
+
+[ext_resource type="Script" uid="uid://bwbxaefv3ndko" path="res://Cutscene/level_cutscene.gd" id="1_20uka"]
+[ext_resource type="Script" uid="uid://dpk8n0he63iy" path="res://Cutscene/player.gd" id="1_ltmmo"]
+[ext_resource type="PackedScene" uid="uid://b6otjpcqw115a" path="res://Cutscene/cutscene_trigger_area.tscn" id="4_hdago"]
+
+[sub_resource type="Gradient" id="Gradient_hxa78"]
+offsets = PackedFloat32Array(0.3049828, 0.5317869)
+colors = PackedColorArray(0, 0, 0, 1, 0.7216746, 0.9041615, 0.92838544, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ltmmo"]
+gradient = SubResource("Gradient_hxa78")
+fill_from = Vector2(0.5, 0.6)
+fill_to = Vector2(0.5, 0.40000004)
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_20uka"]
+panorama = SubResource("GradientTexture2D_ltmmo")
+
+[sub_resource type="Sky" id="Sky_dewpf"]
+sky_material = SubResource("PanoramaSkyMaterial_20uka")
+
+[sub_resource type="Environment" id="Environment_hxa78"]
+background_mode = 2
+sky = SubResource("Sky_dewpf")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hxa78"]
+albedo_color = Color(0.16796875, 0.113464, 0.02558899, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ltmmo"]
+material = SubResource("StandardMaterial3D_hxa78")
+size = Vector2(50, 50)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hxa78"]
+size = Vector3(50, 0.001, 50)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ltmmo"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_hxa78"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lj0or"]
+size = Vector3(3.7832031, 4.453247, 1)
+
+[node name="LevelCutscene" type="Node3D" unique_id=1269841367]
+script = ExtResource("1_20uka")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2025300651]
+environment = SubResource("Environment_hxa78")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=665879340]
+transform = Transform3D(1, 0, 0, 0, -0.25881907, 0.9659258, 0, -0.9659259, -0.25881907, 0, 18, 0)
+light_color = Color(0.9979553, 1, 0.91276044, 1)
+light_energy = 3.0
+light_angular_distance = 10.0
+light_specular = 0.0
+shadow_enabled = true
+shadow_opacity = 0.7
+metadata/_edit_lock_ = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1384336328 groups=["ui"]]
+
+[node name="Floor" type="MeshInstance3D" parent="." unique_id=1383892482]
+mesh = SubResource("PlaneMesh_ltmmo")
+metadata/_edit_lock_ = true
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floor" unique_id=971481833]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D" unique_id=1834387676]
+shape = SubResource("BoxShape3D_hxa78")
+
+[node name="Node3D" type="Node3D" parent="." unique_id=632922369]
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Node3D" unique_id=2071625799]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2072754, -5)
+size = Vector3(51.8125, 5.963379, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Node3D/CSGBox3D" unique_id=1012877197]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3701172, 0)
+operation = 2
+size = Vector3(3.501709, 4.001953, 1)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Node3D/CSGBox3D" unique_id=2111987764]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -0.3701172, 0)
+operation = 2
+size = Vector3(3.501709, 4.001953, 1)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Node3D/CSGBox3D" unique_id=1367521961]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, -0.3701172, 0)
+operation = 2
+size = Vector3(3.501709, 4.001953, 1)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Node3D" unique_id=1738665800]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -3.0000007, 2.2072754, -14.291565)
+size = Vector3(20.39563, 5.963379, 1)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Node3D" unique_id=851536032]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 2.9999993, 2.2072754, -14.291565)
+size = Vector3(20.39563, 5.963379, 1)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Node3D" unique_id=1687610272]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 18, 2.2072754, -14.291565)
+size = Vector3(20.39563, 5.963379, 1)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Node3D" unique_id=1045615906]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -20, 2.2072754, -14.291565)
+size = Vector3(20.39563, 5.963379, 1)
+
+[node name="Player" type="CharacterBody3D" parent="." unique_id=1802647130 node_paths=PackedStringArray("camera_base", "camera_rot", "light", "mesh_base")]
+collision_layer = 2
+input_ray_pickable = false
+platform_on_leave = 2
+platform_floor_layers = 4278190080
+script = ExtResource("1_ltmmo")
+camera_base = NodePath("CamBase")
+camera_rot = NodePath("CamBase/CamRot")
+light = NodePath("CamBase/CamRot/SpotLight3D")
+mesh_base = NodePath("Mesh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=1165748147]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_ltmmo")
+debug_color = Color(0.03876, 1, 0, 1)
+debug_fill = false
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Player" unique_id=2075415894]
+unique_name_in_owner = true
+
+[node name="Mesh" type="Node3D" parent="Player" unique_id=1566587530]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Mesh" unique_id=1160859668]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+layers = 2
+mesh = SubResource("CapsuleMesh_hxa78")
+skeleton = NodePath("../..")
+
+[node name="CamBase" type="Node3D" parent="Player" unique_id=1361752672]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5550704, 0)
+
+[node name="CamRot" type="Node3D" parent="Player/CamBase" unique_id=249698007]
+
+[node name="Camera3D" type="Camera3D" parent="Player/CamBase/CamRot" unique_id=1711768739]
+unique_name_in_owner = true
+cull_mask = 1048573
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Player/CamBase/CamRot" unique_id=1326551008]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21395856, -0.42263973, 0)
+light_energy = 3.0
+spot_range = 9.62962
+spot_angle = 45.706192
+
+[node name="CutsceneTriggerArea" parent="." unique_id=759908889 instance=ExtResource("4_hdago")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.0243535)
+collision_layer = 0
+collision_mask = 2
+cutscene_path = "uid://0pc1ut6q2ii2"
+
+[node name="CollisionShape3D" parent="CutsceneTriggerArea" index="0" unique_id=1080484668]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7266235, 0)
+shape = SubResource("BoxShape3D_lj0or")
+
+[node name="CutsceneTriggerArea2" parent="." unique_id=1961473260 instance=ExtResource("4_hdago")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, -5.0243535)
+
+[node name="CollisionShape3D" parent="CutsceneTriggerArea2" index="0" unique_id=1080484668]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7266235, 0)
+shape = SubResource("BoxShape3D_lj0or")
+
+[node name="CutsceneTriggerArea3" parent="." unique_id=1893279565 instance=ExtResource("4_hdago")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -5.0243535)
+
+[node name="CollisionShape3D" parent="CutsceneTriggerArea3" index="0" unique_id=1080484668]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7266235, 0)
+shape = SubResource("BoxShape3D_lj0or")
+
+[node name="RayCast3D" type="RayCast3D" parent="." unique_id=1795609662]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.000722, 0)
+target_position = Vector3(2.8, 0, 0)
+
+[editable path="CutsceneTriggerArea"]
+[editable path="CutsceneTriggerArea2"]
+[editable path="CutsceneTriggerArea3"]

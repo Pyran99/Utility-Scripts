@@ -39,6 +39,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_0mdco"]
 resource_name = "default"
+length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
