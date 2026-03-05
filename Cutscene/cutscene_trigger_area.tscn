@@ -5,8 +5,12 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_t0txf"]
 
 [node name="CutsceneTriggerArea" type="Area3D" unique_id=759908889]
+collision_layer = 0
+collision_mask = 2
+input_ray_pickable = false
+monitorable = false
 script = ExtResource("1_t0txf")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1080484668]
 shape = SubResource("BoxShape3D_t0txf")
-debug_color = Color(0.9767851, 1, 0, 1)
+debug_color = Color(0, 1, 0.9607843, 1)

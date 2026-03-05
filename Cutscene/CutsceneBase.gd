@@ -77,7 +77,6 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
     if Engine.is_editor_hint(): return
-    print("anim list:\n>>", get_animation_list())
     total_animations = get_animation_list().size()
     animation_finished.connect(_on_animation_finished)
     CutsceneManager.autoplay.connect(_on_autoplay_timer_timeout)
@@ -92,6 +91,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func begin_cutscene() -> void:
     if is_queued_for_deletion(): return
+    print("anim list:\n>>", get_animation_list())
     if entry_delay > 0.0:
         await get_tree().create_timer(entry_delay).timeout
     play_next_animation()
@@ -117,33 +117,50 @@ func finished_cutscene() -> void:
     CutsceneManager.cutscene_finished()
 
 
-func reparent_node_to_target_by_path(node: NodePath, target: NodePath) -> void:
+func reparent_node_by_unique_name(node: StringName, target: StringName, keep_transform: bool = false) -> void:
+    var _node = get_node("%" + node)
+    var _target = get_node("%" + target)
+    _reparent_node_to_target(_node, _target, keep_transform)
+
+
+func reparent_node_by_nodepath(node: NodePath, target: NodePath, keep_transform: bool = false) -> void:
     var _node = get_node(node)
     var _target = get_node(target)
-    _reparent_node_to_target(_node, _target)
+    _reparent_node_to_target(_node, _target, keep_transform)
+
+
+func reset_camera_parent() -> void:
+    _reparent_node_to_target(main_camera, self )
 
 
 func set_camera_look_target_path(target: NodePath) -> void:
-    _set_camera_look_target(get_node(target))
+    var _node = get_node(target)
+    _set_camera_look_target(_node)
+
+
+func set_camera_look_name(node: StringName) -> void:
+    var _node = get_node("%" + node)
+    _set_camera_look_target(_node)
 
 
 func clear_camera_look_target() -> void:
     if main_camera.has_method("set_target"):
         main_camera.set_target(NodePath(""))
+    else:
+        printerr("Camera does not have set_target method")
 
 
-func reset_camera_parent() -> void:
-    _reparent_node_to_target(main_camera, self)
-
-## Reparents camera to path follow node, changes transform
-func _reparent_node_to_target(node: Node, target: Node) -> void:
-    node.reparent(target, false)
-    node.position = Vector3.ZERO
+func _reparent_node_to_target(node: Node, target: Node, keep_transform: bool = false) -> void:
+    if node == null: return
+    if target == null: return
+    node.reparent(target, keep_transform)
 
 
 func _set_camera_look_target(target: Node) -> void:
     if main_camera.has_method("set_target"):
         main_camera.target = target
+    else:
+        printerr("Camera does not have set_target method")
 
 
 func _handle_animation_skip() -> void:
@@ -171,3 +188,8 @@ func _get_configuration_warnings() -> PackedStringArray:
     if main_camera == null:
         warnings.append("no Camera3D")
     return warnings
+
+
+func _unhandled_key_input(event: InputEvent) -> void:
+    if event.is_action_pressed("pause"):
+        get_tree().paused = !get_tree().paused

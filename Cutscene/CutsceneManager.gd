@@ -55,7 +55,9 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 
 func setup_cutscene(cutscene_path: String) -> void:
-    if !FileAccess.file_exists(cutscene_path): return
+    if !FileAccess.file_exists(cutscene_path):
+        printerr("Cutscene does not exist: ", cutscene_path)
+        return
     var cutscene = load(cutscene_path)
     GameManager.player.disable_player()
     _cleanup_current_cutscene()

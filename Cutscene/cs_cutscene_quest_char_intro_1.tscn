@@ -1,0 +1,75 @@
+[gd_scene format=3 uid="uid://dejnjshc1w7ux"]
+
+[ext_resource type="AnimationLibrary" uid="uid://dxyptfpbronrx" path="res://Cutscene/Cutscenes/Library/lib_cutscene_quest_char_intro_1.res" id="1_xlkf2"]
+[ext_resource type="Script" uid="uid://c2csgkn4paghs" path="res://Cutscene/CutsceneBase.gd" id="2_yexxk"]
+[ext_resource type="Script" uid="uid://cqo7qdtnmjhhs" path="res://Cutscene/Cutscenes/cutscene_camera.gd" id="3_yexxk"]
+
+[sub_resource type="Curve3D" id="Curve3D_xlkf2"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 7.96, 0, -11.54, 0, 0, 0, 0, 0, 0, 6.06, 0, -23.75, 0, 0, 0, 0, 0, 0, 13.31, 0, -21.53, 0, 0, 0, 0, 0, 0, 14.62, 0, -12.98),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_b1b4i"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_yexxk"]
+
+[node name="CS_cutscene_quest_char_intro_1" type="AnimationPlayer" unique_id=1827509547 node_paths=PackedStringArray("main_camera", "audio_player")]
+libraries/ = ExtResource("1_xlkf2")
+script = ExtResource("2_yexxk")
+main_camera = NodePath("Camera3D")
+audio_player = NodePath("AudioStreamPlayer")
+metadata/_custom_type_script = "uid://c2csgkn4paghs"
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=351909115]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -11.263761, 0)
+script = ExtResource("3_yexxk")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1297675893]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1010833212]
+layer = 99
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=1533836992]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="Objects" type="Node3D" parent="." unique_id=1342239132]
+unique_name_in_owner = true
+
+[node name="Path3D" type="Path3D" parent="Objects" unique_id=294596208]
+curve = SubResource("Curve3D_xlkf2")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="Objects/Path3D" unique_id=168950982]
+transform = Transform3D(0.9881083, 0, 0.15375964, 0, 0.9999995, 0, -0.15375972, 0, 0.9881078, 7.96, 0, -11.54)
+rotation_mode = 1
+tilt_enabled = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Objects" unique_id=997456013]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -11.263761, 0)
+mesh = SubResource("CapsuleMesh_b1b4i")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Objects" unique_id=880996001]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -11.263761, 0)
+mesh = SubResource("CapsuleMesh_b1b4i")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Objects" unique_id=94466927]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -11.263761, 0)
+mesh = SubResource("CapsuleMesh_b1b4i")
+skeleton = NodePath("../..")
+
+[node name="Node3D" type="Node3D" parent="Objects" unique_id=1747676120]
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Objects/Node3D" unique_id=1478086356]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -13.40799, 0)
+mesh = SubResource("BoxMesh_yexxk")
+skeleton = NodePath("../..")

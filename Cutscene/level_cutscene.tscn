@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bwbxaefv3ndko" path="res://Cutscene/level_cutscene.gd" id="1_20uka"]
 [ext_resource type="Script" uid="uid://dpk8n0he63iy" path="res://Cutscene/player.gd" id="1_ltmmo"]
 [ext_resource type="PackedScene" uid="uid://b6otjpcqw115a" path="res://Cutscene/cutscene_trigger_area.tscn" id="4_hdago"]
+[ext_resource type="PackedScene" uid="uid://dejnjshc1w7ux" path="res://Cutscene/cs_cutscene_quest_char_intro_1.tscn" id="4_lj0or"]
 
 [sub_resource type="Gradient" id="Gradient_hxa78"]
 offsets = PackedFloat32Array(0.3049828, 0.5317869)
@@ -151,20 +152,21 @@ spot_angle = 45.706192
 
 [node name="CutsceneTriggerArea" parent="." unique_id=759908889 instance=ExtResource("4_hdago")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.0243535)
-collision_layer = 0
-collision_mask = 2
 cutscene_path = "uid://0pc1ut6q2ii2"
 
 [node name="CollisionShape3D" parent="CutsceneTriggerArea" index="0" unique_id=1080484668]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7266235, 0)
 shape = SubResource("BoxShape3D_lj0or")
+debug_color = Color(0, 1, 0.9609375, 1)
 
 [node name="CutsceneTriggerArea2" parent="." unique_id=1961473260 instance=ExtResource("4_hdago")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, -5.0243535)
+cutscene_path = "uid://dejnjshc1w7ux"
 
 [node name="CollisionShape3D" parent="CutsceneTriggerArea2" index="0" unique_id=1080484668]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7266235, 0)
 shape = SubResource("BoxShape3D_lj0or")
+debug_color = Color(0, 1, 0.9609375, 1)
 
 [node name="CutsceneTriggerArea3" parent="." unique_id=1893279565 instance=ExtResource("4_hdago")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -5.0243535)
@@ -172,11 +174,27 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -5.0243535)
 [node name="CollisionShape3D" parent="CutsceneTriggerArea3" index="0" unique_id=1080484668]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7266235, 0)
 shape = SubResource("BoxShape3D_lj0or")
+debug_color = Color(0, 1, 0.9609375, 1)
 
 [node name="RayCast3D" type="RayCast3D" parent="." unique_id=1795609662]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.000722, 0)
 target_position = Vector3(2.8, 0, 0)
 
+[node name="CS_cutscene_quest_char_intro_1" parent="." unique_id=1827509547 instance=ExtResource("4_lj0or")]
+
+[node name="Camera3D" parent="CS_cutscene_quest_char_intro_1" index="0" unique_id=351909115]
+transform = Transform3D(0.9999999, 0, 0, 0, 0.9999995, 0, 0, 0, 0.99999976, 0, -11.263761, 0)
+
+[node name="ColorRect" parent="CS_cutscene_quest_char_intro_1/CanvasLayer" parent_id_path=PackedInt32Array(1827509547, 1010833212) index="0" unique_id=1533836992]
+color = Color(0, 0, 0, 0)
+
+[node name="PathFollow3D" parent="CS_cutscene_quest_char_intro_1/Objects/Path3D" parent_id_path=PackedInt32Array(1827509547, 294596208) index="0" unique_id=168950982]
+transform = Transform3D(0.98810244, 0, 0.15375881, 0, 1, 0, -0.15375881, 0, 0.98810244, 7.96, 0, -11.54)
+
+[node name="MeshInstance3D" parent="CS_cutscene_quest_char_intro_1/Objects" parent_id_path=PackedInt32Array(1827509547, 1342239132) index="1" unique_id=997456013]
+transform = Transform3D(0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0, 1, 0, -11.263761, 0)
+
 [editable path="CutsceneTriggerArea"]
 [editable path="CutsceneTriggerArea2"]
 [editable path="CutsceneTriggerArea3"]
+[editable path="CS_cutscene_quest_char_intro_1"]
