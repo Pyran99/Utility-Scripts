@@ -3,7 +3,7 @@ extends Button
 class_name CustomBaseButton
 
 #const SFX_BTN_HOVER := preload("uid://cpbeu8b6g0prn")
-
+## Plays the [b]default[/b] hover sound
 @export var play_hover_sound: bool = true
 
 

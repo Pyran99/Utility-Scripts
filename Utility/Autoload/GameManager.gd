@@ -1,6 +1,12 @@
 @icon("res://Assets/Packs/Kenney/Game Icons/gear.png")
 extends Node
 #AUTOLOAD
+##@experimental
+##@tutorial: https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_documentation_comments.html
+## see [Sprite2D]
+##[br]see [annotation @GDScript.@rpc]
+##[br]member [member is_slowed]
+##[br]const [constant PAUSE_SCENE]
 
 const PAUSE_SCENE: PackedScene = preload("res://Scenes/pause_menu.tscn")
 #const DEBUG_CONSOLE_PATH: String = "res://_Debug/debug_console.tscn"
@@ -128,8 +134,9 @@ func change_level_state(_level_state: LevelStates) -> void:
 func get_game_state() -> GameStates:
     return game_state
 
-## slowdown game time when an enemy is hit -- from https://www.youtube.com/watch?v=_qxl7CalhDM 9:20.
-## this could be used when defeating boss, with higher slow time
+## slowdown game time when an enemy is hit
+##[br]from [url]https://www.youtube.com/watch?v=_qxl7CalhDM[/url] 9:20.
+##[br]this could be used when defeating boss, with higher slow time
 func freeze_engine() -> void:
     if is_slowed:
         return
@@ -141,7 +148,7 @@ func freeze_engine() -> void:
     Engine.time_scale = 1
     is_slowed = false
 
-
+## private code that only shows when commented
 func _cycle_translation() -> void:
     if !OS.is_debug_build(): return
     var index = (SettingsManager.get_language_index_by_locale(TranslationServer.get_locale()) + 1) % SettingsManager.locale_list.size()
