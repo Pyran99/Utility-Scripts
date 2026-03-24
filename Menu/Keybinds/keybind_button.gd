@@ -96,7 +96,7 @@ func set_current_event() -> void:
         KeybindManager.INPUT_SCHEMES.TOUCH:
             disabled = true
             current_event = null
-    
+
     display_current_key()
 
 ## display the key string for 'action' from KBM.input_map. No event shows ''
@@ -158,7 +158,7 @@ func _set_events_to_action() -> void:
         if KeybindManager.input_map[action][i] != null:
             InputMap.action_add_event(action, KeybindManager.input_map[action][i])
 
-    
+
 func _on_toggled(toggled_on: bool) -> void:
     set_process_input(toggled_on)
     is_rebind_mode = toggled_on
@@ -187,7 +187,7 @@ func _reset_key_to_default() -> void:
                 if default_events["events"][i] is InputEventJoypadButton or default_events["events"][i] is InputEventJoypadMotion:
                     default_action = default_events["events"][i]
                 break
-                
+
     remap_action_to(default_action)
 
 

@@ -41,17 +41,14 @@ var DEFAULT_RESOLUTION: Vector2i = Vector2i(ProjectSettings.get_setting("display
 var player_fullscreen_size: Vector2i
 var player_windowed_size: Vector2i
 
-var en_flag # preload flag image
-var cs_flag # preload
-
 var locale_list = [
-    {Strings.LOCALE: "en", "language": "English", "flag": en_flag},
-    {Strings.LOCALE: "zh", "language": "Chinese"},
-    {Strings.LOCALE: "ru", "language": "Russian"},
-    {Strings.LOCALE: "es", "language": "Spanish"},
-    {Strings.LOCALE: "pt", "language": "Portuguese"},
-    {Strings.LOCALE: "de", "language": "German"},
-    {Strings.LOCALE: "ja", "language": "Japanese"},
+    {Strings.LOCALE: "en", "language": "English", "flag": "res://Assets/Icons/Flags/us.png"},
+    {Strings.LOCALE: "zh", "language": "中国人", "flag": "res://Assets/Icons/Flags/cn.png"},
+    {Strings.LOCALE: "ru", "language": "Русский", "flag": "res://Assets/Icons/Flags/ru.png"},
+    # {Strings.LOCALE: "es", "language": "Español", "flag": "res://Assets/Icons/Flags/es.png"},
+    # {Strings.LOCALE: "pt", "language": "Português", "flag": "res://Assets/Icons/Flags/pt.png"},
+    # {Strings.LOCALE: "de", "language": "Deutsch", "flag": "res://Assets/Icons/Flags/de.png"},
+    # {Strings.LOCALE: "ja", "language": "日本語", "flag": "res://Assets/Icons/Flags/jp.png"},
 ]
 
 # var keybind_manager: KeybindManager = preload("res://Menu/Keybinds/KeybindManager.gd").new()
@@ -69,7 +66,6 @@ func _ready():
     init()
     load_settings()
     apply_values()
-    # keybind_manager.init()
     save_settings.call_deferred()
 
 

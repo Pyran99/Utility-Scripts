@@ -13,11 +13,11 @@ class_name OptionsMenu
 @export var previous_menu: Control
 @export var keybind_menu: Control
 @export var visible_animation: String = "slide_in"
+@export var play_hide_animation: bool = false
 
 var last_selected_resolution: Vector2i = Vector2i(1280, 720)
 var window_position: Vector2i
 var original_hash: int
-var last_focus_item: Control
 
 #region Nodes onready
 @onready var option_panel: PanelContainer = $OptionsPanel
@@ -176,8 +176,10 @@ func _set_toggles():
 
 
 func _close_menu() -> void:
-    anim_player.play_backwards(visible_animation)
-    await anim_player.animation_finished
+    if play_hide_animation:
+        if anim_player.has_animation(visible_animation):
+            anim_player.play_backwards(visible_animation)
+            await anim_player.animation_finished
     hide()
     if previous_menu:
         previous_menu.show()
@@ -199,9 +201,8 @@ func _get_focus_first_visible_container() -> Node:
 func update_audio_properties() -> void:
     var settings = SettingsManager.settings[Strings.AUDIO]
     var default = SettingsManager.DEFAULT_AUDIO
-    master_slider.value = settings.get(Strings.MASTER_VOLUME, default[Strings.MASTER_VOLUME])
-    music_slider.value = settings.get(Strings.MUSIC_VOLUME, default[Strings.MUSIC_VOLUME])
-    # sfx_slider.value = settings.get(Strings.SFX_VOLUME, default[Strings.SFX_VOLUME])
+    master_slider.set_value_no_signal(settings.get(Strings.MASTER_VOLUME, default[Strings.MASTER_VOLUME]))
+    music_slider.set_value_no_signal(settings.get(Strings.MUSIC_VOLUME, default[Strings.MUSIC_VOLUME]))
     sfx_slider.set_value_no_signal(settings.get(Strings.SFX_VOLUME, default[Strings.SFX_VOLUME]))
     mute_btn.button_pressed = settings.get(Strings.MUTE, default[Strings.MUTE])
 
@@ -246,7 +247,7 @@ func _add_resolutions_to_button() -> void:
     var settings = SettingsManager.settings[Strings.SETTINGS]
     for res in SettingsManager.RESOLUTIONS:
         # only add SettingsManager.settings that are smaller than the screen
-        if res[Strings.WIDTH] > screen_size.x and res[Strings.HEIGHT] > screen_size.y:
+        if res[Strings.WIDTH] > screen_size.x or res[Strings.HEIGHT] > screen_size.y:
             continue
 
         resolution_btn.add_item("%s x %s" % [res[Strings.WIDTH], res[Strings.HEIGHT]])
@@ -389,11 +390,10 @@ func _on_fsr_options_item_selected(index: int) -> void:
 
 func _on_keybind_btn_pressed() -> void:
     if keybind_menu == null:
-        push_warning("keybind menu is null")
+        printerr("keybind menu is null")
         return
 
     keybind_menu.previous_menu = option_panel
-    last_focus_item = %KeybindsBtn
     option_panel.hide()
     keybind_menu.show()
 
@@ -413,7 +413,7 @@ func reload_language_options():
     var languages = SettingsManager.locale_list
     var settings = SettingsManager.settings[Strings.SETTINGS]
     for language in languages:
-        language_btn.add_icon_item(language.get("flag"), tr(language["language"]))
+        language_btn.add_icon_item(language.get("flag"), language["language"])
         if !settings.has(Strings.LOCALE):
             settings[Strings.LOCALE] = SettingsManager.DEFAULT_SETTINGS[Strings.LOCALE]
         var lang: String = language[Strings.LOCALE]
@@ -425,7 +425,6 @@ func reload_language_options():
 
 func _on_language_btn_item_selected(index: int) -> void:
     SettingsManager.set_language(index)
-    reload_language_options()
 
 
 func _on_language_changed(locale: String) -> void:
@@ -447,9 +446,9 @@ func _on_visibility_changed() -> void:
     if visible:
         original_hash = SettingsManager.settings.hash()
         scroll_container.scroll_vertical = 0
-        anim_player.play(visible_animation)
-        await anim_player.animation_finished
-        # _get_focus_first_visible_container()
+        if anim_player.has_animation(visible_animation):
+            anim_player.play(visible_animation)
+            await anim_player.animation_finished
     else:
         save_settings()
 
@@ -462,8 +461,3 @@ func _notification(what: int) -> void:
 func _on_options_panel_visibility_changed() -> void:
     if get_tree().current_scene == self: return
     _on_language_changed(TranslationServer.get_locale())
-    if option_panel.visible and !anim_player.is_playing():
-        if last_focus_item != null:
-            last_focus_item.grab_focus()
-            return
-        # _get_focus_first_visible_container()

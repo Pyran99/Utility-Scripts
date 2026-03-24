@@ -185,9 +185,6 @@ target_position = Vector3(2.8, 0, 0)
 [node name="Camera3D" parent="CS_cutscene_quest_char_intro_1" index="0" unique_id=351909115]
 transform = Transform3D(0.9999999, 0, 0, 0, 0.9999995, 0, 0, 0, 0.99999976, 0, -11.263761, 0)
 
-[node name="ColorRect" parent="CS_cutscene_quest_char_intro_1/CanvasLayer" parent_id_path=PackedInt32Array(1827509547, 1010833212) index="0" unique_id=1533836992]
-color = Color(0, 0, 0, 0)
-
 [node name="PathFollow3D" parent="CS_cutscene_quest_char_intro_1/Objects/Path3D" parent_id_path=PackedInt32Array(1827509547, 294596208) index="0" unique_id=168950982]
 transform = Transform3D(0.98810244, 0, 0.15375881, 0, 1, 0, -0.15375881, 0, 0.98810244, 7.96, 0, -11.54)
 

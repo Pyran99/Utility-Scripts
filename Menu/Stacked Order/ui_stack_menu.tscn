@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://dlk668bp3ikyk"]
+
+[ext_resource type="Script" uid="uid://xwr0pklv5bj0" path="res://Menu/Stacked Order/ui_stack_menu.gd" id="1_p1nsn"]
+[ext_resource type="PackedScene" uid="uid://vffh7yskf0pe" path="res://Menu/Stacked Order/stack_pause_menu.tscn" id="2_q5j4v"]
+[ext_resource type="PackedScene" uid="uid://b3jrki7voblnn" path="res://Menu/Stacked Order/stack_options_menu.tscn" id="3_0tv7p"]
+[ext_resource type="PackedScene" uid="uid://c7asov2fdpexo" path="res://Menu/Stacked Order/stack_other_menu.tscn" id="4_cus8f"]
+[ext_resource type="PackedScene" uid="uid://cwmca4dhky72k" path="res://Menu/Stacked Order/stack_other_menu_2.tscn" id="5_51yn0"]
+
+[node name="UIStackMenu" type="CanvasLayer" unique_id=403746548]
+process_mode = 3
+layer = 10
+script = ExtResource("1_p1nsn")
+
+[node name="StackPauseMenu" parent="." unique_id=981429404 instance=ExtResource("2_q5j4v")]
+
+[node name="StackOptionsMenu" parent="." unique_id=591532686 instance=ExtResource("3_0tv7p")]
+
+[node name="StackOtherMenu" parent="." unique_id=1808663238 instance=ExtResource("4_cus8f")]
+
+[node name="StackOtherMenu2" parent="." unique_id=1589550471 instance=ExtResource("5_51yn0")]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1268629475]
+top_level = true
+z_index = 100
+offset_right = 189.0
+offset_bottom = 292.0
+
+[node name="Button" type="Button" parent="VBoxContainer" unique_id=738902246]
+layout_mode = 2
+text = "1st"
+
+[node name="Button2" type="Button" parent="VBoxContainer" unique_id=532583900]
+layout_mode = 2
+text = "2nd"
+
+[node name="Button3" type="Button" parent="VBoxContainer" unique_id=1489238491]
+layout_mode = 2
+text = "3rd"
+
+[node name="Button4" type="Button" parent="VBoxContainer" unique_id=390696026]
+layout_mode = 2
+text = "4th"
+
+[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Button2" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="VBoxContainer/Button3" to="." method="_on_button_3_pressed"]
+[connection signal="pressed" from="VBoxContainer/Button4" to="." method="_on_button_4_pressed"]
