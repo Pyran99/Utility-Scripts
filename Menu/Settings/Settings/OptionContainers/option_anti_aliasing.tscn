@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://wkitkpvj73t5"]
+
+[ext_resource type="PackedScene" uid="uid://cecb8swg0i0ji" path="res://Scenes/UI/Settings/Settings/base_option.tscn" id="1_h84na"]
+[ext_resource type="Script" uid="uid://q0r8jr83py0k" path="res://Scenes/UI/Settings/Settings/OptionContainers/option_anti_aliasing.gd" id="2_1o22g"]
+
+[node name="OptionAntiAliasing" unique_id=593047917 node_paths=PackedStringArray("btn") instance=ExtResource("1_h84na")]
+script = ExtResource("2_1o22g")
+default_value = "Disabled"
+btn = NodePath("HBoxContainer/OptionButton")
+id = "ANTI_ALIASING"
+
+[node name="Label" parent="HBoxContainer" parent_id_path=PackedInt32Array(2090744092) index="1" unique_id=816700914]
+text = "Anti Aliasing"

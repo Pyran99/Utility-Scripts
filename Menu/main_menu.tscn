@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://35d2n0ifxs3g" path="res://Menu/main_menu.gd" id="1_5nflc"]
 [ext_resource type="Script" uid="uid://bixr2g6rey0wp" path="res://Menu/CustomBaseButton.gd" id="3_ohgnh"]
-[ext_resource type="PackedScene" uid="uid://bhc01pr3kyhym" path="res://Menu/Options/options_menu.tscn" id="4_u7lva"]
 [ext_resource type="Texture2D" uid="uid://dqvi0x4g4x6sc" path="res://Utility/Assets/selection_arrow_9x9.png" id="5_fw3rq"]
 [ext_resource type="Texture2D" uid="uid://d35ulkn73f0va" path="res://Utility/Assets/arrows_32.png" id="6_cn2sd"]
 [ext_resource type="PackedScene" uid="uid://b6x4dglubp4hq" path="res://Menu/v_scroll_bar.tscn" id="6_rw3mj"]
@@ -28,7 +27,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_5nflc")
-options_window = NodePath("OptionsMenu")
+options_window = NodePath("")
 play_btn = NodePath("Scene/VBoxContainer/GameLvlBtn")
 options_btn = NodePath("Scene/VBoxContainer/OptionsBtn")
 quit_btn = NodePath("Scene/VBoxContainer/QuitBtn")
@@ -89,10 +88,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -113.0
-offset_top = -172.0
-offset_right = 113.0
-offset_bottom = -22.0
+offset_left = -125.0
+offset_top = -530.0
+offset_right = 125.0
+offset_bottom = -186.0
 grow_horizontal = 2
 grow_vertical = 0
 
@@ -147,10 +146,6 @@ layout_mode = 2
 text = "3D Level"
 script = ExtResource("3_ohgnh")
 metadata/_custom_type_script = "uid://bixr2g6rey0wp"
-
-[node name="OptionsMenu" parent="." unique_id=905142548 instance=ExtResource("4_u7lva")]
-visible = false
-layout_mode = 1
 
 [node name="VScrollBar" type="VScrollBar" parent="." unique_id=709073839]
 layout_mode = 0

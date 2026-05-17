@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://cxdwpl4idnb3s"]
+
+[ext_resource type="Script" uid="uid://7ojacxq8gnc4" path="res://Menu/Settings/Settings/OptionContainers/option_resolution.gd" id="1_dwkjv"]
+[ext_resource type="PackedScene" uid="uid://cecb8swg0i0ji" path="res://Menu/Settings/Settings/base_option.tscn" id="1_mn1aj"]
+[ext_resource type="Texture2D" uid="uid://ka0g4e3fog5l" path="res://Assets/tablet.png" id="3_frssv"]
+
+[node name="OptionResolution" unique_id=593047917 node_paths=PackedStringArray("btn") instance=ExtResource("1_mn1aj")]
+script = ExtResource("1_dwkjv")
+default_value = "1280x720"
+btn = NodePath("HBoxContainer/OptionButton")
+id = "RESOLUTION"
+
+[node name="TextureRect" parent="HBoxContainer" parent_id_path=PackedInt32Array(2090744092) index="0" unique_id=1540149124]
+texture = ExtResource("3_frssv")
+
+[node name="Label" parent="HBoxContainer" parent_id_path=PackedInt32Array(2090744092) index="1" unique_id=816700914]
+text = "Resolution"

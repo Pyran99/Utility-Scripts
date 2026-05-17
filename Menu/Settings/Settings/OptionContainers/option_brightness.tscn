@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://b7jkxscocivsm"]
+
+[ext_resource type="PackedScene" uid="uid://b1i3dd0s6lthe" path="res://Menu/Settings/Settings/base_slider.tscn" id="1_vk6u7"]
+[ext_resource type="Script" uid="uid://isl58dehjdx" path="res://Menu/Settings/Settings/OptionContainers/option_brightness.gd" id="2_wr4vm"]
+[ext_resource type="Texture2D" uid="uid://hp73rxw2n88x" path="res://Assets/contrast.png" id="3_pxait"]
+
+[node name="OptionBrightness" unique_id=593047917 node_paths=PackedStringArray("value_display", "btn") instance=ExtResource("1_vk6u7")]
+script = ExtResource("2_wr4vm")
+value_display = NodePath("HBoxContainer/ValueDisplay")
+default_value = 1.0
+min_value = 0.5
+max_value = 2.0
+btn = NodePath("HBoxContainer/HSlider")
+id = "BRIGHTNESS"
+
+[node name="TextureRect" parent="HBoxContainer" parent_id_path=PackedInt32Array(2090744092) index="0" unique_id=1540149124]
+texture = ExtResource("3_pxait")
+
+[node name="Label" parent="HBoxContainer" parent_id_path=PackedInt32Array(2090744092) index="1" unique_id=816700914]
+text = "Brightness"

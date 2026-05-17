@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://pgqvak1v4kk4"]
+
+[ext_resource type="Script" uid="uid://1n1wlhoxi2ek" path="res://Scenes/UI/Settings/Settings/Menu/settings_section.gd" id="1_apgwm"]
+[ext_resource type="PackedScene" uid="uid://jevyx824gf2l" path="res://Scenes/UI/Settings/Settings/OptionContainers/option_attack_opacity.tscn" id="2_d7rkx"]
+[ext_resource type="PackedScene" uid="uid://dgdms3oeviox7" path="res://Scenes/UI/Settings/Settings/OptionContainers/option_damage_numbers.tscn" id="3_r2w0f"]
+[ext_resource type="PackedScene" uid="uid://tbdv40bns3f" path="res://Scenes/UI/Settings/Settings/OptionContainers/option_display_fps.tscn" id="4_l8xph"]
+[ext_resource type="PackedScene" uid="uid://b7jkxscocivsm" path="res://Scenes/UI/Settings/Settings/OptionContainers/option_brightness.tscn" id="5_q8vi4"]
+
+[node name="Gameplay" type="VBoxContainer" unique_id=1422445355]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+script = ExtResource("1_apgwm")
+id = "GAMEPLAY"
+
+[node name="Label" type="Label" parent="." unique_id=442535427]
+visible = false
+layout_mode = 2
+text = "gameplay"
+horizontal_alignment = 1
+
+[node name="OptionAttackOpacity" parent="." unique_id=593047917 instance=ExtResource("2_d7rkx")]
+layout_mode = 2
+update_immediately = false
+
+[node name="OptionDamageNumbers" parent="." unique_id=871535079 instance=ExtResource("3_r2w0f")]
+layout_mode = 2
+update_immediately = true
+
+[node name="OptionDisplayFPS" parent="." unique_id=1242555901 instance=ExtResource("4_l8xph")]
+layout_mode = 2
+update_immediately = true
+
+[node name="OptionBrightness" parent="." unique_id=1141321871 instance=ExtResource("5_q8vi4")]
+layout_mode = 2
+update_immediately = false

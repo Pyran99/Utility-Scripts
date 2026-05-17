@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://1avrn18owobf"]
+
+[ext_resource type="Script" uid="uid://b01aps5efwmrc" path="res://Menu/Settings/Keybinds/keybind_container.gd" id="1_4avnf"]
+[ext_resource type="ButtonGroup" uid="uid://cguxos8s64nyd" path="res://Menu/Settings/Keybinds/keybind_button_group.tres" id="2_qvlol"]
+[ext_resource type="Texture2D" uid="uid://w77qc0q2gj1o" path="res://icon.svg" id="3_i2eoo"]
+[ext_resource type="Script" uid="uid://b0larilrrv4ca" path="res://Menu/Settings/Keybinds/controller_keybind_button.gd" id="4_or84m"]
+
+[node name="GamepadKeybindContainer" type="HBoxContainer" unique_id=566315449]
+editor_description = "Uses keyboard & gamepad buttons"
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4avnf")
+
+[node name="Label" type="Label" parent="." unique_id=1095460280]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+text = "Move Up"
+
+[node name="ControllerBtn" type="Button" parent="." unique_id=602935482]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/icon_disabled_color = Color(1, 1, 1, 1)
+theme_override_constants/icon_max_width = 64
+theme_override_font_sizes/font_size = 32
+toggle_mode = true
+button_group = ExtResource("2_qvlol")
+icon = ExtResource("3_i2eoo")
+autowrap_mode = 2
+expand_icon = true
+script = ExtResource("4_or84m")
+type = 1
+
+[node name="Control" type="Control" parent="." unique_id=1310785801]
+layout_mode = 2
+size_flags_horizontal = 3

@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://d3qophqwvchjp"]
+
+[ext_resource type="PackedScene" uid="uid://b1i3dd0s6lthe" path="res://Scenes/UI/Settings/Settings/base_slider.tscn" id="1_we2bv"]
+[ext_resource type="Script" uid="uid://calv13abbt21k" path="res://Scenes/UI/Settings/Settings/OptionContainers/option_fsr_sharpness.gd" id="2_2msvk"]
+
+[node name="OptionFsrSharpness" unique_id=593047917 node_paths=PackedStringArray("value_display", "btn") instance=ExtResource("1_we2bv")]
+script = ExtResource("2_2msvk")
+value_display = NodePath("HBoxContainer/ValueDisplay")
+default_value = 1.0
+step = 0.01
+display_as_percent = true
+value_suffix = "%"
+btn = NodePath("HBoxContainer/HSlider")
+id = "FSR_SHARPNESS"
+update_immediately = false
+
+[node name="Label" parent="HBoxContainer" parent_id_path=PackedInt32Array(2090744092) index="1" unique_id=816700914]
+text = "FSR Sharpness"

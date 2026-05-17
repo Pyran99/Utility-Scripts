@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://c4wpjyinlyjox"]
+
+[ext_resource type="PackedScene" uid="uid://gf8qmaguxlfl" path="res://Scenes/UI/Settings/Settings/base_checkbox.tscn" id="1_3vwlm"]
+[ext_resource type="Script" uid="uid://clthqebkkjq1l" path="res://Scenes/UI/Settings/Settings/OptionContainers/option_vsync.gd" id="2_7gx44"]
+
+[node name="OptionVsync" unique_id=593047917 node_paths=PackedStringArray("btn") instance=ExtResource("1_3vwlm")]
+script = ExtResource("2_7gx44")
+btn = NodePath("HBoxContainer/CheckBox")
+id = "VSYNC"
+
+[node name="Label" parent="HBoxContainer" parent_id_path=PackedInt32Array(2090744092) index="1" unique_id=816700914]
+text = "VSync"

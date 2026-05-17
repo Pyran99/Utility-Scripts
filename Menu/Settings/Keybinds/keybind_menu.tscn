@@ -1,0 +1,333 @@
+[gd_scene format=3 uid="uid://bs4cgkbvpp04w"]
+
+[ext_resource type="Script" uid="uid://bwfltcx1sxhsb" path="res://Menu/Settings/Keybinds/keybind_menu.gd" id="1_1uybk"]
+[ext_resource type="PackedScene" uid="uid://bmk2iqp6ahqnt" path="res://Menu/Settings/Keybinds/keybind_container.tscn" id="2_4p6fs"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t0j7g"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(1, 1, 1, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_1uybk"]
+color = Color(1, 1, 1, 1)
+grow_begin = 8.0
+grow_end = 8.0
+thickness = 8
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_duk65"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yfka1"]
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 0.6)
+border_width_top = 4
+border_width_bottom = 4
+border_color = Color(0.175, 0.175, 0.175, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4grpj"]
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.3)
+border_width_top = 4
+border_width_bottom = 4
+border_color = Color(0.175, 0.175, 0.175, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1dpes"]
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 0.6)
+border_width_top = 4
+border_width_bottom = 4
+border_color = Color(0.5013021, 0.5013021, 0.5013021, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+corner_detail = 1
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5fayo"]
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.3)
+border_color = Color(0.175, 0.175, 0.175, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+corner_detail = 1
+
+[node name="KeybindMenu" type="Control" unique_id=398831534]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1uybk")
+metadata/_edit_lock_ = true
+
+[node name="KeybindPanel" type="Panel" parent="." unique_id=1832523027]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -482.0
+offset_top = -443.0
+offset_right = 482.0
+offset_bottom = 443.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_t0j7g")
+
+[node name="MarginContainer" type="MarginContainer" parent="KeybindPanel" unique_id=1387036269]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="VBoxContainer" type="VBoxContainer" parent="KeybindPanel/MarginContainer" unique_id=304236378]
+layout_mode = 2
+
+[node name="Titles" type="VBoxContainer" parent="KeybindPanel/MarginContainer/VBoxContainer" unique_id=197975394]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="KeybindPanel/MarginContainer/VBoxContainer/Titles" unique_id=557856601]
+layout_mode = 2
+theme_override_font_sizes/font_size = 75
+text = "Keybinds"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="KeybindPanel/MarginContainer/VBoxContainer/Titles" unique_id=1676597011]
+layout_mode = 2
+theme_override_constants/separation = 8
+theme_override_styles/separator = SubResource("StyleBoxLine_1uybk")
+
+[node name="Titles" type="HBoxContainer" parent="KeybindPanel/MarginContainer/VBoxContainer/Titles" unique_id=1280250612]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="KeybindPanel/MarginContainer/VBoxContainer/Titles/Titles" unique_id=1183078338]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="KeybindPanel/MarginContainer/VBoxContainer/Titles/Titles" unique_id=987787998]
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_font_sizes/font_size = 32
+text = "Keyboard"
+horizontal_alignment = 1
+
+[node name="Control2" type="Control" parent="KeybindPanel/MarginContainer/VBoxContainer/Titles/Titles" unique_id=1034875885]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="KeybindPanel/MarginContainer/VBoxContainer/Titles/Titles" unique_id=22554273]
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_font_sizes/font_size = 32
+text = "Controller"
+horizontal_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="KeybindPanel/MarginContainer/VBoxContainer/Titles" unique_id=1099135717]
+layout_mode = 2
+theme_override_constants/separation = 8
+theme_override_styles/separator = SubResource("StyleBoxLine_1uybk")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="KeybindPanel/MarginContainer/VBoxContainer" unique_id=129698862]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Containers" type="VBoxContainer" parent="KeybindPanel/MarginContainer/VBoxContainer/ScrollContainer" unique_id=1006743939]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="KeybindContainer" parent="KeybindPanel/MarginContainer/VBoxContainer/ScrollContainer/Containers" unique_id=566315449 instance=ExtResource("2_4p6fs")]
+layout_mode = 2
+
+[node name="KeybindContainer2" parent="KeybindPanel/MarginContainer/VBoxContainer/ScrollContainer/Containers" unique_id=966579169 instance=ExtResource("2_4p6fs")]
+layout_mode = 2
+
+[node name="KeybindContainer3" parent="KeybindPanel/MarginContainer/VBoxContainer/ScrollContainer/Containers" unique_id=1824354457 instance=ExtResource("2_4p6fs")]
+layout_mode = 2
+
+[node name="KeybindPanelTabs" type="Panel" parent="." unique_id=569853005]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -489.0
+offset_top = -454.0
+offset_right = 489.0
+offset_bottom = 454.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_t0j7g")
+
+[node name="MarginContainer" type="MarginContainer" parent="KeybindPanelTabs" unique_id=259202004]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="VBoxContainer" type="VBoxContainer" parent="KeybindPanelTabs/MarginContainer" unique_id=1592845078]
+layout_mode = 2
+
+[node name="Titles" type="VBoxContainer" parent="KeybindPanelTabs/MarginContainer/VBoxContainer" unique_id=497738223]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="KeybindPanelTabs/MarginContainer/VBoxContainer/Titles" unique_id=1142776418]
+layout_mode = 2
+theme_override_font_sizes/font_size = 75
+text = "Keybinds"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="KeybindPanelTabs/MarginContainer/VBoxContainer/Titles" unique_id=803606508]
+layout_mode = 2
+theme_override_constants/separation = 8
+theme_override_styles/separator = SubResource("StyleBoxLine_1uybk")
+
+[node name="TabContainer" type="TabContainer" parent="KeybindPanelTabs/MarginContainer/VBoxContainer" unique_id=703451796]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_unselected_color = Color(0.5794271, 0.5794271, 0.5794271, 1)
+theme_override_constants/tab_separation = 8
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 32
+theme_override_styles/panel = SubResource("StyleBoxEmpty_duk65")
+theme_override_styles/tab_unselected = SubResource("StyleBoxFlat_yfka1")
+theme_override_styles/tab_hovered = SubResource("StyleBoxFlat_4grpj")
+theme_override_styles/tab_selected = SubResource("StyleBoxFlat_1dpes")
+theme_override_styles/tab_disabled = SubResource("StyleBoxFlat_5fayo")
+tab_alignment = 1
+current_tab = 0
+
+[node name="Keyboard" type="Control" parent="KeybindPanelTabs/MarginContainer/VBoxContainer/TabContainer" unique_id=724701482]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="KeybindPanelTabs/MarginContainer/VBoxContainer/TabContainer/Keyboard" unique_id=1972646815]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_bottom = 25
+
+[node name="ScrollContainer" type="ScrollContainer" parent="KeybindPanelTabs/MarginContainer/VBoxContainer/TabContainer/Keyboard/MarginContainer" unique_id=805797901]
+layout_mode = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 4
+
+[node name="KeyboardContainer" type="VBoxContainer" parent="KeybindPanelTabs/MarginContainer/VBoxContainer/TabContainer/Keyboard/MarginContainer/ScrollContainer" unique_id=779839778]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Controller" type="Control" parent="KeybindPanelTabs/MarginContainer/VBoxContainer/TabContainer" unique_id=927158432]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="KeybindPanelTabs/MarginContainer/VBoxContainer/TabContainer/Controller" unique_id=1308715411]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_bottom = 25
+
+[node name="ScrollContainer" type="ScrollContainer" parent="KeybindPanelTabs/MarginContainer/VBoxContainer/TabContainer/Controller/MarginContainer" unique_id=1407036240]
+layout_mode = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 4
+
+[node name="GamepadContainer" type="VBoxContainer" parent="KeybindPanelTabs/MarginContainer/VBoxContainer/TabContainer/Controller/MarginContainer/ScrollContainer" unique_id=1199880167]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="KeybindPanelTabs/MarginContainer/VBoxContainer" unique_id=574813030]
+layout_mode = 2
+alignment = 1
+
+[node name="ApplyBtn" type="Button" parent="KeybindPanelTabs/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1924217215]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(270, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 38
+text = "Apply"
+
+[node name="DiscardBtn" type="Button" parent="KeybindPanelTabs/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1871691152]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(270, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 38
+text = "Discard"
+
+[node name="ResetBtn" type="Button" parent="KeybindPanelTabs/MarginContainer/VBoxContainer/HBoxContainer" unique_id=527436687]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(270, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 38
+text = "Reset"

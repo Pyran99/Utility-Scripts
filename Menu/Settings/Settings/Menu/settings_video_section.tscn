@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://dyhobg28nghck"]
+
+[ext_resource type="PackedScene" uid="uid://cxdwpl4idnb3s" path="res://Scenes/UI/Settings/Settings/OptionContainers/option_resolution.tscn" id="1_iuqhj"]
+[ext_resource type="Script" uid="uid://1n1wlhoxi2ek" path="res://Scenes/UI/Settings/Settings/Menu/settings_section.gd" id="1_jmwk6"]
+[ext_resource type="PackedScene" uid="uid://bwyx7a1025fth" path="res://Scenes/UI/Settings/Settings/OptionContainers/option_fullscreen.tscn" id="3_ao1wr"]
+[ext_resource type="PackedScene" uid="uid://blqels6agc68l" path="res://Scenes/UI/Settings/Settings/OptionContainers/option_max_fps.tscn" id="4_jkehy"]
+
+[node name="Video" type="VBoxContainer" unique_id=399778534]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+script = ExtResource("1_jmwk6")
+id = "VIDEO"
+
+[node name="Label" type="Label" parent="." unique_id=1288834927]
+visible = false
+layout_mode = 2
+text = "video"
+horizontal_alignment = 1
+
+[node name="OptionResolution" parent="." unique_id=593047917 instance=ExtResource("1_iuqhj")]
+layout_mode = 2
+
+[node name="OptionFullscreen" parent="." unique_id=909937206 instance=ExtResource("3_ao1wr")]
+layout_mode = 2
+
+[node name="OptionMaxFps" parent="." unique_id=2028882379 instance=ExtResource("4_jkehy")]
+layout_mode = 2

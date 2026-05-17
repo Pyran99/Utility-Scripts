@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://dftjb68wc37bp"]
+
+[ext_resource type="PackedScene" uid="uid://cecb8swg0i0ji" path="res://Scenes/UI/Settings/Settings/base_option.tscn" id="1_7dymd"]
+[ext_resource type="Script" uid="uid://dea5rpron0rqj" path="res://Scenes/UI/Settings/Settings/OptionContainers/option_fsr_mode.gd" id="2_47wcf"]
+
+[node name="OptionFsrMode" unique_id=593047917 node_paths=PackedStringArray("btn") instance=ExtResource("1_7dymd")]
+script = ExtResource("2_47wcf")
+default_value = "Balanced"
+btn = NodePath("HBoxContainer/OptionButton")
+id = "FSR_MODE"
+
+[node name="Label" parent="HBoxContainer" parent_id_path=PackedInt32Array(2090744092) index="1" unique_id=816700914]
+text = "FSR Mode"

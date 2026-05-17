@@ -1,0 +1,154 @@
+[gd_scene format=3 uid="uid://qw8e7sxo35s"]
+
+[ext_resource type="Script" uid="uid://chv2xs2wtp4ou" path="res://Menu/Settings/Settings/Menu/settings_menu.gd" id="1_xc2u3"]
+[ext_resource type="PackedScene" uid="uid://pgqvak1v4kk4" path="res://Menu/Settings/Settings/Menu/settings_gameplay_section.tscn" id="2_4u58a"]
+[ext_resource type="Texture2D" uid="uid://w77qc0q2gj1o" path="res://icon.svg" id="2_jn188"]
+[ext_resource type="PackedScene" uid="uid://dyhobg28nghck" path="res://Menu/Settings/Settings/Menu/settings_video_section.tscn" id="3_2xqhf"]
+[ext_resource type="PackedScene" uid="uid://ca802uwt3f46k" path="res://Menu/Settings/Settings/Menu/settings_audio_section.tscn" id="4_cengy"]
+[ext_resource type="PackedScene" uid="uid://jvfxrl5fmo1a" path="res://Menu/Settings/Settings/Menu/settings_controls_section.tscn" id="5_wc5i3"]
+[ext_resource type="PackedScene" uid="uid://ciw35elcjcnpe" path="res://Menu/Settings/Settings/Menu/settings_accessibility_section.tscn" id="6_xw0sp"]
+
+[node name="SettingsMenu" type="Control" unique_id=527476805]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xc2u3")
+is_in_game_menu = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=531111575]
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=2096098407]
+visible = false
+layout_mode = 0
+offset_right = 47.0
+offset_bottom = 47.0
+texture = ExtResource("2_jn188")
+expand_mode = 1
+
+[node name="OptionsPanel" type="Panel" parent="." unique_id=466453622]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -304.0
+offset_top = -228.0
+offset_right = 304.0
+offset_bottom = 228.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="OptionsPanel" unique_id=1715960283]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 35
+
+[node name="ScrollContainer" type="ScrollContainer" parent="OptionsPanel/MarginContainer" unique_id=881958262]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="OptionsPanel/MarginContainer/ScrollContainer" unique_id=398581246]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 10
+
+[node name="Sections" type="VBoxContainer" parent="OptionsPanel/MarginContainer/ScrollContainer/MarginContainer" unique_id=675187370]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Audio" parent="OptionsPanel/MarginContainer/ScrollContainer/MarginContainer/Sections" unique_id=2021787911 instance=ExtResource("4_cengy")]
+layout_mode = 2
+
+[node name="Video" parent="OptionsPanel/MarginContainer/ScrollContainer/MarginContainer/Sections" unique_id=399778534 instance=ExtResource("3_2xqhf")]
+layout_mode = 2
+
+[node name="Accessibility" parent="OptionsPanel/MarginContainer/ScrollContainer/MarginContainer/Sections" unique_id=439225145 instance=ExtResource("6_xw0sp")]
+layout_mode = 2
+id = "ACCESSIBILITY"
+
+[node name="Gameplay" parent="OptionsPanel/MarginContainer/ScrollContainer/MarginContainer/Sections" unique_id=1422445355 instance=ExtResource("2_4u58a")]
+layout_mode = 2
+
+[node name="Controls" parent="OptionsPanel/MarginContainer/ScrollContainer/MarginContainer/Sections" unique_id=176267837 instance=ExtResource("5_wc5i3")]
+visible = false
+layout_mode = 2
+
+[node name="CloseBtn" type="Button" parent="OptionsPanel" unique_id=652984893]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = -28.0
+offset_right = 109.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "close PH"
+
+[node name="ApplyBtn" type="Button" parent="OptionsPanel" unique_id=881507222]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -86.0
+offset_top = -27.0
+offset_right = -15.0
+offset_bottom = -8.041626
+grow_horizontal = 2
+grow_vertical = 0
+text = "apply"
+
+[node name="ControlsBtn" type="Button" parent="OptionsPanel" unique_id=2014795006]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -174.0
+offset_top = -28.0
+offset_right = -104.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Controls"
+
+[node name="Label" type="Label" parent="OptionsPanel" unique_id=580316098]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = -26.0
+offset_right = 52.0
+offset_bottom = -11.8333435
+grow_horizontal = 0
+grow_vertical = 0
+tooltip_text = "Translation test"
+mouse_filter = 0
+text = "OPTIONS"
+horizontal_alignment = 1

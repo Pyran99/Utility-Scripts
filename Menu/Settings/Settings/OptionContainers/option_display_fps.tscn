@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://tbdv40bns3f"]
+
+[ext_resource type="PackedScene" uid="uid://gf8qmaguxlfl" path="res://Menu/Settings/Settings/base_checkbox.tscn" id="1_fsmuo"]
+[ext_resource type="Script" uid="uid://2fwqtbo533a0" path="res://Menu/Settings/Settings/OptionContainers/option_display_fps.gd" id="2_f2hb4"]
+[ext_resource type="Texture2D" uid="uid://br8nfskb2rkv" path="res://Assets/video.png" id="3_g8h0g"]
+
+[node name="OptionDisplayFPS" unique_id=593047917 node_paths=PackedStringArray("btn") instance=ExtResource("1_fsmuo")]
+script = ExtResource("2_f2hb4")
+btn = NodePath("HBoxContainer/CheckBox")
+id = "SHOW_FPS"
+update_immediately = false
+
+[node name="TextureRect" parent="HBoxContainer" parent_id_path=PackedInt32Array(2090744092) index="0" unique_id=1540149124]
+texture = ExtResource("3_g8h0g")
+
+[node name="Label" parent="HBoxContainer" parent_id_path=PackedInt32Array(2090744092) index="1" unique_id=816700914]
+text = "Show FPS"

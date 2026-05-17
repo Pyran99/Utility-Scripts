@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://jevyx824gf2l"]
+
+[ext_resource type="PackedScene" uid="uid://b1i3dd0s6lthe" path="res://Menu/Settings/Settings/base_slider.tscn" id="1_0ond8"]
+[ext_resource type="Script" uid="uid://n4p4ckhhn8so" path="res://Menu/Settings/Settings/OptionContainers/option_attack_opacity.gd" id="2_210st"]
+[ext_resource type="Texture2D" uid="uid://yd3253fk1cn3" path="res://Assets/sword_32.png" id="3_0pags"]
+
+[node name="OptionAttackOpacity" unique_id=593047917 node_paths=PackedStringArray("value_display", "btn") instance=ExtResource("1_0ond8")]
+script = ExtResource("2_210st")
+value_display = NodePath("HBoxContainer/ValueDisplay")
+default_value = 1.0
+min_value = 0.2
+display_as_percent = true
+value_suffix = "%"
+btn = NodePath("HBoxContainer/HSlider")
+id = "ATTACK_OPACITY"
+
+[node name="TextureRect" parent="HBoxContainer" parent_id_path=PackedInt32Array(2090744092) index="0" unique_id=1540149124]
+texture = ExtResource("3_0pags")
+
+[node name="Label" parent="HBoxContainer" parent_id_path=PackedInt32Array(2090744092) index="1" unique_id=816700914]
+text = "Attack Opacity"

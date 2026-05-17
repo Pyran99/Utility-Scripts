@@ -2,14 +2,13 @@ extends Control
 class_name MainMenu
 
 
-@export var options_window: OptionsMenu
+@export var options_window: Control
 @export var play_btn: Button
 @export var options_btn: Button
 @export var quit_btn: Button
 
 @onready var menu_scene: Control = %Scene
 @onready var _3d_level_btn: CustomBaseButton = %"3DLevelBtn"
-
 
 
 func _ready():
@@ -40,8 +39,11 @@ func _on_play_btn_pressed() -> void:
 
 
 func _on_options_btn_pressed() -> void:
-    if options_window == null: return
     menu_scene.hide()
+    if options_window == null:
+        options_window = load("res://Menu/Settings/Settings/Menu/settings_menu.tscn").instantiate()
+        options_window.settings_menu_closed.connect(func(): menu_scene.show())
+        return
     options_window.show()
     options_window.set_previous_menu(menu_scene)
 

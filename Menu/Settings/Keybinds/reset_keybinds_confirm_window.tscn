@@ -1,0 +1,81 @@
+[gd_scene format=3 uid="uid://bxmtikgmwm817"]
+
+[ext_resource type="Script" uid="uid://7i5oahb6eogq" path="res://Menu/Settings/Keybinds/reset_keybinds_confirm_window.gd" id="1_efj87"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_klo8u"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+corner_detail = 1
+anti_aliasing = false
+
+[node name="ResetKeybindsConfirmWindow" type="Control" unique_id=586495521]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_efj87")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1401994187]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.9403
+offset_top = -85.0
+offset_right = 250.9403
+offset_bottom = 85.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_klo8u")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=914754935]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1404318219]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 48
+text = "Reset Keybinds?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/VBoxContainer" unique_id=1792957999]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer" unique_id=978702381]
+layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="ConfirmBtn" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=361193377]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+text = "Yes"
+
+[node name="CancelBtn" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=2078311841]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+text = "No"

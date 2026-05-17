@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://ca802uwt3f46k"]
+
+[ext_resource type="Script" uid="uid://1n1wlhoxi2ek" path="res://Scenes/UI/Settings/Settings/Menu/settings_section.gd" id="1_chhql"]
+[ext_resource type="PackedScene" uid="uid://cg6g8kpfa2ihl" path="res://Scenes/UI/Settings/Settings/OptionContainers/option_music.tscn" id="2_v2mk8"]
+[ext_resource type="PackedScene" uid="uid://be2f0xbd35b8s" path="res://Scenes/UI/Settings/Settings/OptionContainers/option_sfx.tscn" id="3_h2qq8"]
+
+[node name="Audio" type="VBoxContainer" unique_id=2021787911]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+script = ExtResource("1_chhql")
+id = "AUDIO"
+
+[node name="Label" type="Label" parent="." unique_id=309942560]
+visible = false
+layout_mode = 2
+text = "Audio"
+horizontal_alignment = 1
+
+[node name="OptionMusic" parent="." unique_id=593047917 instance=ExtResource("2_v2mk8")]
+layout_mode = 2
+display_as_percent = true
+
+[node name="OptionSfx" parent="." unique_id=1735841638 instance=ExtResource("3_h2qq8")]
+layout_mode = 2
+display_as_percent = true

@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://ciw35elcjcnpe"]
+
+[ext_resource type="Script" uid="uid://1n1wlhoxi2ek" path="res://Scenes/UI/Settings/Settings/Menu/settings_section.gd" id="1_0pyc7"]
+[ext_resource type="PackedScene" uid="uid://dchd4x8uasmr" path="res://Scenes/UI/Settings/Settings/OptionContainers/option_language.tscn" id="2_4wyth"]
+
+[node name="Accessibility" type="VBoxContainer" unique_id=439225145]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0pyc7")
+
+[node name="Label" type="Label" parent="." unique_id=1772274814]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Accessibility"
+
+[node name="OptionLanguage" parent="." unique_id=593047917 instance=ExtResource("2_4wyth")]
+layout_mode = 2

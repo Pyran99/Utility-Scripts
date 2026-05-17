@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://b1i3dd0s6lthe"]
+
+[ext_resource type="PackedScene" uid="uid://bwtnrpy0v4kg" path="res://Scenes/UI/Settings/Settings/base_setting_option.tscn" id="1_b0iyb"]
+
+[node name="BaseSlider" unique_id=593047917 instance=ExtResource("1_b0iyb")]
+editor_description = ""
+
+[node name="ValueDisplay" type="Label" parent="HBoxContainer" parent_id_path=PackedInt32Array(2090744092) index="2" unique_id=278969246]
+layout_mode = 2
+text = "10"
+vertical_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="HBoxContainer" parent_id_path=PackedInt32Array(2090744092) index="3" unique_id=22256187]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+value = 50.0
+scrollable = false
+
+[node name="Spacer" type="Control" parent="HBoxContainer" parent_id_path=PackedInt32Array(2090744092) index="4" unique_id=1910572964]
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2

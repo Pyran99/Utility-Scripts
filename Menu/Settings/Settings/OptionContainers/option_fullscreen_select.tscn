@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://c62ne24265q4c"]
+
+[ext_resource type="PackedScene" uid="uid://cecb8swg0i0ji" path="res://Scenes/UI/Settings/Settings/base_option.tscn" id="1_naked"]
+[ext_resource type="Script" uid="uid://dws2hopshs88n" path="res://Scenes/UI/Settings/Settings/OptionContainers/option_fullscreen_select.gd" id="2_l8x8e"]
+
+[node name="OptionFullscreenSelect" unique_id=593047917 node_paths=PackedStringArray("btn") instance=ExtResource("1_naked")]
+script = ExtResource("2_l8x8e")
+default_value = "Windowed"
+id = "FULLSCREEN_OPTIONS"
+btn = NodePath("HBoxContainer/OptionButton")

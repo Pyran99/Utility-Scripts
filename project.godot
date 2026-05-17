@@ -16,7 +16,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 config/name="Utility Scripts"
 config/version="0.1"
-config/tags=PackedStringArray("testing")
+config/tags=PackedStringArray("active", "backup")
 run/main_scene="uid://cbn18oynkifs7"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 run/max_fps=60
@@ -27,12 +27,11 @@ config/icon="res://icon.svg"
 ControllerIcons="*res://addons/controller_icons/ControllerIcons.gd"
 SavingManager="*res://Utility/Autoload/SavingManager.gd"
 SettingsManager="*res://Utility/Autoload/SettingsManager.gd"
-AudioManager="*res://Utility/Autoload/AudioManager.gd"
 GlobalAudioPlayer="*uid://bo3rt5020053r"
-KeybindManager="*uid://b3u5t4j2iiqf5"
 SceneManager="*res://Utility/Autoload/scene_manager.tscn"
 GameManager="*uid://bk56kj2n8qp2i"
 CutsceneManager="*uid://er1iy1kjf1h3"
+KeybindManager="*uid://bva6ucrktged1"
 
 [debug]
 
@@ -42,11 +41,11 @@ gdscript/warnings/narrowing_conversion=false
 
 [display]
 
-window/size/viewport_width=1280
-window/size/viewport_height=720
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 window/size/always_on_top=true
-window/size/window_width_override=1280
-window/size/window_height_override=720
+window/size/window_width_override=960
+window/size/window_height_override=540
 window/stretch/mode="canvas_items"
 
 [editor_plugins]

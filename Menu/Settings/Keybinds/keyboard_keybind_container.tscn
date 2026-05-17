@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://dvpm1r2s3uswy"]
+
+[ext_resource type="Script" uid="uid://b01aps5efwmrc" path="res://Menu/Settings/Keybinds/keybind_container.gd" id="1_oe6tu"]
+[ext_resource type="ButtonGroup" uid="uid://cguxos8s64nyd" path="res://Menu/Settings/Keybinds/keybind_button_group.tres" id="2_cxrpb"]
+[ext_resource type="Script" uid="uid://bd20atrsvxo3k" path="res://Menu/Settings/Keybinds/keybind_button.gd" id="3_w6psl"]
+
+[node name="KeyboardKeybindContainer" type="HBoxContainer" unique_id=566315449]
+editor_description = "Uses keyboard & gamepad buttons"
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_oe6tu")
+
+[node name="Label" type="Label" parent="." unique_id=1095460280]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+text = "Move Up"
+
+[node name="KeyboardBtn" type="Button" parent="." unique_id=1020160030]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+toggle_mode = true
+button_group = ExtResource("2_cxrpb")
+text = "W"
+script = ExtResource("3_w6psl")
+
+[node name="Control" type="Control" parent="." unique_id=640562784]
+layout_mode = 2
+size_flags_horizontal = 3

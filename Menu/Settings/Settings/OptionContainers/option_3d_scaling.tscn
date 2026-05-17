@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://brr57r0tq4djw"]
+
+[ext_resource type="PackedScene" uid="uid://d3sw41deuj8qq" path="res://Scenes/UI/Settings/Settings/base_option_multi_element.tscn" id="1_wuqu6"]
+[ext_resource type="Script" uid="uid://ckv4w3q22yjwm" path="res://Scenes/UI/Settings/Settings/OptionContainers/option_3d_scaling.gd" id="2_8tbf7"]
+[ext_resource type="PackedScene" uid="uid://c3n4xjkmya1mv" path="res://Scenes/UI/Settings/Settings/OptionContainers/option_scaling_mode.tscn" id="2_kag87"]
+[ext_resource type="PackedScene" uid="uid://dsli1j1kbuhsx" path="res://Scenes/UI/Settings/Settings/OptionContainers/option_resolution_scale.tscn" id="3_qpris"]
+[ext_resource type="PackedScene" uid="uid://dftjb68wc37bp" path="res://Scenes/UI/Settings/Settings/OptionContainers/option_fsr_mode.tscn" id="4_cyxod"]
+[ext_resource type="PackedScene" uid="uid://d3qophqwvchjp" path="res://Scenes/UI/Settings/Settings/OptionContainers/option_fsr_sharpness.tscn" id="6_2x3rt"]
+
+[node name="Option3DScaling" unique_id=1691435212 node_paths=PackedStringArray("main_element", "sub_elements") instance=ExtResource("1_wuqu6")]
+script = ExtResource("2_8tbf7")
+main_element = NodePath("OptionScalingMode")
+sub_elements = [NodePath("OptionResolutionScale"), NodePath("OptionFsrMode"), NodePath("OptionFsrSharpness")]
+
+[node name="OptionScalingMode" parent="." index="0" unique_id=593047917 instance=ExtResource("2_kag87")]
+layout_mode = 2
+
+[node name="OptionResolutionScale" parent="." index="1" unique_id=1375964105 instance=ExtResource("3_qpris")]
+layout_mode = 2
+
+[node name="OptionFsrMode" parent="." index="2" unique_id=827355622 instance=ExtResource("4_cyxod")]
+layout_mode = 2
+
+[node name="OptionFsrSharpness" parent="." index="3" unique_id=768651089 instance=ExtResource("6_2x3rt")]
+layout_mode = 2

@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://be2f0xbd35b8s"]
+
+[ext_resource type="PackedScene" uid="uid://b1i3dd0s6lthe" path="res://Menu/Settings/Settings/base_slider.tscn" id="1_25bry"]
+[ext_resource type="Script" uid="uid://b0el78g3ogmm8" path="res://Menu/Settings/Settings/OptionContainers/option_volume.gd" id="2_mvbsd"]
+[ext_resource type="Texture2D" uid="uid://bq8rrn57scvvy" path="res://Assets/audioOn.png" id="3_smh42"]
+
+[node name="OptionSfx" unique_id=593047917 node_paths=PackedStringArray("value_display", "btn") instance=ExtResource("1_25bry")]
+script = ExtResource("2_mvbsd")
+AUDIO_BUS = "Sfx"
+value_display = NodePath("HBoxContainer/ValueDisplay")
+value_suffix = "%"
+btn = NodePath("HBoxContainer/HSlider")
+id = "SFX"
+
+[node name="TextureRect" parent="HBoxContainer" parent_id_path=PackedInt32Array(2090744092) index="0" unique_id=1540149124]
+texture = ExtResource("3_smh42")
+
+[node name="Label" parent="HBoxContainer" parent_id_path=PackedInt32Array(2090744092) index="1" unique_id=816700914]
+text = "SFX"

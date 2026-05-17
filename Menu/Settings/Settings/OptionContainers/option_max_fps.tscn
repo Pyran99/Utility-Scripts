@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://blqels6agc68l"]
+
+[ext_resource type="PackedScene" uid="uid://cecb8swg0i0ji" path="res://Menu/Settings/Settings/base_option.tscn" id="1_v838l"]
+[ext_resource type="Script" uid="uid://xy8ptwqxgljf" path="res://Menu/Settings/Settings/OptionContainers/option_max_fps.gd" id="2_nxp7u"]
+[ext_resource type="Texture2D" uid="uid://bb4ggkcfnoghf" path="res://Assets/scrollVertical.png" id="3_qavs5"]
+
+[node name="OptionMaxFps" unique_id=593047917 node_paths=PackedStringArray("btn") instance=ExtResource("1_v838l")]
+script = ExtResource("2_nxp7u")
+default_value = "60"
+btn = NodePath("HBoxContainer/OptionButton")
+id = "MAX_FPS"
+
+[node name="TextureRect" parent="HBoxContainer" parent_id_path=PackedInt32Array(2090744092) index="0" unique_id=1540149124]
+texture = ExtResource("3_qavs5")
+
+[node name="Label" parent="HBoxContainer" parent_id_path=PackedInt32Array(2090744092) index="1" unique_id=816700914]
+text = "Max Fps"

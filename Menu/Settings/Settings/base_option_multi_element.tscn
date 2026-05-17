@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://d3sw41deuj8qq"]
+
+[node name="BaseOptionMultiElement" type="VBoxContainer" unique_id=1691435212]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dgdms3oeviox7"]
+
+[ext_resource type="PackedScene" uid="uid://gf8qmaguxlfl" path="res://Menu/Settings/Settings/base_checkbox.tscn" id="1_i0svj"]
+[ext_resource type="Script" uid="uid://c43uhbjaoj2mo" path="res://Menu/Settings/Settings/OptionContainers/option_damage_numbers.gd" id="2_tormo"]
+[ext_resource type="Texture2D" uid="uid://bak3fnrn0vsgu" path="res://Assets/share1.png" id="3_b6mo3"]
+
+[node name="OptionDamageNumbers" unique_id=593047917 node_paths=PackedStringArray("btn") instance=ExtResource("1_i0svj")]
+script = ExtResource("2_tormo")
+btn = NodePath("HBoxContainer/CheckBox")
+id = "DAMAGE_NUMBERS"
+update_immediately = false
+
+[node name="TextureRect" parent="HBoxContainer" parent_id_path=PackedInt32Array(2090744092) index="0" unique_id=1540149124]
+texture = ExtResource("3_b6mo3")
+
+[node name="Label" parent="HBoxContainer" parent_id_path=PackedInt32Array(2090744092) index="1" unique_id=816700914]
+text = "Damage Numbers"

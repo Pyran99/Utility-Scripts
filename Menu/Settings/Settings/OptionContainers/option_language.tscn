@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://dchd4x8uasmr"]
+
+[ext_resource type="PackedScene" uid="uid://cecb8swg0i0ji" path="res://Menu/Settings/Settings/base_option.tscn" id="1_n6o33"]
+[ext_resource type="Script" uid="uid://bxr0g2r3rllyk" path="res://Menu/Settings/Settings/OptionContainers/option_language.gd" id="2_uakr8"]
+[ext_resource type="Texture2D" uid="uid://be102j2knrtak" path="res://Assets/language_32.png" id="3_4f73o"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sl4j1"]
+atlas = ExtResource("3_4f73o")
+region = Rect2(64, 0, 32, 32)
+
+[node name="OptionLanguage" unique_id=593047917 node_paths=PackedStringArray("btn") instance=ExtResource("1_n6o33")]
+script = ExtResource("2_uakr8")
+default_value = "en"
+btn = NodePath("HBoxContainer/OptionButton")
+id = "LANGUAGE"
+
+[node name="TextureRect" parent="HBoxContainer" parent_id_path=PackedInt32Array(2090744092) index="0" unique_id=1540149124]
+texture = SubResource("AtlasTexture_sl4j1")
+
+[node name="Label" parent="HBoxContainer" parent_id_path=PackedInt32Array(2090744092) index="1" unique_id=816700914]
+text = "Language"
