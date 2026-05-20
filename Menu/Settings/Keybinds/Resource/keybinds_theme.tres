@@ -1,0 +1,106 @@
+[gd_resource type="Theme" format=3 uid="uid://bdifrpqpqoa1e"]
+
+[ext_resource type="StyleBox" uid="uid://c2dw4kpe824ac" path="res://Menu/Settings/Keybinds/Resource/button_disabled.tres" id="1_icl3y"]
+[ext_resource type="StyleBox" uid="uid://dhx10pvrjda36" path="res://Menu/Settings/Keybinds/Resource/button_normal.tres" id="1_up3kt"]
+[ext_resource type="StyleBox" uid="uid://mhdejyxlmkwb" path="res://Menu/Settings/Keybinds/Resource/button_pressed.tres" id="2_jw6fn"]
+[ext_resource type="StyleBox" uid="uid://b7adgpe7y2v6r" path="res://Menu/Settings/Keybinds/Resource/button_hover.tres" id="2_p7hvy"]
+[ext_resource type="StyleBox" uid="uid://bw5ftvpjoep3g" path="res://Menu/Settings/Keybinds/Resource/panel_box.tres" id="5_ipdr4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ef3a6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5fayo"]
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.3)
+border_color = Color(0.175, 0.175, 0.175, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1dpes"]
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 0.6)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.7252604, 0.7252604, 0.7252604, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+corner_detail = 1
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yfka1"]
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 0.6)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.175, 0.175, 0.175, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+corner_detail = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dd18q"]
+
+[resource]
+Button/colors/font_color = Color(0.875, 0.875, 0.875, 1)
+Button/colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)
+Button/colors/font_focus_color = Color(0.95, 0.95, 0.95, 1)
+Button/colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+Button/colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/colors/font_pressed_color = Color(1, 1, 1, 1)
+Button/colors/icon_disabled_color = Color(1, 1, 1, 0.70000005)
+Button/colors/icon_focus_color = Color(1, 1, 1, 1)
+Button/colors/icon_hover_color = Color(1, 1, 1, 1)
+Button/colors/icon_hover_pressed_color = Color(1, 1, 1, 1)
+Button/colors/icon_normal_color = Color(1, 1, 1, 1)
+Button/colors/icon_pressed_color = Color(1, 1, 1, 1)
+Button/constants/align_to_largest_stylebox = 1
+Button/constants/h_separation = 4
+Button/constants/icon_max_width = 56
+Button/constants/outline_size = 20
+Button/font_sizes/font_size = 40
+Button/fonts/font = null
+Button/styles/disabled = ExtResource("1_icl3y")
+Button/styles/focus = ExtResource("2_p7hvy")
+Button/styles/hover = ExtResource("2_p7hvy")
+Button/styles/hover_pressed = ExtResource("2_jw6fn")
+Button/styles/normal = ExtResource("1_up3kt")
+Button/styles/pressed = ExtResource("2_jw6fn")
+HeaderLarge/font_sizes/font_size = 60
+HeaderMedium/font_sizes/font_size = 55
+HeaderSmall/font_sizes/font_size = 50
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/constants/outline_size = 2
+Label/font_sizes/font_size = 35
+PanelContainer/styles/panel = ExtResource("5_ipdr4")
+TabContainer/constants/icon_max_width = 8
+TabContainer/constants/outline_size = 2
+TabContainer/constants/side_margin = 0
+TabContainer/constants/tab_separation = 12
+TabContainer/font_sizes/font_size = 35
+TabContainer/styles/panel = SubResource("StyleBoxEmpty_ef3a6")
+TabContainer/styles/tab_disabled = SubResource("StyleBoxFlat_5fayo")
+TabContainer/styles/tab_focus = SubResource("StyleBoxFlat_1dpes")
+TabContainer/styles/tab_hovered = SubResource("StyleBoxFlat_1dpes")
+TabContainer/styles/tab_selected = SubResource("StyleBoxFlat_1dpes")
+TabContainer/styles/tab_unselected = SubResource("StyleBoxFlat_yfka1")
+TabContainer/styles/tabbar_background = SubResource("StyleBoxEmpty_dd18q")

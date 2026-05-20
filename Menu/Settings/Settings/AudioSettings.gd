@@ -10,12 +10,12 @@ var owner: SettingsMenu
 func _init(_owner: SettingsMenu) -> void:
     owner = _owner
 
-
+@warning_ignore("unused_parameter")
 func set_volume_for(bus: int, value: float, play_sfx: bool = false) -> void:
     if bus == -1: return
     value = clampf(value, 0.0, 1.0)
     AudioServer.set_bus_volume_db(bus, linear_to_db(value))
-    var bus_name: String = AudioServer.get_bus_name(bus)
+    var _bus_name: String = AudioServer.get_bus_name(bus)
     # if play_sfx:
     #     GlobalAudioManager.play_ui_sound(SFX_CLICK, false, bus_name)
 

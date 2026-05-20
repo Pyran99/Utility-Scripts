@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cecb8swg0i0ji" path="res://Menu/Settings/Settings/base_option.tscn" id="1_n6o33"]
 [ext_resource type="Script" uid="uid://bxr0g2r3rllyk" path="res://Menu/Settings/Settings/OptionContainers/option_language.gd" id="2_uakr8"]
-[ext_resource type="Texture2D" uid="uid://be102j2knrtak" path="res://Assets/language_32.png" id="3_4f73o"]
+[ext_resource type="Texture2D" uid="uid://be102j2knrtak" path="res://Menu/Settings/Settings/Assets/language_32.png" id="3_4f73o"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sl4j1"]
 atlas = ExtResource("3_4f73o")

@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://dt57pg6odyhd8"]
+
+[ext_resource type="Theme" uid="uid://bdifrpqpqoa1e" path="res://Menu/Settings/Keybinds/Resource/keybinds_theme.tres" id="1_ifu4c"]
+[ext_resource type="Script" uid="uid://cgqvo2g7b7017" path="res://Menu/Settings/Keybinds/unsaved_keybinds_window.gd" id="2_iibjq"]
+
+[node name="UnsavedKeybindsWindow" type="Control" unique_id=1856895426]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_ifu4c")
+script = ExtResource("2_iibjq")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=64136227]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -88.0
+offset_right = 280.0
+offset_bottom = 88.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=2000944419]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer" unique_id=1074438570]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=428136474]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "Apply changes?"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1342882096]
+layout_mode = 2
+alignment = 1
+
+[node name="ApplyBtn" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1743215900]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 25)
+layout_mode = 2
+text = "Apply"
+
+[node name="DiscardBtn" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=901515921]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 25)
+layout_mode = 2
+text = "Discard"
+
+[node name="CancelBtn" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=165686243]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 25)
+layout_mode = 2
+text = "Cancel"

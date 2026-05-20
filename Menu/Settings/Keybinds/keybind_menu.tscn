@@ -1,83 +1,29 @@
 [gd_scene format=3 uid="uid://bs4cgkbvpp04w"]
 
 [ext_resource type="Script" uid="uid://bwfltcx1sxhsb" path="res://Menu/Settings/Keybinds/keybind_menu.gd" id="1_1uybk"]
-[ext_resource type="PackedScene" uid="uid://bmk2iqp6ahqnt" path="res://Menu/Settings/Keybinds/keybind_container.tscn" id="2_4p6fs"]
+[ext_resource type="Theme" uid="uid://bdifrpqpqoa1e" path="res://Menu/Settings/Keybinds/Resource/keybinds_theme.tres" id="1_wh4c4"]
+[ext_resource type="StyleBox" uid="uid://bw5ftvpjoep3g" path="res://Menu/Settings/Keybinds/Resource/panel_box.tres" id="3_12csc"]
+[ext_resource type="PackedScene" uid="uid://dvpm1r2s3uswy" path="res://Menu/Settings/Keybinds/keyboard_keybind_container.tscn" id="3_rbifp"]
+[ext_resource type="PackedScene" uid="uid://1avrn18owobf" path="res://Menu/Settings/Keybinds/gamepad_keybind_container.tscn" id="4_l1ax5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t0j7g"]
 bg_color = Color(0, 0, 0, 1)
-border_width_left = 8
-border_width_top = 8
-border_width_right = 8
-border_width_bottom = 8
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
 border_color = Color(1, 1, 1, 1)
 anti_aliasing = false
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_1uybk"]
 color = Color(1, 1, 1, 1)
-grow_begin = 8.0
-grow_end = 8.0
-thickness = 8
+thickness = 2
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_duk65"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yfka1"]
-content_margin_left = 10.0
-content_margin_top = 4.0
-content_margin_right = 10.0
-content_margin_bottom = 4.0
-bg_color = Color(0, 0, 0, 0.6)
-border_width_top = 4
-border_width_bottom = 4
-border_color = Color(0.175, 0.175, 0.175, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-corner_detail = 1
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4grpj"]
-content_margin_left = 10.0
-content_margin_top = 4.0
-content_margin_right = 10.0
-content_margin_bottom = 4.0
-bg_color = Color(0.1, 0.1, 0.1, 0.3)
-border_width_top = 4
-border_width_bottom = 4
-border_color = Color(0.175, 0.175, 0.175, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-corner_detail = 1
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1dpes"]
-content_margin_left = 10.0
-content_margin_top = 4.0
-content_margin_right = 10.0
-content_margin_bottom = 4.0
-bg_color = Color(0, 0, 0, 0.6)
-border_width_top = 4
-border_width_bottom = 4
-border_color = Color(0.5013021, 0.5013021, 0.5013021, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-corner_detail = 1
-anti_aliasing = false
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5fayo"]
-content_margin_left = 10.0
-content_margin_top = 4.0
-content_margin_right = 10.0
-content_margin_bottom = 4.0
-bg_color = Color(0.1, 0.1, 0.1, 0.3)
-border_color = Color(0.175, 0.175, 0.175, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-corner_detail = 1
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_ew10m"]
+color = Color(1, 1, 1, 1)
+grow_begin = 4.0
+grow_end = 4.0
+thickness = 2
 
 [node name="KeybindMenu" type="Control" unique_id=398831534]
 layout_mode = 3
@@ -86,6 +32,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_wh4c4")
 script = ExtResource("1_1uybk")
 metadata/_edit_lock_ = true
 
@@ -175,43 +122,34 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="KeybindContainer" parent="KeybindPanel/MarginContainer/VBoxContainer/ScrollContainer/Containers" unique_id=566315449 instance=ExtResource("2_4p6fs")]
-layout_mode = 2
-
-[node name="KeybindContainer2" parent="KeybindPanel/MarginContainer/VBoxContainer/ScrollContainer/Containers" unique_id=966579169 instance=ExtResource("2_4p6fs")]
-layout_mode = 2
-
-[node name="KeybindContainer3" parent="KeybindPanel/MarginContainer/VBoxContainer/ScrollContainer/Containers" unique_id=1824354457 instance=ExtResource("2_4p6fs")]
-layout_mode = 2
-
 [node name="KeybindPanelTabs" type="Panel" parent="." unique_id=569853005]
+unique_name_in_owner = true
+clip_contents = true
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -489.0
-offset_top = -454.0
-offset_right = 489.0
-offset_bottom = 454.0
+offset_left = -522.0
+offset_top = -494.0
+offset_right = 522.0
+offset_bottom = 494.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_t0j7g")
+theme_override_styles/panel = ExtResource("3_12csc")
 
 [node name="MarginContainer" type="MarginContainer" parent="KeybindPanelTabs" unique_id=259202004]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -1.0
-offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 25
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 25
-theme_override_constants/margin_bottom = 25
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
 
 [node name="VBoxContainer" type="VBoxContainer" parent="KeybindPanelTabs/MarginContainer" unique_id=1592845078]
 layout_mode = 2
@@ -221,28 +159,22 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="KeybindPanelTabs/MarginContainer/VBoxContainer/Titles" unique_id=1142776418]
 layout_mode = 2
-theme_override_font_sizes/font_size = 75
+size_flags_vertical = 1
+theme_type_variation = &"HeaderMedium"
 text = "Keybinds"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="KeybindPanelTabs/MarginContainer/VBoxContainer/Titles" unique_id=803606508]
 layout_mode = 2
-theme_override_constants/separation = 8
-theme_override_styles/separator = SubResource("StyleBoxLine_1uybk")
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+theme_override_styles/separator = SubResource("StyleBoxLine_ew10m")
 
 [node name="TabContainer" type="TabContainer" parent="KeybindPanelTabs/MarginContainer/VBoxContainer" unique_id=703451796]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_colors/font_unselected_color = Color(0.5794271, 0.5794271, 0.5794271, 1)
-theme_override_constants/tab_separation = 8
-theme_override_constants/outline_size = 8
-theme_override_font_sizes/font_size = 32
-theme_override_styles/panel = SubResource("StyleBoxEmpty_duk65")
-theme_override_styles/tab_unselected = SubResource("StyleBoxFlat_yfka1")
-theme_override_styles/tab_hovered = SubResource("StyleBoxFlat_4grpj")
-theme_override_styles/tab_selected = SubResource("StyleBoxFlat_1dpes")
-theme_override_styles/tab_disabled = SubResource("StyleBoxFlat_5fayo")
 tab_alignment = 1
 current_tab = 0
 
@@ -257,8 +189,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_top = 15
-theme_override_constants/margin_bottom = 25
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 15
 
 [node name="ScrollContainer" type="ScrollContainer" parent="KeybindPanelTabs/MarginContainer/VBoxContainer/TabContainer/Keyboard/MarginContainer" unique_id=805797901]
 layout_mode = 2
@@ -271,6 +203,10 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/separation = 2
+
+[node name="KeyboardKeybindContainer" parent="KeybindPanelTabs/MarginContainer/VBoxContainer/TabContainer/Keyboard/MarginContainer/ScrollContainer/KeyboardContainer" unique_id=566315449 instance=ExtResource("3_rbifp")]
+layout_mode = 2
 
 [node name="Controller" type="Control" parent="KeybindPanelTabs/MarginContainer/VBoxContainer/TabContainer" unique_id=927158432]
 visible = false
@@ -286,8 +222,8 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/margin_top = 15
-theme_override_constants/margin_bottom = 25
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 15
 
 [node name="ScrollContainer" type="ScrollContainer" parent="KeybindPanelTabs/MarginContainer/VBoxContainer/TabContainer/Controller/MarginContainer" unique_id=1407036240]
 layout_mode = 2
@@ -300,34 +236,52 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/separation = 2
+
+[node name="GamepadKeybindContainer" parent="KeybindPanelTabs/MarginContainer/VBoxContainer/TabContainer/Controller/MarginContainer/ScrollContainer/GamepadContainer" unique_id=1884786500 instance=ExtResource("4_l1ax5")]
+layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="KeybindPanelTabs/MarginContainer/VBoxContainer" unique_id=574813030]
 layout_mode = 2
+theme_override_constants/separation = 4
 alignment = 1
 
-[node name="ApplyBtn" type="Button" parent="KeybindPanelTabs/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1924217215]
+[node name="BackBtn" type="Button" parent="KeybindPanelTabs/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1497351436]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(270, 0)
+custom_minimum_size = Vector2(195, 70)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
-theme_override_font_sizes/font_size = 38
+focus_neighbor_left = NodePath("../ResetBtn")
+focus_neighbor_right = NodePath("../ApplyBtn")
+text = "Back"
+
+[node name="ApplyBtn" type="Button" parent="KeybindPanelTabs/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1924217215]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(195, 70)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+focus_neighbor_left = NodePath("../BackBtn")
+focus_neighbor_right = NodePath("../DiscardBtn")
 text = "Apply"
 
 [node name="DiscardBtn" type="Button" parent="KeybindPanelTabs/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1871691152]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(270, 0)
+custom_minimum_size = Vector2(195, 70)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
-theme_override_font_sizes/font_size = 38
+focus_neighbor_left = NodePath("../ApplyBtn")
+focus_neighbor_right = NodePath("../ResetBtn")
 text = "Discard"
 
 [node name="ResetBtn" type="Button" parent="KeybindPanelTabs/MarginContainer/VBoxContainer/HBoxContainer" unique_id=527436687]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(270, 0)
+custom_minimum_size = Vector2(195, 70)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
-theme_override_font_sizes/font_size = 38
+focus_neighbor_left = NodePath("../DiscardBtn")
+focus_neighbor_right = NodePath("../BackBtn")
 text = "Reset"

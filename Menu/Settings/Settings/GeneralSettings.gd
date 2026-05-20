@@ -19,7 +19,7 @@ func set_brightness(value: float) -> void:
 func set_vsync(value: bool) -> void:
     DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED if value else DisplayServer.VSYNC_DISABLED)
 
-
+@warning_ignore("unused_parameter")
 func set_language(index: int) -> void:
     # index = clampi(index, 0, locale_list.size() - 1)
     # var locale = locale_list[index][Strings.LOCALE]
@@ -52,6 +52,7 @@ func get_language_index_by_locale(_locale: String) -> int:
 
 
 #is in game
+@warning_ignore("unused_parameter")
 func toggle_fps_display(show: bool) -> void:
     # if show:
     #     if fps_display:

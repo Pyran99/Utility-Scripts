@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://b1i3dd0s6lthe" path="res://Menu/Settings/Settings/base_slider.tscn" id="1_vk6u7"]
 [ext_resource type="Script" uid="uid://isl58dehjdx" path="res://Menu/Settings/Settings/OptionContainers/option_brightness.gd" id="2_wr4vm"]
-[ext_resource type="Texture2D" uid="uid://hp73rxw2n88x" path="res://Assets/contrast.png" id="3_pxait"]
+[ext_resource type="Texture2D" uid="uid://hp73rxw2n88x" path="res://Menu/Settings/Settings/Assets/contrast.png" id="3_pxait"]
 
 [node name="OptionBrightness" unique_id=593047917 node_paths=PackedStringArray("value_display", "btn") instance=ExtResource("1_vk6u7")]
 script = ExtResource("2_wr4vm")

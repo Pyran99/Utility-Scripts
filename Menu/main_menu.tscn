@@ -18,7 +18,7 @@ region = Rect2(0, 0, 32, 32)
 atlas = ExtResource("7_vv7ca")
 region = Rect2(16, 0, 16, 16)
 
-[node name="MainMenu" type="Control" unique_id=1274408829 node_paths=PackedStringArray("options_window", "play_btn", "options_btn", "quit_btn")]
+[node name="MainMenu" type="Control" unique_id=1274408829 node_paths=PackedStringArray("play_btn", "options_btn", "quit_btn")]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -27,7 +27,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_5nflc")
-options_window = NodePath("")
 play_btn = NodePath("Scene/VBoxContainer/GameLvlBtn")
 options_btn = NodePath("Scene/VBoxContainer/OptionsBtn")
 quit_btn = NodePath("Scene/VBoxContainer/QuitBtn")

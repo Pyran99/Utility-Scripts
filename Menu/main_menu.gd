@@ -39,33 +39,27 @@ func _on_play_btn_pressed() -> void:
 
 
 func _on_options_btn_pressed() -> void:
-    menu_scene.hide()
     if options_window == null:
+        menu_scene.hide()
         options_window = load("res://Menu/Settings/Settings/Menu/settings_menu.tscn").instantiate()
         options_window.settings_menu_closed.connect(func(): menu_scene.show())
-        return
-    options_window.show()
-    options_window.set_previous_menu(menu_scene)
+        get_tree().current_scene.add_child(options_window)
 
 
 func _on_quit_btn_pressed() -> void:
-    # GameManager.quit_game()
     get_tree().quit()
     pass
 
 
 func _on_game_lvl_btn_pressed() -> void:
-    #SceneManager.load_level(Levels.levels["test_game_level"])
     pass
 
 
 func _on_weapon_test_lvl_btn_pressed() -> void:
-    #SceneManager.load_level(Levels.levels["weapon_testing"], false)
     pass
 
 
 func _on_wave_test_lvl_btn_pressed() -> void:
-    #SceneManager.load_level(Levels.levels["wave_test_level"], false)
     pass
 
 

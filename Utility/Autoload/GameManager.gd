@@ -14,7 +14,9 @@ const PAUSE_SCENE: PackedScene = preload("res://Scenes/pause_menu.tscn")
 signal toggle_game_paused(is_paused: bool)
 signal game_state_changed(_game_state: GameStates)
 signal level_state_changed(_level_state: LevelStates)
+@warning_ignore("unused_signal")
 signal level_loaded(_level: Node2D)
+@warning_ignore("unused_signal")
 signal level_unloaded(_level: Node2D)
 
 enum GameStates {

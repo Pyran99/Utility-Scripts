@@ -1,20 +1,7 @@
 [gd_scene format=3 uid="uid://mrk10mkq1bjo"]
 
+[ext_resource type="Theme" uid="uid://bdifrpqpqoa1e" path="res://Menu/Settings/Keybinds/Resource/keybinds_theme.tres" id="1_oddmm"]
 [ext_resource type="Script" uid="uid://baaifncqscc4p" path="res://Menu/Settings/Keybinds/rebind_notification.gd" id="1_vai25"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t7dpm"]
-bg_color = Color(0, 0, 0, 1)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-corner_detail = 1
-anti_aliasing = false
 
 [node name="RebindNotification" type="Control" unique_id=91166126]
 layout_mode = 3
@@ -24,6 +11,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme = ExtResource("1_oddmm")
 script = ExtResource("1_vai25")
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=1697178017]
@@ -33,21 +21,18 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -250.9403
-offset_top = -51.0
-offset_right = 250.9403
-offset_bottom = 51.0
+offset_left = -305.0
+offset_top = -61.0
+offset_right = 305.0
+offset_bottom = 61.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_t7dpm")
 
 [node name="Label" type="Label" parent="PanelContainer" unique_id=531559035]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 1
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 8
-theme_override_font_sizes/font_size = 48
+theme_type_variation = &"HeaderMedium"
 text = "Changes Saved"
 horizontal_alignment = 1
 vertical_alignment = 1

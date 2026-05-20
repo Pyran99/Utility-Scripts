@@ -7,7 +7,7 @@ class_name SettingsMenu
 ##[br]Members: [member general_settings], [member audio_settings], [member video_settings], [member resolution_settings] may contain functions for [SettingsOption]
 ##[br]To create a new setting: create a new inherited scene of the base setting button type. Add a script that extends the button element type. Override [method SettingsOption._apply_settings] with the implementation of the setting.
 
-const KEYBIND_MENU_PATH: String = "res://Menu/Settings/Keybinds/keybind_menu.tscn"
+const KEYBIND_MENU_PATH: String = "uid://bs4cgkbvpp04w"
 
 signal settings_menu_opened
 signal settings_menu_closed
@@ -79,10 +79,9 @@ func _connect_signals() -> void:
 
 func _create_keybind_menu() -> void:
     var instance: Control = load(KEYBIND_MENU_PATH).instantiate()
-    # instance.set_previous_menu(self )
-    # instance.keybind_menu_closed.connect(_on_keybind_menu_closed)
     instance.tree_exiting.connect(_on_keybind_menu_closed)
     add_child(instance)
+    pass
 
 
 func _on_visibility_changed() -> void:
@@ -136,7 +135,7 @@ func _on_discard_changes() -> void:
     apply_btn.disabled = true
     changes_discarded.emit()
 
-
+@warning_ignore("unused_parameter")
 func _notification(what: int) -> void:
     # if what == NOTIFICATION_WM_CLOSE_REQUEST:
     #     save_settings()

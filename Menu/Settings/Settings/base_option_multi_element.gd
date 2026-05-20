@@ -47,7 +47,7 @@ func init_sub_elements() -> void:
 
 
 ## Called when settings are loaded to display the appropriate elements.
-func load_settings(apply_values: bool) -> void:
+func load_settings(_apply_values: bool) -> void:
     _display_sub_elements.call_deferred()
 
 ## Called when the main element's value changes do display the appropriate elements.

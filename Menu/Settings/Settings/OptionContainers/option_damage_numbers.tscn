@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://gf8qmaguxlfl" path="res://Menu/Settings/Settings/base_checkbox.tscn" id="1_i0svj"]
 [ext_resource type="Script" uid="uid://c43uhbjaoj2mo" path="res://Menu/Settings/Settings/OptionContainers/option_damage_numbers.gd" id="2_tormo"]
-[ext_resource type="Texture2D" uid="uid://bak3fnrn0vsgu" path="res://Assets/share1.png" id="3_b6mo3"]
+[ext_resource type="Texture2D" uid="uid://bak3fnrn0vsgu" path="res://Menu/Settings/Settings/Assets/share1.png" id="3_b6mo3"]
 
 [node name="OptionDamageNumbers" unique_id=593047917 node_paths=PackedStringArray("btn") instance=ExtResource("1_i0svj")]
 script = ExtResource("2_tormo")

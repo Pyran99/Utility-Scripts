@@ -9,6 +9,12 @@ signal keybinds_reset
 func _ready() -> void:
     confirm_btn.pressed.connect(_on_confirm_pressed)
     cancel_btn.pressed.connect(_on_cancel_pressed)
+    cancel_btn.grab_focus.call_deferred()
+
+
+func _unhandled_key_input(event: InputEvent) -> void:
+    if event.is_action_pressed("ui_cancel"):
+        _on_cancel_pressed()
 
 
 func _on_confirm_pressed() -> void:

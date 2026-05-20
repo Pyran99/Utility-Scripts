@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://bmk2iqp6ahqnt"]
 
+[ext_resource type="Theme" uid="uid://bdifrpqpqoa1e" path="res://Menu/Settings/Keybinds/Resource/keybinds_theme.tres" id="1_22g6u"]
 [ext_resource type="Script" uid="uid://b01aps5efwmrc" path="res://Menu/Settings/Keybinds/keybind_container.gd" id="1_bkhdq"]
 [ext_resource type="ButtonGroup" uid="uid://cguxos8s64nyd" path="res://Menu/Settings/Keybinds/keybind_button_group.tres" id="2_sq3ql"]
 [ext_resource type="Script" uid="uid://bd20atrsvxo3k" path="res://Menu/Settings/Keybinds/keybind_button.gd" id="3_7ndp5"]
@@ -7,25 +8,23 @@
 [ext_resource type="Script" uid="uid://b0larilrrv4ca" path="res://Menu/Settings/Keybinds/controller_keybind_button.gd" id="5_vmnud"]
 
 [node name="KeybindContainer" type="HBoxContainer" unique_id=566315449]
-editor_description = "Uses keyboard & gamepad buttons"
+editor_description = "Uses keyboard & controller buttons"
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_22g6u")
 script = ExtResource("1_bkhdq")
 
 [node name="Label" type="Label" parent="." unique_id=1095460280]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 32
 text = "Move Up"
 
 [node name="KeyboardBtn" type="Button" parent="." unique_id=1020160030]
-custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 32
 toggle_mode = true
 button_group = ExtResource("2_sq3ql")
 text = "W"
@@ -35,11 +34,8 @@ script = ExtResource("3_7ndp5")
 layout_mode = 2
 
 [node name="ControllerBtn" type="Button" parent="." unique_id=602935482]
-custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/icon_max_width = 64
-theme_override_font_sizes/font_size = 32
 toggle_mode = true
 button_group = ExtResource("2_sq3ql")
 icon = ExtResource("4_uuiyq")

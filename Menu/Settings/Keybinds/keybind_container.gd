@@ -2,7 +2,7 @@ extends HBoxContainer
 class_name KeybindContainer
 
 
-signal action_rebound(action: String, event: InputEvent, type: KeybindMenu.InputType)
+signal action_rebound(action: String, event: InputEvent, type: KeybindManager.InputType)
 
 var menu: KeybindMenu
 var action_name: String
@@ -20,16 +20,18 @@ func _ready() -> void:
             btns.append(i)
             i.container = self
             i.action = action_name
+            i.name = action_name
             if action_name == "move_up":
-                if i.type == KeybindMenu.InputType.GAMEPAD:
+                if i.type == KeybindManager.InputType.CONTROLLER:
                     _set_gamepad_movement_name()
             i.rebound_action.connect(_on_button_rebound)
             i.rebind_mode_changed.connect(menu._on_rebind_mode_changed)
+            menu.release_pressed_button.connect(i.release_pressed_button)
 
 
 func _set_gamepad_movement_name() -> void:
     lbl.text = "movement"
 
 ## bounce button signal to menu
-func _on_button_rebound(action: String, event: InputEvent, type: KeybindMenu.InputType) -> void:
+func _on_button_rebound(action: String, event: InputEvent, type: KeybindManager.InputType) -> void:
     action_rebound.emit(action, event, type)

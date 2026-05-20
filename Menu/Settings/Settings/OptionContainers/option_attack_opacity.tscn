@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://b1i3dd0s6lthe" path="res://Menu/Settings/Settings/base_slider.tscn" id="1_0ond8"]
 [ext_resource type="Script" uid="uid://n4p4ckhhn8so" path="res://Menu/Settings/Settings/OptionContainers/option_attack_opacity.gd" id="2_210st"]
-[ext_resource type="Texture2D" uid="uid://yd3253fk1cn3" path="res://Assets/sword_32.png" id="3_0pags"]
+[ext_resource type="Texture2D" uid="uid://yd3253fk1cn3" path="res://Menu/Settings/Settings/Assets/sword_32.png" id="3_0pags"]
 
 [node name="OptionAttackOpacity" unique_id=593047917 node_paths=PackedStringArray("value_display", "btn") instance=ExtResource("1_0ond8")]
 script = ExtResource("2_210st")

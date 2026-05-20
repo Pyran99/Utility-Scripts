@@ -75,10 +75,10 @@ func _connect_signals() -> void:
     visibility_changed.connect(_on_visibility_changed)
     get_tree().root.size_changed.connect(_on_window_size_changed)
 
-    master_slider.value_changed.connect(_on_master_slider_value_changed)
-    music_slider.value_changed.connect(_on_music_slider_value_changed)
-    sfx_slider.value_changed.connect(_on_sfx_slider_value_changed)
-    mute_btn.toggled.connect(_on_mute_btn_toggled)
+    # master_slider.value_changed.connect(_on_master_slider_value_changed)
+    # music_slider.value_changed.connect(_on_music_slider_value_changed)
+    # sfx_slider.value_changed.connect(_on_sfx_slider_value_changed)
+    # mute_btn.toggled.connect(_on_mute_btn_toggled)
 
     fullscreen_btn.toggled.connect(_on_fullscreen_btn_toggled)
     maximize_btn.toggled.connect(_on_maximize_btn_toggled)
@@ -121,7 +121,7 @@ func load_settings() -> void:
 ## Set values from saved settings. Calls signals from value changes
 func _set_saved_values() -> void:
     _set_toggles()
-    update_audio_properties()
+    # update_audio_properties()
     check_scaler_options()
     var settings = SettingsManager.settings[Strings.SETTINGS]
     var default = SettingsManager.DEFAULT_SETTINGS
@@ -159,7 +159,7 @@ func _set_visual_values() -> void:
     scale_slider.set_value_no_signal(_scaler)
     scale_text.text = str(_scaler) + "%"
     fsr_options.selected = settings.get(Strings.FSR_SELECTED, default[Strings.FSR_SELECTED])
-    update_audio_properties()
+    # update_audio_properties()
     check_scaler_options()
     _set_window_mode_states(get_window().mode)
 
@@ -198,32 +198,32 @@ func _get_focus_first_visible_container() -> Node:
 
 #region Audio------------------------------------------
 
-func update_audio_properties() -> void:
-    var settings = SettingsManager.settings[Strings.AUDIO]
-    var default = SettingsManager.DEFAULT_AUDIO
-    master_slider.set_value_no_signal(settings.get(Strings.MASTER_VOLUME, default[Strings.MASTER_VOLUME]))
-    music_slider.set_value_no_signal(settings.get(Strings.MUSIC_VOLUME, default[Strings.MUSIC_VOLUME]))
-    sfx_slider.set_value_no_signal(settings.get(Strings.SFX_VOLUME, default[Strings.SFX_VOLUME]))
-    mute_btn.button_pressed = settings.get(Strings.MUTE, default[Strings.MUTE])
+# func update_audio_properties() -> void:
+#     var settings = SettingsManager.settings[Strings.AUDIO]
+#     var default = SettingsManager.DEFAULT_AUDIO
+#     master_slider.set_value_no_signal(settings.get(Strings.MASTER_VOLUME, default[Strings.MASTER_VOLUME]))
+#     music_slider.set_value_no_signal(settings.get(Strings.MUSIC_VOLUME, default[Strings.MUSIC_VOLUME]))
+#     sfx_slider.set_value_no_signal(settings.get(Strings.SFX_VOLUME, default[Strings.SFX_VOLUME]))
+#     mute_btn.button_pressed = settings.get(Strings.MUTE, default[Strings.MUTE])
 
 
-func _on_mute_btn_toggled(toggled_on: bool) -> void:
-    AudioManager.mute_volume(toggled_on)
+# func _on_mute_btn_toggled(toggled_on: bool) -> void:
+#     AudioManager.mute_volume(toggled_on)
 
 
-func _on_master_slider_value_changed(value: float) -> void:
-    AudioManager.set_master_volume(value)
+# func _on_master_slider_value_changed(value: float) -> void:
+#     AudioManager.set_master_volume(value)
 
 
-func _on_music_slider_value_changed(value: float) -> void:
-    AudioManager.set_music_volume(value)
+# func _on_music_slider_value_changed(value: float) -> void:
+#     AudioManager.set_music_volume(value)
 
 
-#var sfx_click = preload("res://Assets/Audio/Sounds/Button7.wav")
+# #var sfx_click = preload("res://Assets/Audio/Sounds/Button7.wav")
 
-func _on_sfx_slider_value_changed(value: float) -> void:
-    AudioManager.set_sfx_volume(value)
-    #GlobalAudioManager.play_global_sound(sfx_click)
+# func _on_sfx_slider_value_changed(value: float) -> void:
+#     AudioManager.set_sfx_volume(value)
+#     #GlobalAudioManager.play_global_sound(sfx_click)
 
 #endregion
 
